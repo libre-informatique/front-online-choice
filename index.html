@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' ; media-src *; img-src 'self' data: content:;"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Eve Control</title>
+    </head>
+    <body>
+        <div class="app">
+          <!-- SIDE NAV -->
+          <div id="slide-out" class="side-nav">
+            <div class="nav-header">
+              <div class="background">
+                <img src="images/office.jpg">
+              </div>
+            </div>
+            <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input placeholder="https://mon-instance.e-venement.net" id="server" type="text" class="validate">
+                    <label for="server">Addresse de l'instance e-venement</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="user" type="text" class="validate">
+                    <label for="user">Utilisateur e-venement</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="password" type="password" class="validate">
+                    <label for="password">Mot de passe</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- TABS -->
+          <div class="row">
+            <div class="col s12">
+              <ul id="tabs" class="tabs blue-grey darken-4">
+                <li class="tab col s4"><a href="#config"><i class="material-icons">settings</i></a></li>
+                <li class="tab col s4"><a href="#control" class=""><i class="material-icons">location_on</i></a></li>
+                <li class="tab col s4"><a href="#history"><i class="material-icons">history</i></a></li>
+              </ul>
+              <div id="config" class="col s12 green">Test 1</div>
+              <div id="control" class="col s12 yellow">Test 2</div>
+              <div id="history" class="col s12 red">Test 3</div>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>
