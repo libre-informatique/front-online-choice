@@ -1,0 +1,49 @@
+#main .col {
+  padding: 0; }
+
+#tabs {
+  height: 6%;
+  overflow: hidden; }
+  #tabs .tab {
+    height: 100%; }
+  #tabs .indicator {
+    height: 3px;
+    background-color: #ffb74d; }
+  #tabs a {
+    color: white; }
+    #tabs a:hover, #tabs a:active {
+      color: #ffb74d; }
+
+#headers {
+  margin-top: 20px; }
+
+#periods .period .period-label {
+  color: #009688;
+  font-weight: bold;
+  font-size: 1.1em; }
+
+#events .event {
+  height: 100px;
+  margin-right: 10%; }
+  #events .event .event-card .label {
+    margin-right: 20px; }
+  #events .event .event-card .presence {
+    justify-content: center; }
+  #events .event .event-card .priority {
+    margin: auto;
+    cursor: move; }
+    #events .event .event-card .priority i {
+      display: block; }
+      #events .event .event-card .priority i.handle {
+        margin: -20px 0 -20px 0;
+        font-size: 2.2em; }
+      #events .event .event-card .priority i.priority-up, #events .event .event-card .priority i.priority-down {
+        font-size: 2.9em; }
+  #events .event .event-time {
+    line-height: 120px; }
+
+#confirm-fab {
+  position: fixed;
+  bottom: 50px;
+  right: 40px;
+  width: 56px; }

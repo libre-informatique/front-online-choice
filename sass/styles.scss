@@ -1,0 +1,83 @@
+$primary-color: #009688; //Teal
+$accent-color: #ffb74d; // Orange
+
+
+#main {
+  .col {
+    padding: 0;
+  }
+}
+
+#tabs {
+  height: 6%;
+  overflow: hidden;
+  .tab {
+    height: 100%;
+  }
+  .indicator {
+    height: 3px;
+    background-color: $accent-color;
+  }
+  a {
+    color: white;
+
+    &:hover, &:active {
+      color: $accent-color
+    }
+  }
+}
+
+#headers {
+  margin-top: 20px;
+}
+
+#periods {
+  .period {
+    .period-label {
+      color: $primary-color;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+  }
+}
+
+#events {
+  .event {
+    height: 100px;
+    margin-right: 10%;
+    .event-card {
+      .label {
+        margin-right: 20px;
+      }
+      .presence {
+        justify-content: center;
+      }
+      .priority {
+        margin: auto;
+        cursor: move;
+
+        i {
+          display: block;
+          &.handle {
+            margin: -20px 0 -20px 0;
+            font-size: 2.2em;
+          }
+          &.priority-up, &.priority-down {
+            font-size: 2.9em;
+          }
+        }
+      }
+    }
+    .event-time {
+      line-height: 120px;
+    }
+  }
+}
+
+#confirm-fab {
+  position: fixed;
+  bottom: 50px;
+  right: 40px;
+  width: 56px;
+
+}
