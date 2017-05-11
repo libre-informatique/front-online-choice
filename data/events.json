@@ -35,8 +35,8 @@
                 "translations":{
                     "fr_FR":{
                         "id":1,
-                        "name":"Nouveaux défis et perspectives de la politique africaine de la France",
-                        "decription":"10h00-13h00 :Nouveaux défis et perspectives de la politique africaine de la France"
+                        "name":"Nouveaux défis et perspectives de la politique africaine Française",
+                        "decription":"10h00-13h00 :Nouveaux défis et perspectives de la politique africaine Française"
                     }
                 },
                 "imageURL":"",
@@ -44,12 +44,12 @@
                   {
                     "id":837,
                     "startsAt":"2017-05-11T10:00:00+0100",
-                    "endsAt":"2017-05-11T10:55:00+0100"
+                    "endsAt":"2017-05-11T11:00:00+0100"
                   },
                   {
                     "id":838,
-                    "startsAt":"2017-05-11T10:00:00+0100",
-                    "endsAt":"2017-05-11T10:55:00+0100"
+                    "startsAt":"2017-05-11T11:00:00+0100",
+                    "endsAt":"2017-05-11T13:00:00+0100"
                   }
 
                 ]
@@ -79,13 +79,13 @@
                 "manifestations":[
                   {
                     "id":839,
-                    "startsAt":"2017-05-11T10:00:00+0100",
-                    "endsAt":"2017-05-11T10:55:00+0100"
+                    "startsAt":"2017-05-14T09:00:00+0100",
+                    "endsAt":"2017-05-14T09:30:00+0100"
                   },
                   {
                     "id":840,
-                    "startsAt":"2017-05-11T10:00:00+0100",
-                    "endsAt":"2017-05-11T10:55:00+0100"
+                    "startsAt":"2017-05-14T09:30:00+0100",
+                    "endsAt":"2017-05-14T10:30:00+0100"
                   }
 
                 ]
@@ -115,13 +115,13 @@
                 "manifestations":[
                   {
                     "id":841,
-                    "startsAt":"2017-05-12T10:00:00+0100",
-                    "endsAt":"2017-05-12T10:55:00+0100"
+                    "startsAt":"2017-05-17T10:00:00+0100",
+                    "endsAt":"2017-05-17T10:55:00+0100"
                   },
                   {
                     "id":842,
-                    "startsAt":"2017-05-12T10:00:00+0100",
-                    "endsAt":"2017-05-12T10:55:00+0100"
+                    "startsAt":"2017-05-17T10:00:00+0100",
+                    "endsAt":"2017-05-17T10:55:00+0100"
                   }
 
                 ]
@@ -143,21 +143,21 @@
                 "translations":{
                     "fr_FR":{
                         "id":4,
-                        "name":"Nouveaux défis et perspectives de la politique africaine de la France",
-                        "decription":"10h00-13h00 :Nouveaux défis et perspectives de la politique africaine de la France"
+                        "name":"Nouveaux défis et perspectives de la politique africaine Française",
+                        "decription":"14h30-15h30 :Nouveaux défis et perspectives de la politique africaine Française"
                     }
                 },
                 "imageURL":"",
                 "manifestations":[
                   {
                     "id":843,
-                    "startsAt":"2017-05-13T10:00:00+0100",
-                    "endsAt":"2017-05-13T10:55:00+0100"
+                    "startsAt":"2017-05-21T14:30:00+0100",
+                    "endsAt":"2017-05-21T15:00:00+0100"
                   },
                   {
                     "id":844,
-                    "startsAt":"2017-05-13T10:00:00+0100",
-                    "endsAt":"2017-05-13T10:55:00+0100"
+                    "startsAt":"2017-05-21T15:00:00+0100",
+                    "endsAt":"2017-05-21T10:15:30+0100"
                   }
 
                 ]
@@ -180,20 +180,20 @@
                     "fr_FR":{
                         "id":5,
                         "name":"Petit-déjeuner autour des représentants permanents auprès des Nations-Unies",
-                        "decription":"09h00-10h30:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
+                        "decription":"15h30-19h00:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
                     }
                 },
                 "imageURL":"",
                 "manifestations":[
                   {
                     "id":845,
-                    "startsAt":"2017-05-13T10:00:00+0100",
-                    "endsAt":"2017-05-13T10:55:00+0100"
+                    "startsAt":"2017-05-21T15:30:00+0100",
+                    "endsAt":"2017-05-21T16:00:00+0100"
                   },
                   {
                     "id":846,
-                    "startsAt":"2017-05-13T10:00:00+0100",
-                    "endsAt":"2017-05-13T10:55:00+0100"
+                    "startsAt":"2017-05-21T16:00:00+0100",
+                    "endsAt":"2017-05-21T19:00:00+0100"
                   }
 
                 ]
@@ -215,21 +215,21 @@
                 "translations":{
                     "fr_FR":{
                         "id":6,
-                        "name":"Nouveaux défis et perspectives de la politique africaine de la France",
-                        "decription":"10h00-13h00 :Nouveaux défis et perspectives de la politique africaine de la France"
+                        "name":"Nouveaux défis et perspectives de la politique africaine Française",
+                        "decription":"20h00-22h00:Nouveaux défis et perspectives de la politique africaine Française"
                     }
                 },
                 "imageURL":"",
                 "manifestations":[
                   {
                     "id":847,
-                    "startsAt":"2017-05-14T10:00:00+0100",
-                    "endsAt":"2017-05-14T10:55:00+0100"
+                    "startsAt":"2017-05-13T20:00:00+0100",
+                    "endsAt":"2017-05-13T21:00:00+0100"
                   },
                   {
                     "id":848,
-                    "startsAt":"2017-05-14T10:00:00+0100",
-                    "endsAt":"2017-05-14T10:55:00+0100"
+                    "startsAt":"2017-05-14T21:00:00+0100",
+                    "endsAt":"2017-05-14T22:00:00+0100"
                   }
 
                 ]
@@ -238,3 +238,4 @@
         ]
     }
 }
+

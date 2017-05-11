@@ -82,6 +82,7 @@ function getApiToken($refreshToken = null)
         <script src="js/libs/handlebars-v4.0.5.js"></script>
         <script src="js/libs/materialize.min.js"></script>
         <script src="js/libs/Sortable.min.js"></script>
+        <script src="js/libs/moment-with-locales.min.js"></script>
 
         <!-- APP -->
 

@@ -68,39 +68,31 @@ $.extend(app, {
 
                     $('#app').addClass('loggedIn');
 
-                    $(document).trigger('template.registered', ['mainTabs']);
+                    $(document).trigger('show-events');
                 })
 
                 .on('template.registered', function (event, id) {
-                    console.info('template.registered', id);
+//                    console.info('template.registered', id);
                     if (id === "login") {
                         var cb = app.ui.templatesCallbacks[app.ui.templates.login.callback];
 
                         cb({});
-                    } else if (id === "mainTabs") {
-
-                        var cb = app.ui.templatesCallbacks[app.ui.templates.mainTabs.callback];
-
-                        cb(
-                            {
-                                tabs:
-                                    [
-                                        {
-                                            id: 10,
-                                            date: "Jeudi 11/05"
-                                        },
-                                        {
-                                            id: 11,
-                                            date: "Vendredi 12/05"
-                                        },
-                                        {
-                                            id: 12,
-                                            date: "Samedi 13/05"
-                                        }
-                                    ]
-                            }
-                        );
                     }
+                })
+
+                .on('show-events', function () {
+                    var cb = app.ui.templatesCallbacks[app.ui.templates.mainTabs.callback];
+                    var cbMainTabs = app.ui.templatesCallbacks[app.ui.templates.mainTabsContent.callback];
+
+                    var events = app.ws.getEvents()
+                        .then(function (events) {
+                            console.info(events);
+
+                            cb(events);
+                            cbMainTabs(events);
+                        }, function (error) {
+
+                        });
                 })
                 ;
 

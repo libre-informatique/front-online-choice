@@ -6,7 +6,7 @@ $.extend(app, {
                 client_secret: app.config.secret,
                 grant_type: 'password'
             }, function (res) {
-                console.info(res);
+//                console.info(res);
             }, function () {}, true);
         },
         userLogin: function () {
@@ -15,34 +15,74 @@ $.extend(app, {
                 client_secret: app.config.secret,
                 grant_type: 'password'
             }, function (res) {
-                console.info(res);
+//                console.info(res);
             });
         },
         getEvents: function () {
 
+            // Define min and max interval for tabs
             var minInterval = new Date();
+
+            minInterval.setHours(0, 0, 0, 0);
+
             var maxInterval = new Date();
+            maxInterval.setHours(23, 59, 59, 0);
             maxInterval.setDate(minInterval.getDate() + 2);
 
             console.info(minInterval, maxInterval);
 
-            return $.get('/data/events.json', function (data) {
-//                var events = JSON.parse(data);
-                var events = data;
+            var deffer = jQuery.Deferred();
 
-                $.each(events._embedded.items, function (i, item) {
-                    $.each(item.manifestations, function (j, manif) {
-                        var min = new Date(manif.startsAt);
-                        var max = new Date(manif.endsAt);
+            $.ajax({
+                async: true,
+                url: '/data/events.json',
+                success: function (data) {
+                    var events = data;
 
-                        if (min > minInterval && max < maxInterval) {
-                            console.info('In interval');
-                        }
+                    var out = {
+                        tabs: [],
+                        events: []
+                    };
+
+                    for (var i = 0; i <= 2; i++) {
+                        var currentDay = new Date(minInterval.getTime());
+                        currentDay.setDate(currentDay.getDate() + i);
+
+                        currentDay = moment(currentDay);
+
+                        out.tabs.push({
+                            date: currentDay,
+                            label: currentDay.format("dddd DD/MM"),
+                            id: i
+                        });
+                    }
+
+                    $.each(events._embedded.items, function (i, event) {
+
+                        $.each(event.manifestations, function (j, manif) {
+                            var min = new Date(manif.startsAt);
+                            var max = new Date(manif.endsAt);
+
+                            // Check if we are in current date interval (today -> +2 days)
+                            if (min > minInterval && max < maxInterval) {
+                                event.toBeManaged = true;
+
+                                if (typeof event.minDate === 'undefined' || min < event.minDate)
+                                    event.minDate = min;
+                                if (typeof event.maxDate === 'undefined' || max > event.maxDate)
+                                    event.maxDate = max;
+                            }
+                        });
+
+                        if (event.toBeManaged)
+                            out.events.push(event);
                     });
-                });
 
-                return events;
+                    deffer.resolve(out);
+                }
             });
+
+            return deffer;
         },
         call: function (method, action, data, callback, errorCallback, ignoreApiBaseUri) {
 

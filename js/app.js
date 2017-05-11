@@ -1,8 +1,8 @@
 var app = {
     config: {},
     init: function () {
-
         $.get('data/parameters.json', function (params) {
+            moment.locale('fr');
             app.config = params;
             app.ui.initTemplates();
             app.ui.init();
@@ -21,18 +21,22 @@ var app = {
                 var compiled = Handlebars.compile(app.ui.templates.mainTabs.data);
 
                 app.ui.applyTemplate('mainTabs', compiled(data));
+                
+                $('#tabs .tab:first-of-type a').trigger('click');
             },
             initMainTabsContent: function (data) {
                 var compiled = Handlebars.compile(app.ui.templates.mainTabsContent.data);
 
-                var events = app.ws.getEvents();
-
-                app.ui.applyTemplate('mainTabsContent', compiled(events));
+                app.ui.applyTemplate('mainTabsContent', compiled(data));
 
                 app.ui.initPlugins();
             },
             initPeriods: function (data) {
                 var compiled = Handlebars.compile(app.ui.templates.periods.data);
+                
+                app.ui.applyTemplate('mainTabsContent', compiled(events));
+
+                app.ui.initPlugins();
             }
         },
         init: function () {
