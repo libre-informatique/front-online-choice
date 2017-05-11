@@ -1,0 +1,9 @@
+{
+    "user":   "TEST",
+    "secret": "TESTSECRET",
+    "webservice": {
+        "hostname": "your-domain.tld",
+        "protocol": "https",
+        "apiBaseUri": "/api"
+    }
+}

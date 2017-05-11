@@ -1,14 +1,14 @@
 {
-  "name": "front-mae",
-  "version": "1.0.0",
+  "name": "front-online-choice",
+  "version": "0.4.2",
   "description": "",
-  "main": "app.js",
+  "main": "index.php",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://mawcel@mawcel.cf/li/front-mae.git"
+    "url": "https://github.com/libre-informatique/front-online-choice"
   },
   "author": "",
   "license": "ISC",
