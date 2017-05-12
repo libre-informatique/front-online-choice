@@ -9,23 +9,23 @@ $.extend(app, {
 //                console.info(res);
             }, function () {}, true);
         },
-        userLogin: function (cb) {
-            if (typeof cb === 'undefined')
-                cb = function (res) {
-                    app.session.loggedIn = true; // FOR DEBUG
+        userLogin: function (username, password) {
+            app.ui.toggleLoading();
 
-                    $('#app').addClass('loggedIn');
+            app.ws.call('POST', '/login', {
+                'email': username,
+                'password': password
+            }, function (res) {
+                app.session.loggedIn = true;
+                app.session.user = res.success.customer;
+                $('#app').addClass('loggedIn');
 
-                    $(document).trigger('show-events');
-                };
-
-//            app.ws.call('GET', '/customer', {
-//                client_id: app.config.user,
-//                client_secret: app.config.secret,
-//                grant_type: 'password'
-//            }, cb);
-
-            cb();
+                app.ctrl.showEvents();
+                app.ui.toggleLoading();
+            }, function (res) {
+                app.ui.toast('Email et/ou mot de passe invalide');
+                app.ui.toggleLoading();
+            });
         },
         getEvents: function () {
 
@@ -38,13 +38,12 @@ $.extend(app, {
             maxInterval.setHours(23, 59, 59, 0);
             maxInterval.setDate(minInterval.getDate() + 2);
 
-            console.info(minInterval, maxInterval);
-
             var deffer = jQuery.Deferred();
 
             $.ajax({
                 async: true,
                 url: '/data/events.json',
+                crossDomain: true,
                 success: function (data) {
                     var events = data;
 
@@ -100,7 +99,10 @@ $.extend(app, {
                 callback = function (res, textStatus, jqXHR) {};
 
             if (typeof errorCallback === 'undefined')
-                errorCallback = function (jqXHR, textStatus, errorThrown) {};
+                errorCallback = function (jqXHR, textStatus, errorThrown) {
+                    app.ui.toggleLoading(true);
+                    app.ui.toast(textStatus);
+                };
 
             if (typeof method === 'undefined')
                 method = 'GET';
@@ -121,13 +123,15 @@ $.extend(app, {
                 url: baseUrl + action,
                 method: method,
                 data: data,
+                dataType: 'json',
+                crossDomain: true,
                 success: function (response, textStatus, jqXHR) {
-                    callback(JSON.parse(response), textStatus, jqXHR);
+                    if (typeof response !== 'object')
+                        response = JSON.parse(response);
+                    callback(response, textStatus, jqXHR);
                 },
                 beforeSend: function (xhr) {
-                    if (app.session.loggedIn) {
-                        xhr.setRequestHeader('Authorization', app.session.token_type + " " + app.session.access_token);
-                    }
+                    xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     errorCallback(jqXHR, textStatus, errorThrown);

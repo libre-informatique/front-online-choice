@@ -1,8 +1,87 @@
+<ul id="tabs" class="tabs teal z-depth-2">
+    {{#each tabs as |tab|}}
 
-{{#each tabs}}
-<li class="tab col s4">
-    <a href="#tab{{this.id}}">
-        {{this.label}}
-    </a>
-</li>
+    <li class="tab col s4">
+        <a href="#tab{{tab.id}}">
+            {{tab.label}}
+        </a>
+    </li>
+    {{/each}}
+</ul>
+
+{{#each tabs as |tab|}}
+<div id="tab{{this.id}}" class="tab-content col s12">
+    <div id="headers" class="row center">
+        <div id="time-header" class="col s4 header">
+            <i class="material-icons">access_time</i>
+            <p>Horaire</p>
+        </div>
+        <div id="event-header" class="col s4 header">
+            <i class="material-icons">list</i>
+            <p>Evenement</p>
+        </div>
+        <div id="priority" class="col s4 header">
+            <i class="material-icons">sort</i>
+            <p>Priorité</p>
+        </div>
+    </div>
+    <div id="periods">
+        <ul id="period-list">
+
+            {{#each ../events as |event|}}
+
+            {{#ifForCurrentDay event tab}}
+
+            <li class="period">
+                <p class="period-label center">
+                    {{event.translations.fr_FR.name}}
+                </p>
+                <div id="events" class="row">
+                    <ul id="event-list">
+
+                        <!-- LOOP HERE -->
+
+                        <li class="row event">
+                            <div class="event-time col s4 center">
+                                <span>10h00 - 13h00</span>
+                            </div>
+                            <div class="event-card card horizontal z-depth-1 col s8 hoverable row">
+                                <div class="event-image col s2">
+                                    <img src="img/samples/1.jpeg">
+                                </div>
+                                <div class="label col s5 valign-wrapper">
+                                    <p class="event-label">
+                                        {{event.translations.fr_FR.name}}
+                                    </p>
+                                </div>
+                                <div class="presence valign-wrapper col s3">
+                                    <a class="presence-btn attend waves-effect waves-light btn-flat teal">Présent</a>
+                                </div>
+                                <div class="priority col s2 center">
+                                    <i class="priority-up material-icons">arrow_drop_up</i>
+                                    <i class="handle material-icons">drag_handle</i>
+                                    <i class="priority-down material-icons">arrow_drop_down</i>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            {{/ifForCurrentDay}}
+
+            {{/each}}
+
+            {{#ifCond tab.eventsNumber '==' 0}}
+            <li class="center-align">
+                <div class="card-panel">
+                    <i class="material-icons">info_outline</i>
+                    Aucuns évènements pour ce jour
+                </div>
+            </li>
+            {{/ifCond}}
+        </ul>
+    </div>
+</div>
 {{/each}}

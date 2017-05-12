@@ -3,13 +3,19 @@
 error_reporting(-1);
 ini_set("display_errors", 1);
 
+$parameters = getParameters();
+
+$wsUrl = sprintf("%s", $parameters->webservice->hostname . "/*");
+
+header("Access-Control-Allow-Origin: " . $wsUrl);
+
 function getApiToken($refreshToken = null)
 {
-    $parameters = json_decode(file_get_contents("./data/parameters.json"));
+    $parameters = getParameters();
 
     $wsUrl = sprintf(
         "%s://%s%s", $parameters->webservice->protocol, $parameters->webservice->hostname, "/tck.php/api/oauth/v2/token" // specific URL for oauth
-//        $parameters->webservice->apiBaseUri // global API url
+        // $parameters->webservice->apiBaseUri // global API url
     );
 
     $user = $parameters->user;
@@ -29,6 +35,11 @@ function getApiToken($refreshToken = null)
 
     return $res;
 }
+
+function getParameters()
+{
+    return json_decode(file_get_contents("./data/parameters.json"));
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,18 +55,67 @@ function getApiToken($refreshToken = null)
     </head>
     <body>
         <div id="app">
+            <!-- NAVBAR -->
 
-            <handlebar-placeholder template="navbar"></handlebar-placeholder>
-            <handlebar-placeholder template="login"></handlebar-placeholder>
+            <nav>
+                <div class="nav-wrapper teal">
+                    <a href="#" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li class="showIfLoggedIn">
+                            <a href='#' data-go="showEvents">
+                                <i class="material-icons">event_note</i>
+                            </a>
+                        </li>
+                        <li class="showIfLoggedIn">
+                            <a class='dropdown-button' href='#' data-activates='userMenu' data-alignment="right" data-constrainWidth="false" data-belowOrigin="true">
+                                <i class="material-icons">person_outline</i>
+                            </a>
 
-            <div id="main" class="row">
-                <div class="col s12 showIfLoggedIn">
-                    <ul id="tabs" class="tabs teal z-depth-2">
-                        <handlebar-placeholder template="mainTabs"></handlebar-placeholder>
+                            <!-- Dropdown Structure -->
+                            <ul id='userMenu' class='dropdown-content'>
+                                <li>
+                                    <a href="#!" data-go="showUserProfile">
+                                        <i class="material-icons">featured_play_list</i>
+                                        Voir mon profil
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li id="btn-logout">
+                                    <a href="#!" data-go="logout">
+                                        <i class="material-icons">exit_to_app</i> 
+                                        Se déconnecter
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="hideIfLoggedIn">
+                            <a href="#" data-go="login" data-tooltip="Se connecter">
+                                <i class="material-icons">fingerprint</i>
+                            </a>
+                        </li>
                     </ul>
-
-                    <handlebar-placeholder template="mainTabsContent"></handlebar-placeholder>
                 </div>
+            </nav>
+
+
+            <div class="content">
+
+                <!-- LOGIN -->
+
+                <handlebar-placeholder template="login"></handlebar-placeholder>
+
+                <!-- EVENTS TABS -->
+
+                <div id="main" class="row">
+                    <div class="col s12 showIfLoggedIn">
+                        <handlebar-placeholder template="mainTabs"></handlebar-placeholder>
+                    </div>
+                </div>
+
+                <!-- PROFILE -->
+
+                <handlebar-placeholder template="userProfile"></handlebar-placeholder>
+
             </div>
 
             <!-- CONFIRM FAB -->
@@ -98,6 +158,7 @@ function getApiToken($refreshToken = null)
 
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/controller.js"></script>
         <script type="text/javascript" src="js/events.js"></script>
         <script type="text/javascript" src="js/session.js"></script>
         <script type="text/javascript" src="js/webservice.js"></script>
@@ -116,11 +177,10 @@ function getApiToken($refreshToken = null)
 
         <!-- TEMPLATES -->
 
-        <script id="navbar-template" type="text/x-handlebars-template" src="views/navbar.html" data-callback="initNavbar"></script>
         <script id="login-template" type="text/x-handlebars-template" src="views/login.html" data-callback="initLogin"></script>
         <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html" data-callback="initTabs"></script>
-        <script id="mainTabsContent-template" type="text/x-handlebars-template" src="views/blocks/tabsContent.html" data-callback="initMainTabsContent"></script>
         <script id="periods-template" type="text/x-handlebars-template" src="views/blocks/periods.html" data-callback="initPeriods"></script>
+        <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html" data-callback="initUserProfile"></script>
 
 
 

@@ -65,6 +65,12 @@ html {
         .brand-logo {
             padding-left: 0.5em;
         }
+
+        #userMenu {
+            overflow: visible;
+            right: 0;
+            left: auto !important;;
+        }
     }
 
     // Funny hack to hide UI if not logged in

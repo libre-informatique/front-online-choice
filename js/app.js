@@ -5,46 +5,20 @@ var app = {
             moment.locale('fr');
             app.config = params;
             app.ui.initTemplates();
+        });
+
+        $(document).on('templates.registered', function () {
+            app.ui.plugins.init();
+            app.ui.toggleLoading();
             app.ui.init();
         });
     },
     ui: {
         templates: {},
         modal: null,
-        templatesCallbacks: {
-            initNavbar: function (data) {
-                var compiled = Handlebars.compile(app.ui.templates.navbar.data);
-
-                app.ui.applyTemplate('navbar', compiled({
-                    applicationName: app.config.applicationName
-                }));
-            },
-            initLogin: function (data) {
-                var compiled = Handlebars.compile(app.ui.templates.login.data);
-
-                app.ui.applyTemplate('login', compiled({}));
-            },
-            initTabs: function (data) {
-                var compiled = Handlebars.compile(app.ui.templates.mainTabs.data);
-
-                app.ui.applyTemplate('mainTabs', compiled(data));
-
-                $('#tabs .tab:first-of-type a').trigger('click');
-            },
-            initMainTabsContent: function (data) {
-                var compiled = Handlebars.compile(app.ui.templates.mainTabsContent.data);
-
-                app.ui.applyTemplate('mainTabsContent', compiled(data));
-
-
-            },
-            initPeriods: function (data) {
-                var compiled = Handlebars.compile(app.ui.templates.periods.data);
-
-                app.ui.applyTemplate('mainTabsContent', compiled(events));
-            }
-        },
         init: function () {
+            app.ctrl.login();
+
             app.ui.modal = $('#confirm-modal');
             app.ui.modal.modal();
 
@@ -61,6 +35,7 @@ var app = {
                 app.ui.plugins.initTabs();
                 app.ui.plugins.initSortables();
                 app.ui.plugins.initTooltips();
+                app.ui.plugins.initDropDown();
             },
             initTabs: function () {
                 $('ul#tabs').tabs();
@@ -76,6 +51,9 @@ var app = {
             },
             initTooltips: function () {
                 $('*[data-tooltip]').tooltip({delay: 50});
+            },
+            initDropDown: function () {
+                $('.dropdown-button').dropdown();
             }
         },
         initTemplates: function () {
@@ -101,17 +79,13 @@ var app = {
                             app.ui.templates[id] = {
                                 id: id,
                                 data: data,
-                                element: tpl,
-                                callback: tplCb,
-                                cb: app.ui.templatesCallbacks[tplCb]
+                                element: tpl
                             };
 
                             // UPDATE SCRIPT TEMPLATE HTML
-
                             tpl.html(data);
 
                             // TRIGGER TEMPALTE EVENT
-
                             $(document).trigger('template.registered', [id]);
                         }
                     });
@@ -120,7 +94,7 @@ var app = {
             });
 
             $.when.apply($, promises).then(function (schemas) {
-                $(document).trigger('app.ready');
+                $(document).trigger('templates.registered');
             }, function (e) {
                 $(document).trigger('app.failed');
             });
@@ -128,15 +102,24 @@ var app = {
         applyTemplate: function (name, tpl) {
             $('handlebar-placeholder[template="' + name + '"]').html(tpl);
             $(document).trigger('template.applyed', [name]);
+            console.info('template.applyed', name);
         },
-        toggleLoading: function () {
+        toggleLoading: function (ifVisible) {
+            if (typeof ifVisible === 'undefined')
+                ifVisible = false;
             var loader = $('#mainLoader');
 
             if (loader.hasClass('hidden')) {
-                loader.removeClass('hidden');
+                if (ifVisible !== true)
+                    loader.removeClass('hidden');
             } else {
                 loader.addClass('hidden');
             }
+        },
+        toast: function (message, delay) {
+            if (typeof delay === 'undefined')
+                delay = 5000;
+            Materialize.toast(message, delay);
         }
     },
     save: function () {

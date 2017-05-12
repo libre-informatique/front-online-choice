@@ -3,11 +3,6 @@ $.extend(app, {
         init: function () {
             $(document)
 
-                .on('app.ready', function () {
-                    app.ui.plugins.init();
-                    app.ui.toggleLoading();
-                })
-
                 // -------------------------------------------------------------
                 // CONFIRMATION FAB BUTTON
                 // -------------------------------------------------------------
@@ -77,65 +72,19 @@ $.extend(app, {
 
                 .on('login.submitted', function (e, form) {
                     // Call login API
-
-                    app.ws.userLogin();
+                    app.ws.userLogin(form.username, form.password);
                 })
 
                 // -------------------------------------------------------------
-                // LOGOUT
+                // NAV BUTTONS
                 // -------------------------------------------------------------
 
-                .on('click', '#btn-logout', function (e) {
+                .on('click', '*[data-go]', function (e) {
+                    var action = $(this).attr('data-go');
 
-                    // TODO: Manage real user authentication
+                    var callableAction = app.ctrl[action];
 
-                    app.session.loggedIn = true; // FOR DEBUG
-
-                    $('#app').removeClass('loggedIn');
-
-                    $(document).trigger('hide-events');
-                })
-
-                // -------------------------------------------------------------
-                // TEMPLATE MANAGEMENT - AUTO APPEND TEMPLATE
-                // -------------------------------------------------------------
-
-                .on('template.registered', function (e, id) {
-                    if (id === "login" || id === "navbar") {
-                        var cb = app.ui.templatesCallbacks[app.ui.templates[id].callback];
-
-                        cb({});
-                    }
-                })
-
-                .on('template.applyed', function (e, name) {
-
-                })
-
-                // -------------------------------------------------------------
-                // EVENTS MANAGEMENTS
-                // -------------------------------------------------------------
-
-                .on('show-events', function (e) {
-                    var cb = app.ui.templatesCallbacks[app.ui.templates.mainTabs.callback];
-                    var cbMainTabs = app.ui.templatesCallbacks[app.ui.templates.mainTabsContent.callback];
-
-                    var events = app.ws.getEvents()
-                        .then(function (events) {
-                            console.info(events);
-
-                            cb(events);
-                            cbMainTabs(events);
-                            
-                            app.ui.plugins.initTabs();
-                            
-                        }, function (error) {
-
-                        });
-                })
-
-                .on('hide-events', function (e) {
-                    $('handlebar-placeholder[template="mainTabs"], handlebar-placeholder[template="mainTabsContent"]').html('');
+                    callableAction();
                 })
 
                 ;
