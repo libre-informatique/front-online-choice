@@ -2,26 +2,33 @@ $.extend(app, {
     events: {
         init: function () {
             $(document)
-
+            
+                // -------------------------------------------------------------
                 // CONFIRMATION FAB BUTTON
+                // -------------------------------------------------------------
 
-                .on('click', '#confirm-fab', function () {
+                .on('click', '#confirm-fab', function (e) {
                     app.ui.modal.modal('open');
                 })
 
+                // -------------------------------------------------------------
                 // CONFIRMATION MODAL BUTTONS
+                // -------------------------------------------------------------
 
-                .on('click', '#cancel-btn', function () {
+                .on('click', '#cancel-btn', function (e) {
                     app.ui.modal.modal('close');
                 })
-                .on('click', '#save-btn', function () {
+
+                .on('click', '#save-btn', function (e) {
                     app.save();
                     app.ui.modal.modal('close');
                 })
 
+                // -------------------------------------------------------------    
                 // PRESENCE BUTTON
+                // -------------------------------------------------------------
 
-                .on('click', '.presence-btn:not(.mandatory)', function () {
+                .on('click', '.presence-btn:not(.mandatory)', function (e) {
                     if ($(this).hasClass('attend')) {
                         $(this)
                             .removeClass('attend btn-flat teal')
@@ -38,7 +45,9 @@ $.extend(app, {
                     }
                 })
 
+                // -------------------------------------------------------------
                 // LOGIN SUBMIT EVENT
+                // -------------------------------------------------------------
 
                 .on('submit', '#loginForm', function (e) {
                     e.stopImmediatePropagation();
@@ -71,8 +80,23 @@ $.extend(app, {
                     $(document).trigger('show-events');
                 })
 
-                .on('template.registered', function (event, id) {
-//                    console.info('template.registered', id);
+                // -------------------------------------------------------------
+                // LOGOUT
+                // -------------------------------------------------------------
+
+                .on('click', '#btn-logout', function (e) {
+                    app.session.loggedIn = true; // FOR DEBUG
+
+                    $('#app').removeClass('loggedIn');
+
+                    $(document).trigger('hide-events');
+                })
+
+                // -------------------------------------------------------------
+                // TEMPLATE MANAGEMENT
+                // -------------------------------------------------------------
+
+                .on('template.registered', function (e, id) {
                     if (id === "login") {
                         var cb = app.ui.templatesCallbacks[app.ui.templates.login.callback];
 
@@ -80,7 +104,15 @@ $.extend(app, {
                     }
                 })
 
-                .on('show-events', function () {
+                .on('template.applyed', function (e, name) {
+
+                })
+
+                // -------------------------------------------------------------
+                // EVENTS MANAGEMENTS
+                // -------------------------------------------------------------
+
+                .on('show-events', function (e) {
                     var cb = app.ui.templatesCallbacks[app.ui.templates.mainTabs.callback];
                     var cbMainTabs = app.ui.templatesCallbacks[app.ui.templates.mainTabsContent.callback];
 
@@ -94,9 +126,12 @@ $.extend(app, {
 
                         });
                 })
-                ;
 
-            ;
+                .on('hide-events', function (e) {
+                    $('handlebar-placeholder[template="mainTabs"], handlebar-placeholder[template="mainTabsContent"]').html('');
+                })
+
+                ;
         }
     }
 });

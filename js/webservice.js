@@ -53,7 +53,8 @@ $.extend(app, {
                         out.tabs.push({
                             date: currentDay,
                             label: currentDay.format("dddd DD/MM"),
-                            id: i
+                            id: i,
+                            eventsNumber: 0
                         });
                     }
 

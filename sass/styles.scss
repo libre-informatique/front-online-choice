@@ -5,26 +5,26 @@ $accent-color: #ffb74d; // Orange
 
 /* fallback */
 @font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2');
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2');
 }
 
 .material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -moz-font-feature-settings: 'liga';
-  -moz-osx-font-smoothing: grayscale;
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -moz-font-feature-settings: 'liga';
+    -moz-osx-font-smoothing: grayscale;
 }
 
 // APP
@@ -43,14 +43,28 @@ html {
 
     // Funny hack to hide UI if not logged in
 
-    &:not(.loggedIn) {
-        &>*:not(.loginForm) {
+    &.loggedIn {
+        .showIfLoggedIn {
+            display:block;
+        }
+        .hideIfLoggedIn {
             display:none;
         }
     }
-    &.loggedIn {
-        &>.loginForm {
+
+    &:not(.loggedIn) {
+        .showIfLoggedIn {
             display:none;
+        }
+        .hideIfLoggedIn {
+            display:block;
+        }
+    }
+
+    &.loggedIn,
+    &:not(.loggedIn) {
+        handlebar-placeholder {
+            display:block;
         }
     }
 

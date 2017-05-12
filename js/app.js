@@ -21,7 +21,7 @@ var app = {
                 var compiled = Handlebars.compile(app.ui.templates.mainTabs.data);
 
                 app.ui.applyTemplate('mainTabs', compiled(data));
-                
+
                 $('#tabs .tab:first-of-type a').trigger('click');
             },
             initMainTabsContent: function (data) {
@@ -33,7 +33,7 @@ var app = {
             },
             initPeriods: function (data) {
                 var compiled = Handlebars.compile(app.ui.templates.periods.data);
-                
+
                 app.ui.applyTemplate('mainTabsContent', compiled(events));
 
                 app.ui.initPlugins();
@@ -107,7 +107,8 @@ var app = {
             });
         },
         applyTemplate: function (name, tpl) {
-            $('handlebar-placeholder[template="' + name + '"]').replaceWith(tpl);
+            $('handlebar-placeholder[template="' + name + '"]').html(tpl);
+            $(document).trigger('template.applyed', [name]);
         }
     },
     save: function () {

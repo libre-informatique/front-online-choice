@@ -53,8 +53,9 @@ function getApiToken($refreshToken = null)
 
             <div id="main" class="row">
 
-                <div class="col s12">
-                    <a id="btn-logout" class="btn-floating btn-large waves-effect waves-light red">
+                <div class="col s12 showIfLoggedIn">
+                    <a id="btn-logout" class="btn-floating btn-large waves-effect waves-light red tooltipped"
+                        data-delay="50" data-tooltip="Se déconnecter">
                         <i class="material-icons">exit_to_app</i>
                     </a>
                     <ul id="tabs" class="tabs teal z-depth-2">
@@ -65,7 +66,7 @@ function getApiToken($refreshToken = null)
                 </div>
             </div>
             <!-- CONFIRM FAB -->
-            <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light orange z-depth-3"><i class="material-icons">check</i></a>
+            <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light orange z-depth-3 showIfLoggedIn"><i class="material-icons">check</i></a>
             <!-- CONFIRM MODAL -->
             <div id="confirm-modal" class="modal bottom-sheet">
                 <div class="modal-content center">
