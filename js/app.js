@@ -12,6 +12,13 @@ var app = {
         templates: {},
         modal: null,
         templatesCallbacks: {
+            initNavbar: function (data) {
+                var compiled = Handlebars.compile(app.ui.templates.navbar.data);
+
+                app.ui.applyTemplate('navbar', compiled({
+                    applicationName: app.config.applicationName
+                }));
+            },
             initLogin: function (data) {
                 var compiled = Handlebars.compile(app.ui.templates.login.data);
 
@@ -29,14 +36,12 @@ var app = {
 
                 app.ui.applyTemplate('mainTabsContent', compiled(data));
 
-                app.ui.initPlugins();
+
             },
             initPeriods: function (data) {
                 var compiled = Handlebars.compile(app.ui.templates.periods.data);
 
                 app.ui.applyTemplate('mainTabsContent', compiled(events));
-
-                app.ui.initPlugins();
             }
         },
         init: function () {
@@ -51,24 +56,31 @@ var app = {
                 $('#app').removeClass('loggedIn');
             }
         },
-        initPlugins: function () {
+        plugins: {
+            init: function () {
+                app.ui.plugins.initTabs();
+                app.ui.plugins.initSortables();
+                app.ui.plugins.initTooltips();
+            },
+            initTabs: function () {
+                $('ul#tabs').tabs();
 
-            // INIT TABS
-
-            $('ul#tabs').tabs();
-
-            $('ul#tabs li:first-of-type a').trigger('click');
-
-
-            // INIT SORTABLE ELEMENTS
-
-            $('.period').each(function () {
-                Sortable.create($(this).find('#event-list')[0], {
-                    handle: '.priority'
+                $('ul#tabs li:first-of-type a').trigger('click');
+            },
+            initSortables: function () {
+                $('.period').each(function () {
+                    Sortable.create($(this).find('#event-list')[0], {
+                        handle: '.priority'
+                    });
                 });
-            });
+            },
+            initTooltips: function () {
+                $('*[data-tooltip]').tooltip({delay: 50});
+            }
         },
         initTemplates: function () {
+
+            var promises = [];
 
             // FETCH REMOTE TEMPLATES
 
@@ -103,12 +115,28 @@ var app = {
                             $(document).trigger('template.registered', [id]);
                         }
                     });
+                    promises.push(this);
                 }
+            });
+
+            $.when.apply($, promises).then(function (schemas) {
+                $(document).trigger('app.ready');
+            }, function (e) {
+                $(document).trigger('app.failed');
             });
         },
         applyTemplate: function (name, tpl) {
             $('handlebar-placeholder[template="' + name + '"]').html(tpl);
             $(document).trigger('template.applyed', [name]);
+        },
+        toggleLoading: function () {
+            var loader = $('#mainLoader');
+
+            if (loader.hasClass('hidden')) {
+                loader.removeClass('hidden');
+            } else {
+                loader.addClass('hidden');
+            }
         }
     },
     save: function () {

@@ -37,9 +37,35 @@ html {
     /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
     /*background-size: cover;*/
     background:#FCFCFC;
+
+    body {
+        #mainLoader {
+            opacity:1;
+            position: fixed;
+            top:1em;
+            left:50%;
+            margin-left:-29px;
+            background:#FFF;
+            border-radius:50%;
+            border:3px solid #FFF;
+            box-shadow: 0 0 3px #999;
+            transition: opacity 0.5s ease;
+            &.hidden {
+                opacity:0;
+            }
+        }
+    }
 }
 
+
+
 #app {
+
+    nav {
+        .brand-logo {
+            padding-left: 0.5em;
+        }
+    }
 
     // Funny hack to hide UI if not logged in
 
@@ -79,12 +105,6 @@ html {
     #main {
         .col {
             padding: 0;
-        }
-
-        #btn-logout {
-            position: fixed;
-            right:1em;
-            top:1em;
         }
     }
 
@@ -172,5 +192,4 @@ html {
         width: 56px;
 
     }
-
 }

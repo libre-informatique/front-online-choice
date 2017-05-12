@@ -2,7 +2,12 @@ $.extend(app, {
     events: {
         init: function () {
             $(document)
-            
+
+                .on('app.ready', function () {
+                    app.ui.plugins.init();
+                    app.ui.toggleLoading();
+                })
+
                 // -------------------------------------------------------------
                 // CONFIRMATION FAB BUTTON
                 // -------------------------------------------------------------
@@ -73,11 +78,7 @@ $.extend(app, {
                 .on('login.submitted', function (e, form) {
                     // Call login API
 
-                    app.session.loggedIn = true; // FOR DEBUG
-
-                    $('#app').addClass('loggedIn');
-
-                    $(document).trigger('show-events');
+                    app.ws.userLogin();
                 })
 
                 // -------------------------------------------------------------
@@ -85,6 +86,9 @@ $.extend(app, {
                 // -------------------------------------------------------------
 
                 .on('click', '#btn-logout', function (e) {
+
+                    // TODO: Manage real user authentication
+
                     app.session.loggedIn = true; // FOR DEBUG
 
                     $('#app').removeClass('loggedIn');
@@ -93,12 +97,12 @@ $.extend(app, {
                 })
 
                 // -------------------------------------------------------------
-                // TEMPLATE MANAGEMENT
+                // TEMPLATE MANAGEMENT - AUTO APPEND TEMPLATE
                 // -------------------------------------------------------------
 
                 .on('template.registered', function (e, id) {
-                    if (id === "login") {
-                        var cb = app.ui.templatesCallbacks[app.ui.templates.login.callback];
+                    if (id === "login" || id === "navbar") {
+                        var cb = app.ui.templatesCallbacks[app.ui.templates[id].callback];
 
                         cb({});
                     }
@@ -122,6 +126,9 @@ $.extend(app, {
 
                             cb(events);
                             cbMainTabs(events);
+                            
+                            app.ui.plugins.initTabs();
+                            
                         }, function (error) {
 
                         });

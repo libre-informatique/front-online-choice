@@ -8,13 +8,10 @@ function getApiToken($refreshToken = null)
     $parameters = json_decode(file_get_contents("./data/parameters.json"));
 
     $wsUrl = sprintf(
-        "%s://%s%s",
-        $parameters->webservice->protocol,
-        $parameters->webservice->hostname, 
-        "/tck.php/api/oauth/v2/token" // specific URL for oauth
+        "%s://%s%s", $parameters->webservice->protocol, $parameters->webservice->hostname, "/tck.php/api/oauth/v2/token" // specific URL for oauth
 //        $parameters->webservice->apiBaseUri // global API url
     );
-    
+
     $user = $parameters->user;
     $secret = $parameters->secret;
 
@@ -44,20 +41,15 @@ function getApiToken($refreshToken = null)
         <title>Semaines des embassadeurs</title>
 
         <meta http-equiv="Access-Control-Allow-Origin" content="*">
-
     </head>
     <body>
         <div id="app">
 
+            <handlebar-placeholder template="navbar"></handlebar-placeholder>
             <handlebar-placeholder template="login"></handlebar-placeholder>
 
             <div id="main" class="row">
-
                 <div class="col s12 showIfLoggedIn">
-                    <a id="btn-logout" class="btn-floating btn-large waves-effect waves-light red tooltipped"
-                        data-delay="50" data-tooltip="Se déconnecter">
-                        <i class="material-icons">exit_to_app</i>
-                    </a>
                     <ul id="tabs" class="tabs teal z-depth-2">
                         <handlebar-placeholder template="mainTabs"></handlebar-placeholder>
                     </ul>
@@ -65,17 +57,34 @@ function getApiToken($refreshToken = null)
                     <handlebar-placeholder template="mainTabsContent"></handlebar-placeholder>
                 </div>
             </div>
+
             <!-- CONFIRM FAB -->
-            <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light orange z-depth-3 showIfLoggedIn"><i class="material-icons">check</i></a>
+
+            <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light orange z-depth-3 showIfLoggedIn">
+                <i class="material-icons">check</i>
+            </a>
+
             <!-- CONFIRM MODAL -->
+
             <div id="confirm-modal" class="modal bottom-sheet">
                 <div class="modal-content center">
                     <h4>Valider vos choix pour la semaine ?</h4>
-                    <a id="save-btn" class="waves-effect waves-light btn"><i class="material-icons left">check_circle</i>oui</a>
-                    <a id="cancel-btn" class="waves-effect waves-light btn"><i class="material-icons right">cancel_circle</i>non</a>
+                    <a id="save-btn" class="waves-effect waves-light btn">
+                        <i class="material-icons left">check_circle</i>
+                        oui
+                    </a>
+                    <a id="cancel-btn" class="waves-effect waves-light btn">
+                        <i class="material-icons right">cancel_circle</i>
+                        non
+                    </a>
                 </div>
             </div>
         </div>
+
+
+
+
+
 
         <!-- LIBS -->
 
@@ -89,7 +98,6 @@ function getApiToken($refreshToken = null)
 
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>
-
         <script type="text/javascript" src="js/events.js"></script>
         <script type="text/javascript" src="js/session.js"></script>
         <script type="text/javascript" src="js/webservice.js"></script>
@@ -108,9 +116,59 @@ function getApiToken($refreshToken = null)
 
         <!-- TEMPLATES -->
 
+        <script id="navbar-template" type="text/x-handlebars-template" src="views/navbar.html" data-callback="initNavbar"></script>
         <script id="login-template" type="text/x-handlebars-template" src="views/login.html" data-callback="initLogin"></script>
         <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html" data-callback="initTabs"></script>
         <script id="mainTabsContent-template" type="text/x-handlebars-template" src="views/blocks/tabsContent.html" data-callback="initMainTabsContent"></script>
         <script id="periods-template" type="text/x-handlebars-template" src="views/blocks/periods.html" data-callback="initPeriods"></script>
+
+
+
+
+
+
+
+        <div id="mainLoader" class="preloader-wrapper small active">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+
     </body>
 </html>

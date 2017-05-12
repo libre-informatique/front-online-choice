@@ -1,4 +1,5 @@
 {
+    "applicationName":"My App",
     "user":   "TEST",
     "secret": "TESTSECRET",
     "webservice": {

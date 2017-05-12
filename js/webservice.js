@@ -9,14 +9,23 @@ $.extend(app, {
 //                console.info(res);
             }, function () {}, true);
         },
-        userLogin: function () {
-            app.ws.call('GET', '/customer', {
-                client_id: app.config.user,
-                client_secret: app.config.secret,
-                grant_type: 'password'
-            }, function (res) {
-//                console.info(res);
-            });
+        userLogin: function (cb) {
+            if (typeof cb === 'undefined')
+                cb = function (res) {
+                    app.session.loggedIn = true; // FOR DEBUG
+
+                    $('#app').addClass('loggedIn');
+
+                    $(document).trigger('show-events');
+                };
+
+//            app.ws.call('GET', '/customer', {
+//                client_id: app.config.user,
+//                client_secret: app.config.secret,
+//                grant_type: 'password'
+//            }, cb);
+
+            cb();
         },
         getEvents: function () {
 
