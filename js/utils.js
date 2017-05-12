@@ -54,6 +54,10 @@ $.extend(app, {
                 }
             });
 
+            Handlebars.registerHelper('ouiNon', function (boolean) {
+                return (boolean ? '<span class="teal badge white-text">Oui</span>' : '<span class="red badge">Non</span>');
+            });
+
         },
         formToObject: function (formArray) {
 

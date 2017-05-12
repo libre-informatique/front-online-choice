@@ -1,12 +1,49 @@
 <div class="col s12 m7">
-    <h2 class="header">Horizontal Card</h2>
+    <h2 class="header">{{user.firstName}} {{user.lastName}}</h2>
     <div class="card horizontal">
         <div class="card-image">
             <img src="http://lorempixel.com/100/190/nature/6">
         </div>
         <div class="card-stacked">
             <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information.</p>
+
+
+
+                <table class="userProfileTable">
+                    <tbody>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{user.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Adresse</td>
+                            <td>{{user.address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ville</td>
+                            <td>{{user.city}}</td>
+                        </tr>
+                        <tr>
+                            <td>Code postal</td>
+                            <td>{{user.zip}}</td>
+                        </tr>
+                        <tr>
+                            <td>Pays</td>
+                            <td>{{user.country}}</td>
+                        </tr>
+                        <tr>
+                            <td>Téléphone</td>
+                            <td>{{user.phoneNumber}}</td>
+                        </tr>
+                        <tr>
+                            <td>Lettre d'information ?</td>
+                            <td>{{{ouiNon user.subscribedToNewsletter}}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
             </div>
             <div class="card-action">
                 <a href="#">This is a link</a>

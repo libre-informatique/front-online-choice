@@ -198,4 +198,18 @@ html {
         width: 56px;
 
     }
+
+    .userProfileTable {
+        tr {
+            td {
+                &:first-of-type {
+                    text-align: right;
+                    font-weight: bold;
+                }
+                .badge {
+                    float:left;
+                }
+            }
+        }
+    }
 }
