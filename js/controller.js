@@ -10,12 +10,8 @@ $.extend(app, {
         },
 
         logout: function () {
-            // TODO: Manage real user authentication
-
-            app.session.loggedIn = true; // FOR DEBUG
-
             $('#app').removeClass('loggedIn');
-
+            app.session.destroy();
             app.ctrl.go('login');
         },
 
@@ -42,6 +38,7 @@ $.extend(app, {
         go: function (templateName, data) {
             app.ctrl.render(templateName, data, true);
         },
+
         render: function (templateName, data, clearContent) {
             var deffered = $.Deferred();
 

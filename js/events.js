@@ -59,7 +59,7 @@ $.extend(app, {
                     var formData = app.utils.formToObject(form.serializeArray());
 
                     if (formData.username !== "" && formData.password !== "") {
-                        $(document).trigger('login.submitted', [formData]);
+                        app.ws.userLogin(formData.username, formData.password, formData.rememberMe, form);
                     } else {
                         if (formData.username === "") {
                             form.find('input[name="username"]').addClass('invalid');
@@ -68,11 +68,6 @@ $.extend(app, {
                             form.find('input[name="password"]').addClass('invalid');
                         }
                     }
-                })
-
-                .on('login.submitted', function (e, form) {
-                    // Call login API
-                    app.ws.userLogin(form.username, form.password);
                 })
 
                 // -------------------------------------------------------------

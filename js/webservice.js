@@ -6,23 +6,34 @@ $.extend(app, {
                 client_secret: app.config.secret,
                 grant_type: 'password'
             }, function (res) {
-//                console.info(res);
-            }, function () {}, true);
+                console.info(res);
+            }, function () {
+                app.ui.toast('l\'API ne semble pas être disponible');
+            }, true);
         },
-        userLogin: function (username, password) {
+        userLogin: function (username, password, rememberMe, form) {
             app.ui.toggleLoading();
 
             app.ws.call('POST', '/login', {
                 'email': username,
                 'password': password
             }, function (res) {
-                app.session.loggedIn = true;
                 app.session.user = res.success.customer;
+                app.session.save();
+
+                if (rememberMe == 'on') {
+                    app.session.enableRememberMe();
+                } else {
+                    app.session.disableRememberMe();
+                }
+
                 $('#app').addClass('loggedIn');
 
                 app.ctrl.showEvents();
                 app.ui.toggleLoading();
+                app.session.save();
             }, function (res) {
+                form.find('input').addClass('invalid');
                 app.ui.toast('Email et/ou mot de passe invalide');
                 app.ui.toggleLoading();
             });

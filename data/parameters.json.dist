@@ -6,5 +6,6 @@
         "hostname": "your-domain.tld",
         "protocol": "https",
         "apiBaseUri": "/api"
-    }
+    },
+    "clientSessionName": "frontOnlineChoiceSession"
 }

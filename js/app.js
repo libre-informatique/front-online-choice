@@ -8,6 +8,7 @@ var app = {
         });
 
         $(document).on('templates.registered', function () {
+            app.session.start();
             app.ui.plugins.init();
             app.ui.toggleLoading();
             app.ui.init();
@@ -17,16 +18,16 @@ var app = {
         templates: {},
         modal: null,
         init: function () {
-            app.ctrl.login();
-
             app.ui.modal = $('#confirm-modal');
             app.ui.modal.modal();
 
             app.events.init();
 
-            if (app.session.loggedIn) {
+            if (app.session.user) {
                 $('#app').addClass('loggedIn');
+                app.ctrl.showEvents();
             } else {
+                app.ctrl.login();
                 $('#app').removeClass('loggedIn');
             }
         },
@@ -102,7 +103,6 @@ var app = {
         applyTemplate: function (name, tpl) {
             $('handlebar-placeholder[template="' + name + '"]').html(tpl);
             $(document).trigger('template.applyed', [name]);
-            console.info('template.applyed', name);
         },
         toggleLoading: function (ifVisible) {
             if (typeof ifVisible === 'undefined')
