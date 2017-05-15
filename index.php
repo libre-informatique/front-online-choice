@@ -187,7 +187,7 @@ if (isset($_GET['getParameters'])) {
 
         <!-- APP -->
         <script>
-            var appHostname = <?php echo $parameters->appHostname ;?>
+            var appHostname = "<?php echo $parameters->appHostname ;?>";
         </script>
 
         <script type="text/javascript" src="js/app.js"></script>
