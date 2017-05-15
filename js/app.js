@@ -1,8 +1,8 @@
 var app = {
     config: {},
     init: function () {
-        
-        $.get('/?getParameters=1', function (params) {
+
+        $.get(appHostname + '/?getParameters=1', function (params) {
             moment.locale('fr');
             app.config = params;
             app.session.start();

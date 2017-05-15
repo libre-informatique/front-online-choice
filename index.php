@@ -186,6 +186,9 @@ if (isset($_GET['getParameters'])) {
         <script src="js/libs/moment-with-locales.min.js"></script>
 
         <!-- APP -->
+        <script>
+            var appHostname = <?php echo $parameters->appHostname ;?>
+        </script>
 
         <script type="text/javascript" src="js/app.js"></script>
         <script type="text/javascript" src="js/utils.js"></script>

@@ -2,6 +2,7 @@
     "applicationName":"My App",
     "user":   "TEST",
     "secret": "TESTSECRET",
+    "appHostname": "http://yourlocalhostname.local",
     "webservice": {
         "hostname": "your-domain.tld",
         "protocol": "https",
