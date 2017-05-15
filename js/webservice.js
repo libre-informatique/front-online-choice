@@ -70,7 +70,7 @@ $.extend(app, {
 
             $.ajax({
                 async: true,
-                url: '/data/events.json',
+                url: './data/events.json',
                 crossDomain: true,
                 success: function (data) {
                     var events = data;
