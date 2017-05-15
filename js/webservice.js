@@ -1,15 +1,26 @@
 $.extend(app, {
     ws: {
         apiAuth: function () {
-            app.ws.call('GET', '/api/oauth/v2/token', {
-                client_id: app.config.user,
-                client_secret: app.config.secret,
-                grant_type: 'password'
-            }, function (res) {
-                console.info(res);
-            }, function () {
-                app.ui.toast('l\'API ne semble pas être disponible');
-            }, true);
+
+            console.info(app.session, new Error().stack);
+
+            return $.ajax({
+                method: 'GET',
+                async: true,
+                url: '/',
+                crossDomain: true,
+                data: {
+                    currentToken: app.session.access_token,
+                    refreshToken: app.session.refresh_token
+                },
+                success: function (data) {
+                    $.extend(app.session, data);
+                    app.session.save();
+                },
+                arror: function (err) {
+                    app.ui.toast('l\'API ne semble pas être disponible');
+                }
+            });
         },
         userLogin: function (username, password, rememberMe, form) {
             app.ui.toggleLoading();
@@ -19,6 +30,7 @@ $.extend(app, {
                 'password': password
             }, function (res) {
                 app.session.user = res.success.customer;
+                app.session.userId = res.success.customer.id;
                 app.session.save();
 
                 if (rememberMe == 'on') {
@@ -105,6 +117,8 @@ $.extend(app, {
             return deffer;
         },
         call: function (method, action, data, callback, errorCallback, ignoreApiBaseUri) {
+
+            app.session.manageApiToken();
 
             if (typeof callback === 'undefined')
                 callback = function (res, textStatus, jqXHR) {};

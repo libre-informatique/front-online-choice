@@ -1,14 +1,19 @@
 var app = {
     config: {},
     init: function () {
-        $.get('data/parameters.json', function (params) {
+        
+        $.get('/?getParameters=1', function (params) {
             moment.locale('fr');
             app.config = params;
+            app.session.start();
+        });
+
+        $(document).on('app.session.started', function () {
+            app.ws.apiAuth();
             app.ui.initTemplates();
         });
 
         $(document).on('templates.registered', function () {
-            app.session.start();
             app.ui.plugins.init();
             app.ui.toggleLoading();
             app.ui.init();

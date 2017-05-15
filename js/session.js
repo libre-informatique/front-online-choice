@@ -4,31 +4,32 @@ $.extend(app, {
 
         loggedIn: false,
         access_token: null,
-        token_type: "bearer",
+        token_type: null,
         expires_in: 0,
         refresh_token: null,
 
         user: null,
+        userId: null,
 
         start: function () {
-
             if (localStorage.getItem(app.config.clientSessionName))
-                app.session.rememberMe = true;
+                app.session.enableRememberMe();
+            else
+                app.session.disableRememberMe();
 
             var currentSession = app.storage.get(app.config.clientSessionName);
 
-            console.info('START', currentSession);
             if (currentSession === null) {
-                currentSession = app.session;
                 app.session.save();
-                console.info('START', currentSession);
             } else {
                 app.session.reload();
             }
+            $(document).trigger('app.session.started');
         },
 
         save: function () {
-            console.info('SAVE', app.session);
+            if (app.storage.engine === null)
+                app.session.start();
             app.storage.set(app.config.clientSessionName, JSON.stringify(app.session));
         },
 
@@ -37,7 +38,10 @@ $.extend(app, {
         },
 
         reload: function () {
+            if (app.storage.engine === null)
+                app.session.start();
             var currentSession = app.storage.get(app.config.clientSessionName);
+
             if (currentSession !== null) {
                 currentSession = JSON.parse(currentSession);
             }
@@ -45,18 +49,34 @@ $.extend(app, {
             $.extend(app.session, currentSession);
         },
         enableRememberMe: function () {
+            app.storage.engine = localStorage;
             sessionStorage.removeItem(app.config.clientSessionName);
             app.session.rememberMe = true;
-            app.session.start();
         },
         disableRememberMe: function () {
+            app.storage.engine = sessionStorage;
             localStorage.removeItem(app.config.clientSessionName);
             app.session.rememberMe = false;
-            app.session.start();
+        },
+        manageApiToken: function () {
+            if (app.storage.engine === null)
+                app.session.start();
+            var now = new Date();
+            if (typeof app.session.creationDate === 'undefined' || app.session.creationDate === null)
+                app.session.creationDate = now;
+
+            var expirationDate = new Date(app.session.creationDate);
+            expirationDate.setSeconds(expirationDate.getSeconds() + parseInt(app.session.expires_in, 10));
+
+            console.info(app.session.expires_in, app.session.creationDate, expirationDate, now > expirationDate);
+
+            if (now > expirationDate) {
+                app.ws.apiAuth();
+            }
         }
     },
     storage: {
-        engine: sessionStorage,
+        engine: null,
         get: function (key) {
             return app.storage.engine.getItem(key);
         },

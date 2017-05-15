@@ -1,4 +1,3 @@
-
 <?php
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -9,7 +8,13 @@ $wsUrl = sprintf("%s", $parameters->webservice->hostname . "/*");
 
 header("Access-Control-Allow-Origin: " . $wsUrl);
 
-function getApiToken($refreshToken = null)
+/**
+ * Api OAuth 
+ * 
+ * @param type $refreshToken
+ * @return type
+ */
+function getApiToken($token = null, $refreshToken = null)
 {
     $parameters = getParameters();
 
@@ -23,12 +28,17 @@ function getApiToken($refreshToken = null)
 
     $ch = curl_init();
 
-    $url = sprintf('%s?client_id=%s&client_secret=%s&grant_type=password', $wsUrl, $user, $secret);
+    if ($refreshToken) {
+        // API Url to refresh API token from existing token
+        $url = sprintf('%s?client_id=%s&client_secret=%s&grant_type=refresh_token&refresh_token=%s', $wsUrl, $user, $secret, $refreshToken);
+    } else {
+        // Requestiiong new token
+        $url = sprintf('%s?client_id=%s&client_secret=%s&grant_type=password', $wsUrl, $user, $secret);
+    }
 
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-//    curl_setopt($ch, CURLOPT_HEADER, true); /// DEBUG ONLY
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $res = curl_exec($ch);
@@ -39,6 +49,27 @@ function getApiToken($refreshToken = null)
 function getParameters()
 {
     return json_decode(file_get_contents("./data/parameters.json"));
+}
+
+if (isset($_GET['currentToken'])) {
+
+    header('Content-Type: application/json');
+
+    $token = (string) filter_var($_GET['currentToken'], FILTER_UNSAFE_RAW);
+    $refreshToken = (string) filter_var($_GET['refreshToken'], FILTER_UNSAFE_RAW);
+
+    $data = getApiToken($token);
+    echo $data;
+    die();
+}
+
+if (isset($_GET['getParameters'])) {
+    $params = getParameters();
+    header('Content-Type: application/json');
+    unset($params->user);
+    unset($params->secret);
+    echo json_encode($params, JSON_FORCE_OBJECT);
+    die();
 }
 ?>
 
@@ -166,12 +197,7 @@ function getParameters()
         <!-- APP STARTER -->
 
         <script type="text/javascript">
-            // SET API TOKEN
-
-            $.extend(app.session,<?php echo getApiToken(); ?>);
-
             // START APP
-
             $(document).ready(app.init);
         </script>
 
