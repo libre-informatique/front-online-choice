@@ -4,7 +4,7 @@ $.extend(app, {
             return $.ajax({
                 method: 'GET',
                 async: true,
-                url: '/',
+                url: appHostname + '/',
                 crossDomain: true,
                 data: {
                     currentToken: app.session.access_token,
@@ -70,7 +70,7 @@ $.extend(app, {
 
             $.ajax({
                 async: true,
-                url: './data/events.json',
+                url: appHostname + '/data/events.json',
                 crossDomain: true,
                 success: function (data) {
                     var events = data;
