@@ -15,7 +15,7 @@ var app = {
 
         $(document).on('templates.registered', function () {
             app.ui.plugins.init();
-            app.ui.toggleLoading();
+            app.ui.displayLoading(false);
             app.ui.init();
         });
     },
@@ -109,17 +109,15 @@ var app = {
             $('handlebar-placeholder[template="' + name + '"]').html(tpl);
             $(document).trigger('template.applyed', [name]);
         },
-        toggleLoading: function (ifVisible) {
-            if (typeof ifVisible === 'undefined')
-                ifVisible = false;
+        displayLoading: function (show) {
+            if (typeof show === 'undefined')
+                show = true;
             var loader = $('#mainLoader');
 
-            if (loader.hasClass('hidden')) {
-                if (ifVisible !== true)
-                    loader.removeClass('hidden');
-            } else {
+            if (show === true)
+                loader.removeClass('hidden');
+            else
                 loader.addClass('hidden');
-            }
         },
         toast: function (message, delay) {
             if (typeof delay === 'undefined')

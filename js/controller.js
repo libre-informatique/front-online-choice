@@ -29,7 +29,6 @@ $.extend(app, {
                         $('#tabs .tab:first-of-type a').trigger('click');
                     });
                 }, function (error) {
-
                 });
         },
 

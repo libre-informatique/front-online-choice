@@ -82,6 +82,14 @@ $.extend(app, {
                     callableAction();
                 })
 
+                .ajaxStart(function () {
+                    app.ui.displayLoading();
+                })
+
+                .ajaxStop(function () {
+                    app.ui.displayLoading(false);
+                })
+
                 ;
         }
     }

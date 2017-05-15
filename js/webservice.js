@@ -20,8 +20,6 @@ $.extend(app, {
             });
         },
         userLogin: function (username, password, rememberMe, form) {
-            app.ui.toggleLoading();
-
             return app.ws.call('POST', '/login', {
                 'email': username,
                 'password': password
@@ -38,12 +36,10 @@ $.extend(app, {
                 $('#app').addClass('loggedIn');
 
                 app.ctrl.showEvents();
-                app.ui.toggleLoading();
                 app.session.save();
             }, function (res) {
                 form.find('input').addClass('invalid');
                 app.ui.toast('Email et/ou mot de passe invalide');
-                app.ui.toggleLoading();
             });
         },
         getUser: function (userId) {
@@ -130,7 +126,7 @@ $.extend(app, {
 
             if (typeof errorCallback === 'undefined')
                 errorCallback = function (jqXHR, textStatus, errorThrown) {
-                    app.ui.toggleLoading(true);
+                    app.ui.displayLoading(false);
                     app.ui.toast(textStatus);
                 };
 
@@ -156,6 +152,7 @@ $.extend(app, {
                 dataType: 'json',
                 crossDomain: true,
                 success: function (response, textStatus, jqXHR) {
+                    app.ui.displayLoading(false);
                     if (typeof response !== 'object')
                         response = JSON.parse(response);
                     callback(response, textStatus, jqXHR);
@@ -164,6 +161,7 @@ $.extend(app, {
                     xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    app.ui.displayLoading(false);
                     errorCallback(jqXHR, textStatus, errorThrown);
                 }
             });
