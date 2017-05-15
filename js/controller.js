@@ -16,7 +16,9 @@ $.extend(app, {
         },
 
         showUserProfile: function () {
-            app.ctrl.render('userProfile', {user: app.session.user}, true);
+            app.ws.getUser(app.session.user.id).then(function () {
+                app.ctrl.render('userProfile', {user: app.session.user}, true);
+            });
         },
 
         showEvents: function () {

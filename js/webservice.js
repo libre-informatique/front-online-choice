@@ -1,9 +1,6 @@
 $.extend(app, {
     ws: {
         apiAuth: function () {
-
-            console.info(app.session, new Error().stack);
-
             return $.ajax({
                 method: 'GET',
                 async: true,
@@ -25,12 +22,11 @@ $.extend(app, {
         userLogin: function (username, password, rememberMe, form) {
             app.ui.toggleLoading();
 
-            app.ws.call('POST', '/login', {
+            return app.ws.call('POST', '/login', {
                 'email': username,
                 'password': password
             }, function (res) {
                 app.session.user = res.success.customer;
-                app.session.userId = res.success.customer.id;
                 app.session.save();
 
                 if (rememberMe == 'on') {
@@ -48,6 +44,15 @@ $.extend(app, {
                 form.find('input').addClass('invalid');
                 app.ui.toast('Email et/ou mot de passe invalide');
                 app.ui.toggleLoading();
+            });
+        },
+        getUser: function (userId) {
+            return app.ws.call('GET', '/customers/' + userId, {}, function (res) {
+                app.session.user = res;
+                app.session.userId = res.id;
+                app.session.save();
+            }, function (res) {
+
             });
         },
         getEvents: function () {
@@ -144,7 +149,7 @@ $.extend(app, {
                 app.config.webservice.hostname +
                 (ignoreApiBaseUri ? '' : app.config.webservice.apiBaseUri);
 
-            $.ajax({
+            return $.ajax({
                 url: baseUrl + action,
                 method: method,
                 data: data,

@@ -9,7 +9,6 @@ $.extend(app, {
         refresh_token: null,
 
         user: null,
-        userId: null,
 
         start: function () {
             if (localStorage.getItem(app.config.clientSessionName))

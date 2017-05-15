@@ -58,7 +58,7 @@ if (isset($_GET['currentToken'])) {
     $token = (string) filter_var($_GET['currentToken'], FILTER_UNSAFE_RAW);
     $refreshToken = (string) filter_var($_GET['refreshToken'], FILTER_UNSAFE_RAW);
 
-    $data = getApiToken($token);
+    $data = getApiToken($token, $refreshToken);
     echo $data;
     die();
 }
