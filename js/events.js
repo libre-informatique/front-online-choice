@@ -111,6 +111,23 @@ $.extend(app, {
                 })
 
                 // -------------------------------------------------------------
+                // FORM CUSTOM SUBMIT
+                // -------------------------------------------------------------
+
+                .on('submit', 'form[data-ws]', function (e) {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var action = $(this).attr('data-ws');
+
+                    var callableAction = app.ws[action];
+
+                    callableAction($(this));
+                })
+
+
+                // -------------------------------------------------------------
                 // AJAX SPINNER
                 // -------------------------------------------------------------
 
@@ -122,8 +139,23 @@ $.extend(app, {
                     app.ui.displayLoading(false);
                 })
 
+                // -------------------------------------------------------------
+                // GLOBAL BEHAVIORS
+                // -------------------------------------------------------------
+
                 .on('click', '[href="#"]', function (e) {
                     e.preventDefault();
+                })
+
+                // -------------------------------------------------------------
+                // TEMPLATING ENGINE
+                // -------------------------------------------------------------
+
+                .on('template.applyed', function () {
+
+                    // Initialize form fields when data is already set
+
+                    Materialize.updateTextFields();
                 })
 
                 ;

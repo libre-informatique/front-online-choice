@@ -1,0 +1,90 @@
+<div class="col s12 m7">
+    <h2 class="header">
+        {{user.firstName}} {{user.lastName}}
+        <a href="javascript:;" data-go="showUserProfile" class="btn right">
+            <i class="material-icons">undo</i>
+            Annuler
+        </a>
+    </h2>
+    <div class="card horizontal">
+        <div class="card-stacked">
+            <div class="card-content">
+                <form data-ws="updateUser">
+                    <table class="userProfileTable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Placeholder" id="email" type="text" class="validate" name="email" value="{{user.email}}">
+                                        <label for="email">First Name</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Placeholder" id="address" type="text" class="validate" value="{{user.address}}" name="address">
+                                        <label for="address">Adresse</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Placeholder" id="city" type="text" class="validate" value="{{user.city}}" name="city">
+                                        <label for="city">Ville</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Placeholder" id="zip" type="text" class="validate" value="{{user.zip}}" name="zip">
+                                        <label for="zip">Code postal</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Placeholder" id="country" type="text" class="validate" value="{{user.country}}" name="country">
+                                        <label for="country">Pays</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Placeholder" id="phoneNumber" type="text" class="validate" value="{{user.phoneNumber}}" name="phoneNumber">
+                                        <label for="phoneNumber">Téléphone</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>
+                                        <input type="hidden" id="subscribedToNewsletterDefault" name="subscribedToNewsletter" value="0"/>
+                                        <input type="checkbox" id="subscribedToNewsletter" name="subscribedToNewsletter" value="1"
+                                               {{#ifCond user.subscribedToNewsletter '==' true}} checked="checked" {{/ifCond}} />
+                                               <label for="subscribedToNewsletter">Lettre d'information ?</label>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="javascript:;" data-go="showUserProfile" class="btn right">
+                                        <i class="material-icons">undo</i>
+                                        Annuler
+                                    </a>
+                                    <button class="btn waves-effect waves-light left" type="submit" name="action">Enregistrer
+                                        <i class="material-icons right">check_circle</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

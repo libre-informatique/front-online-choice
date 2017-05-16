@@ -67,6 +67,26 @@ $.extend(app, {
 
             });
         },
+        
+        // ---------------------------------------------------------------------
+        // UPDATE USER INFORMATIONS
+        // ---------------------------------------------------------------------
+
+        updateUser: function (form) {
+            
+            var formData = app.utils.formToObject(form.serializeArray());
+            
+            console.info(formData);
+            
+            return;
+            return app.ws.call('POST', '/customers/' + app.session.user.id, {}, function (res) {
+                app.session.user = res;
+                app.session.userId = res.id;
+                app.session.save();
+            }, function (res) {
+
+            });
+        },
 
         // ---------------------------------------------------------------------
         // GET EVENTS DATAS

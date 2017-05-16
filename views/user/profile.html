@@ -1,5 +1,12 @@
 <div class="col s12 m7">
-    <h2 class="header">{{user.firstName}} {{user.lastName}}</h2>
+    <h2 class="header">
+        {{user.firstName}} {{user.lastName}}
+
+        <a href="javascript:;" data-go="editUserProfile" class="btn right">
+            <i class="material-icons">mode_edit</i>
+            Modifier
+        </a>
+    </h2>
     <div class="card horizontal">
         <div class="card-stacked">
             <div class="card-content">

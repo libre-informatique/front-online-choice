@@ -106,7 +106,7 @@ if (isset($_GET['getParameters'])) {
                                data-alignment="right" 
                                data-constrainWidth="false" 
                                data-belowOrigin="true"
-                            >
+                               >
                                 <i class="material-icons right">person_outline</i>
                                 <span class="button-label hide-on-med-and-down">Mon compte</span>
                             </a>
@@ -155,6 +155,7 @@ if (isset($_GET['getParameters'])) {
                 <!-- PROFILE -->
 
                 <handlebar-placeholder template="userProfile"></handlebar-placeholder>
+                <handlebar-placeholder template="editUserProfile"></handlebar-placeholder>
 
             </div>
 
@@ -228,6 +229,7 @@ if (isset($_GET['getParameters'])) {
         <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script>
         <script id="periods-template" type="text/x-handlebars-template" src="views/blocks/periods.html"></script>
         <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
+        <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
 
 
 

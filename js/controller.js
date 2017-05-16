@@ -9,6 +9,10 @@ $.extend(app, {
                 path: "profile",
                 title: "Profil"
             },
+            editUserProfile: {
+                path: "profile/edit",
+                title: "Modifier mon profil"
+            },
             showEvents: {
                 path: "events",
                 title: "Évènements"
@@ -40,6 +44,16 @@ $.extend(app, {
                     user: app.session.user
                 }).then(function () {
                     app.history.add(app.ctrl.states.showUserProfile);
+                });
+            });
+        },
+
+        editUserProfile: function () {
+            app.ws.getUser(app.session.user.id).then(function () {
+                app.ctrl.go('editUserProfile', {
+                    user: app.session.user
+                }).then(function () {
+                    app.history.add(app.ctrl.states.editUserProfile);
                 });
             });
         },
@@ -77,8 +91,8 @@ $.extend(app, {
             var compiled = Handlebars.compile(app.ui.templates[templateName].data);
 
             app.ui.applyTemplate(templateName, compiled(data));
-            
-             $('.dropdown-button').dropdown('close');
+
+            $('.dropdown-button').dropdown('close');
 
             return deffered.resolve();
         }
