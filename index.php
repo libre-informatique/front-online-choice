@@ -85,7 +85,7 @@ if (isset($_GET['getParameters'])) {
     </head>
     <body>
         <div id="app">
-            
+
             <!-- NAVBAR -->
 
             <nav>
@@ -101,7 +101,12 @@ if (isset($_GET['getParameters'])) {
                     </ul>
                     <ul id="nav-mobile-right" class="right">
                         <li class="showIfLoggedIn">
-                            <a class='dropdown-button navbar-user-btn' href='#' data-activates='userMenu' data-alignment="right" data-constrainWidth="false" data-belowOrigin="true">
+                            <a class='dropdown-button navbar-user-btn' href="javascript:;"
+                               data-activates='userMenu' 
+                               data-alignment="right" 
+                               data-constrainWidth="false" 
+                               data-belowOrigin="true"
+                            >
                                 <i class="material-icons right">person_outline</i>
                                 <span class="button-label hide-on-med-and-down">Mon compte</span>
                             </a>
@@ -197,7 +202,7 @@ if (isset($_GET['getParameters'])) {
         <!--<script src="js/libs/jquery.history.js"></script>-->
 
         <!-- APP -->
-        
+
         <script>
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>

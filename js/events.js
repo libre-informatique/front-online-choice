@@ -73,6 +73,8 @@ $.extend(app, {
                 .on('user.logged.in', function () {
                     $('#app').addClass('loggedIn');
 
+                    app.session.user.shortName = app.session.user.firstName.charAt(0) + ". " + app.session.user.lastName;
+
                     $('nav a[data-activates="userMenu"] span.button-label')
                         .html(app.session.user.shortName);
 
@@ -119,7 +121,7 @@ $.extend(app, {
                 .ajaxStop(function () {
                     app.ui.displayLoading(false);
                 })
-                
+
                 .on('click', '[href="#"]', function (e) {
                     e.preventDefault();
                 })

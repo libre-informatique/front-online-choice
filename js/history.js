@@ -31,6 +31,7 @@ $(window)
         if (state) {
             $('#app').html(state.content);
             app.ui.plugins.init();
+            $('.dropdown-button').dropdown('close');
         }
     })
 

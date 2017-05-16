@@ -45,7 +45,6 @@ $.extend(app, {
         },
 
         showEvents: function () {
-
             var events = app.ws.getEvents()
                 .then(function (events) {
                     app.ctrl.render('mainTabs', events, true).then(function () {
@@ -78,6 +77,8 @@ $.extend(app, {
             var compiled = Handlebars.compile(app.ui.templates[templateName].data);
 
             app.ui.applyTemplate(templateName, compiled(data));
+            
+             $('.dropdown-button').dropdown('close');
 
             return deffered.resolve();
         }
