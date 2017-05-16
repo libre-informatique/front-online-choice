@@ -1,6 +1,6 @@
 node_modules
 nbproject
 .sass-cache
-css/styles.css
+#css/styles.css
 css/styles.css.map
 data/parameters.json
