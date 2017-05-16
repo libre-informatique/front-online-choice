@@ -54,7 +54,7 @@ Put the view placeholder in index.php
     <!-- [...] -->
 
     <handlebar-placeholder template="myView"></handlebar-placeholder>
-    
+
     <!-- [...] -->
 
 </div>

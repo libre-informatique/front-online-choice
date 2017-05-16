@@ -75,6 +75,10 @@ $.extend(app, {
                 // -------------------------------------------------------------
 
                 .on('click', '*[data-go]', function (e) {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    e.preventDefault();
+
                     var action = $(this).attr('data-go');
 
                     var callableAction = app.ctrl[action];
@@ -82,12 +86,34 @@ $.extend(app, {
                     callableAction();
                 })
 
+                // -------------------------------------------------------------
+                // AJAX SPINNER
+                // -------------------------------------------------------------
+
                 .ajaxStart(function () {
                     app.ui.displayLoading();
                 })
 
                 .ajaxStop(function () {
                     app.ui.displayLoading(false);
+                })
+
+                ;
+
+            $(window)
+
+                // -------------------------------------------------------------
+                // HISTORY POP
+                // -------------------------------------------------------------
+
+                .on('popstate', function (event) {
+                    var state = event.originalEvent.state;
+                    console.info(state);
+                    console.info(event);
+                    
+                    if(state)
+                        $('#app').html(state.content);
+//                    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
                 })
 
                 ;

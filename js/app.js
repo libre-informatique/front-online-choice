@@ -6,6 +6,11 @@ var app = {
             moment.locale('fr');
             app.config = params;
             app.session.start();
+
+            app.history.add({
+                path: "",
+                title: app.config.applicationName
+            });
         });
 
         $(document).on('app.session.started', function () {

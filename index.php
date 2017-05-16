@@ -104,14 +104,14 @@ if (isset($_GET['getParameters'])) {
                             <!-- Dropdown Structure -->
                             <ul id='userMenu' class='dropdown-content'>
                                 <li>
-                                    <a href="#!" data-go="showUserProfile">
+                                    <a href="#" data-go="showUserProfile">
                                         <i class="material-icons">featured_play_list</i>
                                         Voir mon profil
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li id="btn-logout">
-                                    <a href="#!" data-go="logout">
+                                    <a href="#" data-go="logout">
                                         <i class="material-icons">exit_to_app</i>
                                         Se déconnecter
                                     </a>
@@ -189,9 +189,10 @@ if (isset($_GET['getParameters'])) {
         <script src="js/libs/materialize.min.js"></script>
         <script src="js/libs/Sortable.min.js"></script>
         <script src="js/libs/moment-with-locales.min.js"></script>
-        <script src="js/libs/jquery.history.js"></script>
+        <!--<script src="js/libs/jquery.history.js"></script>-->
 
         <!-- APP -->
+        
         <script>
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
@@ -202,6 +203,7 @@ if (isset($_GET['getParameters'])) {
         <script type="text/javascript" src="js/events.js"></script>
         <script type="text/javascript" src="js/session.js"></script>
         <script type="text/javascript" src="js/webservice.js"></script>
+        <script type="text/javascript" src="js/history.js"></script>
 
         <!-- APP STARTER -->
 
