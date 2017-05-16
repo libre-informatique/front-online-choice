@@ -73,9 +73,8 @@ $.extend(app, {
                 .on('user.logged.in', function () {
                     $('#app').addClass('loggedIn');
 
-                    $('nav a[data-activates="userMenu"] span.button-label').html(
-                        app.session.user.firstName + " " + app.session.user.lastName
-                        );
+                    $('nav a[data-activates="userMenu"] span.button-label')
+                        .html(app.session.user.shortName);
 
                 })
 
@@ -88,7 +87,6 @@ $.extend(app, {
                 // -------------------------------------------------------------
 
                 .on('app.session.started', function () {
-                    console.info('app.session.started', app.session);
                     if (app.session.user !== null && app.session.loggedIn === true) {
                         $(document).trigger('user.logged.in');
                     }
@@ -120,6 +118,10 @@ $.extend(app, {
 
                 .ajaxStop(function () {
                     app.ui.displayLoading(false);
+                })
+                
+                .on('click', '[href="#"]', function (e) {
+                    e.preventDefault();
                 })
 
                 ;

@@ -24,7 +24,11 @@ $.extend(app, {
                 'email': username,
                 'password': password
             }, function (res) {
-                app.session.user = res.success.customer;
+                var user = res.success.customer;
+                app.session.user = user;
+
+                app.session.user.shortName = user.firstName.charAt(0) + ". " + user.lastName;
+
                 app.session.loggedIn = true;
                 app.session.save();
 
@@ -33,7 +37,7 @@ $.extend(app, {
                 } else {
                     app.session.disableRememberMe();
                 }
-                
+
                 $(document).trigger('user.logged.in');
 
                 app.ctrl.showEvents();
