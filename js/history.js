@@ -7,8 +7,6 @@ $.extend(app, {
 
             var currentState = app.history.provider.state;
 
-            console.info(currentState, state);
-
             if (currentState === null || currentState.state.path !== state.path) {
                 var content = $('#app').html();
                 app.history.provider.pushState({
