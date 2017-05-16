@@ -1,72 +1,67 @@
 $primary-color: #009688; //Teal
 $accent-color: #ffb74d; // Orange
-
 // MATERIAL ICONS
-
 /* fallback */
 @font-face {
     font-family: 'Material Icons';
-    font-style: normal;
+    font-style : normal;
     font-weight: 400;
-    src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2');
+    src        : local('Material Icons'), local('MaterialIcons-Regular'), url('../fonts/MaterialIcons-Regular.woff2') format('woff2');
 }
 
 .material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    line-height: 1;
-    letter-spacing: normal;
-    text-transform: none;
-    display: inline-block;
-    white-space: nowrap;
-    word-wrap: normal;
-    direction: ltr;
+    font-family               : 'Material Icons';
+    font-weight               : normal;
+    font-style                : normal;
+    font-size                 : 24px;
+    line-height               : 1;
+    letter-spacing            : normal;
+    text-transform            : none;
+    display                   : inline-block;
+    white-space               : nowrap;
+    word-wrap                 : normal;
+    direction                 : ltr;
     -moz-font-feature-settings: 'liga';
-    -moz-osx-font-smoothing: grayscale;
+    -moz-osx-font-smoothing   : grayscale;
 }
-
 // APP
 
-html,body {
-    min-height:100%;
+body,
+html {
+    min-height: 100%;
 }
 
 html {
     /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
     /*background-size: cover;*/
-    background:#FCFCFC;
+    background: #FCFCFC;
 
     body {
         #mainLoader {
-            z-index:999;
-            opacity:1;
-            position: fixed;
-            top:1em;
-            left:50%;
-            margin-left:-29px;
-            background:#FFF;
-            border-radius:50%;
-            border:3px solid #FFF;
-            box-shadow: 0 0 3px #999;
-            transition: opacity 0.5s ease;
+            z-index      : 999;
+            opacity      : 1;
+            position     : fixed;
+            top          : 1em;
+            left         : 50%;
+            margin-left  : -29px;
+            background   : #FFF;
+            border-radius: 50%;
+            border       : 3px solid #FFF;
+            box-shadow   : 0 0 3px #999;
+            transition   : opacity 0.5s ease;
+
             &.hidden {
-                opacity:0;
+                opacity: 0;
             }
         }
     }
 }
 
-
-
 #app {
-
     nav {
-        .nav-wrapper  {
+        .nav-wrapper {
             z-index: 998;
         }
-
 
         .brand-logo {
             padding-left: 0.5em;
@@ -74,45 +69,42 @@ html {
 
         #userMenu {
             overflow: visible;
-            right: 0;
-            left: auto !important;;
+            right   : 0;
+            left    : auto !important;
         }
     }
-
     // Funny hack to hide UI if not logged in
-
     &.loggedIn {
         .showIfLoggedIn {
-            display:block;
+            display: block;
         }
+
         .hideIfLoggedIn {
-            display:none;
+            display: none;
         }
     }
 
     &:not(.loggedIn) {
         .showIfLoggedIn {
-            display:none;
+            display: none;
         }
+
         .hideIfLoggedIn {
-            display:block;
+            display: block;
         }
     }
 
     &.loggedIn,
     &:not(.loggedIn) {
         handlebar-placeholder {
-            display:block;
+            display: block;
         }
     }
-
     // Login form
-
     .loginForm {
-        max-width: 500px;
-        margin-top:25vh;
+        max-width : 500px;
+        margin-top: 25vh;
     }
-
 
     #main {
         .col {
@@ -121,30 +113,33 @@ html {
     }
 
     #sidebar {
-        right:0;
-        left: inherit;
+        right    : 0;
+        left     : inherit;
         transform: translateX(105%);
     }
 
     #tabs {
-        height: 6%;
+        height  : 6%;
         overflow: hidden;
+
         .tab {
             height: 100%;
         }
+
         .indicator {
-            height: 3px;
+            height          : 3px;
             background-color: $accent-color;
         }
+
         a {
             color: white;
 
-            &:hover, &:active {
-                color: $accent-color
+            &:active,
+            &:hover {
+                color: $accent-color;
             }
         }
     }
-
 
     .tab-content {
         display: none;
@@ -157,40 +152,47 @@ html {
     #periods {
         .period {
             .period-label {
-                color: $primary-color;
+                color      : $primary-color;
                 font-weight: bold;
-                font-size: 1.1em;
+                font-size  : 1.1em;
             }
         }
     }
 
     #events {
         .event {
-            height: 100px;
+            height      : 100px;
             margin-right: 10%;
+
             .event-card {
                 .label {
                     margin-right: 20px;
                 }
+
                 .presence {
                     justify-content: center;
                 }
+
                 .priority {
                     margin: auto;
                     cursor: move;
 
                     i {
                         display: block;
+
                         &.handle {
-                            margin: -20px 0 -20px 0;
+                            margin   : -20px 0;
                             font-size: 2.2em;
                         }
-                        &.priority-up, &.priority-down {
+
+                        &.priority-down,
+                        &.priority-up {
                             font-size: 2.9em;
                         }
                     }
                 }
             }
+
             .event-time {
                 line-height: 120px;
             }
@@ -199,23 +201,33 @@ html {
 
     #confirm-fab {
         position: fixed;
-        bottom: 50px;
-        right: 40px;
-        width: 56px;
-
+        bottom  : 50px;
+        right   : 40px;
+        width   : 56px;
     }
 
     .userProfileTable {
         tr {
             td {
                 &:first-of-type {
-                    text-align: right;
+                    text-align : right;
                     font-weight: bold;
                 }
+
                 .badge {
-                    float:left;
+                    float: left;
                 }
             }
         }
     }
+
+    .btn-toolbar {}
+}
+
+:focus {
+    outline: none;
+}
+
+::-moz-focus-inner {
+    border: 0;
 }

@@ -9,8 +9,8 @@ $wsUrl = sprintf("%s", $parameters->webservice->hostname . "/*");
 header("Access-Control-Allow-Origin: " . $wsUrl);
 
 /**
- * Api OAuth 
- * 
+ * Api OAuth
+ *
  * @param type $refreshToken
  * @return type
  */
@@ -52,7 +52,6 @@ function getParameters()
 }
 
 if (isset($_GET['currentToken'])) {
-
     header('Content-Type: application/json');
 
     $token = (string) filter_var($_GET['currentToken'], FILTER_UNSAFE_RAW);
@@ -98,7 +97,7 @@ if (isset($_GET['getParameters'])) {
                             </a>
                         </li>
                         <li class="showIfLoggedIn">
-                            <a class='dropdown-button' href='#' data-activates='userMenu' data-alignment="right" data-constrainWidth="false" data-belowOrigin="true">
+                            <a class='dropdown-button navbar-user-btn' href='#' data-activates='userMenu' data-alignment="right" data-constrainWidth="false" data-belowOrigin="true">
                                 <i class="material-icons">person_outline</i>
                             </a>
 
@@ -113,7 +112,7 @@ if (isset($_GET['getParameters'])) {
                                 <li class="divider"></li>
                                 <li id="btn-logout">
                                     <a href="#!" data-go="logout">
-                                        <i class="material-icons">exit_to_app</i> 
+                                        <i class="material-icons">exit_to_app</i>
                                         Se déconnecter
                                     </a>
                                 </li>
@@ -160,14 +159,20 @@ if (isset($_GET['getParameters'])) {
             <div id="confirm-modal" class="modal bottom-sheet">
                 <div class="modal-content center">
                     <h4>Valider vos choix pour la semaine ?</h4>
-                    <a id="save-btn" class="waves-effect waves-light btn">
-                        <i class="material-icons left">check_circle</i>
-                        oui
-                    </a>
-                    <a id="cancel-btn" class="waves-effect waves-light btn">
-                        <i class="material-icons right">cancel_circle</i>
-                        non
-                    </a>
+                    <div class="btn-toolbar row">
+                        <div class="col s6">
+                            <a id="save-btn" class="waves-effect waves-light btn">
+                                <i class="material-icons left">check_circle</i>
+                                oui
+                            </a>
+                        </div>
+                        <div class="col s6">
+                            <a id="cancel-btn" class="waves-effect waves-light btn">
+                                <i class="material-icons right">cancel</i>
+                                non
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -184,10 +189,11 @@ if (isset($_GET['getParameters'])) {
         <script src="js/libs/materialize.min.js"></script>
         <script src="js/libs/Sortable.min.js"></script>
         <script src="js/libs/moment-with-locales.min.js"></script>
+        <script src="js/libs/jquery.history.js"></script>
 
         <!-- APP -->
         <script>
-            var appHostname = "<?php echo $parameters->appHostname ;?>";
+            var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
 
         <script type="text/javascript" src="js/app.js"></script>
@@ -206,13 +212,10 @@ if (isset($_GET['getParameters'])) {
 
         <!-- TEMPLATES -->
 
-        <script id="login-template" type="text/x-handlebars-template" src="views/login.html" data-callback="initLogin"></script>
-        <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html" data-callback="initTabs"></script>
-        <script id="periods-template" type="text/x-handlebars-template" src="views/blocks/periods.html" data-callback="initPeriods"></script>
-        <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html" data-callback="initUserProfile"></script>
-
-
-
+        <script id="login-template" type="text/x-handlebars-template" src="views/login.html"></script>
+        <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script>
+        <script id="periods-template" type="text/x-handlebars-template" src="views/blocks/periods.html"></script>
+        <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
 
 
 

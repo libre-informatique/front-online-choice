@@ -5,42 +5,43 @@ $.extend(app, {
         // ACTIONS
         // ---------------------------------------------------------------------
 
-        login: function () {
+        login: function() {
             app.ctrl.go('login', {});
         },
 
-        logout: function () {
+        logout: function() {
             $('#app').removeClass('loggedIn');
             app.session.destroy();
             app.ctrl.go('login');
         },
 
-        showUserProfile: function () {
-            app.ws.getUser(app.session.user.id).then(function () {
-                app.ctrl.render('userProfile', {user: app.session.user}, true);
+        showUserProfile: function() {
+            app.ws.getUser(app.session.user.id).then(function() {
+                app.ctrl.render('userProfile', {
+                    user: app.session.user
+                }, true);
             });
         },
 
-        showEvents: function () {
+        showEvents: function() {
             var events = app.ws.getEvents()
-                .then(function (events) {
-                    app.ctrl.render('mainTabs', events, true).then(function () {
+                .then(function(events) {
+                    app.ctrl.render('mainTabs', events, true).then(function() {
                         app.ui.plugins.initTabs();
                         $('#tabs .tab:first-of-type a').trigger('click');
                     });
-                }, function (error) {
-                });
+                }, function(error) {});
         },
 
         // ---------------------------------------------------------------------
         // INTERNAL METHODS
         // ---------------------------------------------------------------------
 
-        go: function (templateName, data) {
+        go: function(templateName, data) {
             app.ctrl.render(templateName, data, true);
         },
 
-        render: function (templateName, data, clearContent) {
+        render: function(templateName, data, clearContent) {
             var deffered = $.Deferred();
 
             if (typeof data === 'undefined')
