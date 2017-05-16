@@ -46,7 +46,7 @@ $.extend(app, {
                 })
 
                 // -------------------------------------------------------------
-                // LOGIN SUBMIT EVENT
+                // LOGIN 
                 // -------------------------------------------------------------
 
                 .on('submit', '#loginForm', function (e) {
@@ -67,6 +67,30 @@ $.extend(app, {
                         if (formData.password === "") {
                             form.find('input[name="password"]').addClass('invalid');
                         }
+                    }
+                })
+
+                .on('user.logged.in', function () {
+                    $('#app').addClass('loggedIn');
+
+                    $('nav a[data-activates="userMenu"] span.button-label').html(
+                        app.session.user.firstName + " " + app.session.user.lastName
+                        );
+
+                })
+
+                .on('user.logged.out', function () {
+                    $('#app').removeClass('loggedIn');
+                })
+
+                // -------------------------------------------------------------
+                // SESSION
+                // -------------------------------------------------------------
+
+                .on('app.session.started', function () {
+                    console.info('app.session.started', app.session);
+                    if (app.session.user !== null && app.session.loggedIn === true) {
+                        $(document).trigger('user.logged.in');
                     }
                 })
 
@@ -108,12 +132,8 @@ $.extend(app, {
 
                 .on('popstate', function (event) {
                     var state = event.originalEvent.state;
-                    console.info(state);
-                    console.info(event);
-                    
-                    if(state)
+                    if (state)
                         $('#app').html(state.content);
-//                    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
                 })
 
                 ;

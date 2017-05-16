@@ -15,7 +15,7 @@ $.extend(app, {
                     app.session.save();
                 },
                 arror: function (err) {
-                    app.ui.toast('l\'API ne semble pas être disponible');
+                    app.ui.toast('l\'API ne semble pas être disponible', 'error');
                 }
             });
         },
@@ -25,6 +25,36 @@ $.extend(app, {
                 'password': password
             }, function (res) {
                 app.session.user = res.success.customer;
+                app.session.loggedIn = true;
+                app.session.save();
+
+                if (rememberMe == 'on') {
+                    app.session.enableRememberMe();
+                } else {
+                    app.session.disableRememberMe();
+                }
+                
+                $(document).trigger('user.logged.in');
+
+                app.ctrl.showEvents();
+                app.session.save();
+            }, function (res) {
+
+                // TEMPORARY LOGIN FOR DEV
+
+                app.session.user = {
+                    id: 399,
+                    email: "john.diggle@yahoo.com",
+                    firstName: "John",
+                    lastName: "Diggle",
+                    address: "55, Sunrise St.",
+                    zip: "F-29000",
+                    city: "Quimper",
+                    country: "France",
+                    phoneNumber: "+987654321",
+                    subscribedToNewsletter: true
+                };
+                app.session.loggedIn = true;
                 app.session.save();
 
                 if (rememberMe == 'on') {
@@ -33,13 +63,16 @@ $.extend(app, {
                     app.session.disableRememberMe();
                 }
 
-                $('#app').addClass('loggedIn');
+                $(document).trigger('user.logged.in');
 
                 app.ctrl.showEvents();
                 app.session.save();
-            }, function (res) {
-                form.find('input').addClass('invalid');
-                app.ui.toast('Email et/ou mot de passe invalide');
+
+                // END TEMPORARY LOGIN FOR DEV
+
+//                UNCOMMENT 2 LINES BELOW WHEN DEV OK
+//                form.find('input').addClass('invalid');
+//                app.ui.toast('Email et/ou mot de passe invalide', 'error');
             });
         },
         getUser: function (userId) {
@@ -127,7 +160,7 @@ $.extend(app, {
             if (typeof errorCallback === 'undefined')
                 errorCallback = function (jqXHR, textStatus, errorThrown) {
                     app.ui.displayLoading(false);
-                    app.ui.toast(textStatus);
+                    app.ui.toast(textStatus, 'error');
                 };
 
             if (typeof method === 'undefined')
@@ -150,6 +183,7 @@ $.extend(app, {
                 method: method,
                 data: data,
                 dataType: 'json',
+//                contentType: "application/json; charset=utf-8",
                 crossDomain: true,
                 success: function (response, textStatus, jqXHR) {
                     app.ui.displayLoading(false);

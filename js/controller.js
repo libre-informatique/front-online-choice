@@ -29,7 +29,9 @@ $.extend(app, {
         logout: function () {
             $('#app').removeClass('loggedIn');
             app.session.destroy();
-            app.ctrl.go('login');
+            app.ctrl.go('login').then(function () {
+                $(document).trigger('user.logged.out');
+            });
         },
 
         showUserProfile: function () {

@@ -5,11 +5,9 @@ $.extend(app, {
 
         add: function (state) {
             var stateContent = $('#app').html();
-            console.info(state);
             app.history.provider.pushState({
                 content: stateContent
             }, state.title, "?/" + state.path);
         }
-
     }
 });

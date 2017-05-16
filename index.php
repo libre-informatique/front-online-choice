@@ -85,20 +85,25 @@ if (isset($_GET['getParameters'])) {
     </head>
     <body>
         <div id="app">
+            
             <!-- NAVBAR -->
 
             <nav>
                 <div class="nav-wrapper teal">
-                    <a href="#" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <a href="/" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
+                    <ul id="nav-mobile-left" class="left">
                         <li class="showIfLoggedIn">
                             <a href='#' data-go="showEvents">
-                                <i class="material-icons">event_note</i>
+                                <i class="material-icons left">event_note</i>
+                                <span class="button-label hide-on-med-and-down">Évènements</span>
                             </a>
                         </li>
+                    </ul>
+                    <ul id="nav-mobile-right" class="right">
                         <li class="showIfLoggedIn">
                             <a class='dropdown-button navbar-user-btn' href='#' data-activates='userMenu' data-alignment="right" data-constrainWidth="false" data-belowOrigin="true">
-                                <i class="material-icons">person_outline</i>
+                                <i class="material-icons right">person_outline</i>
+                                <span class="button-label hide-on-med-and-down">Mon compte</span>
                             </a>
 
                             <!-- Dropdown Structure -->

@@ -5,6 +5,7 @@ var app = {
         $.get(appHostname + '/?getParameters=1', function (params) {
             moment.locale('fr');
             app.config = params;
+            app.events.init();
             app.session.start();
 
             app.history.add({
@@ -30,8 +31,6 @@ var app = {
         init: function () {
             app.ui.modal = $('#confirm-modal');
             app.ui.modal.modal();
-
-            app.events.init();
 
             if (app.session.user) {
                 $('#app').addClass('loggedIn');
@@ -124,10 +123,31 @@ var app = {
             else
                 loader.addClass('hidden');
         },
-        toast: function (message, delay) {
+        toast: function (message, type, delay) {
             if (typeof delay === 'undefined')
                 delay = 5000;
-            Materialize.toast(message, delay);
+            if (typeof type === 'undefined')
+                type = 'default';
+
+            switch (type) {
+                case 'info':
+                    icon = '<i class="material-icons right">info</i>';
+                    break;
+                case 'warning':
+                    icon = '<i class="material-icons right">warning</i>';
+                    break;
+                case 'error':
+                    icon = '<i class="material-icons right">error</i>';
+                    break;
+                case 'success' :
+                    icon = '<i class="material-icons right">check_circle</i>';
+                    break;
+                default:
+                    icon = '<i class="material-icons right">notifications</i>';
+                    break;
+            }
+
+            Materialize.toast(message + icon, delay, type);
         }
     },
     save: function () {
