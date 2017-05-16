@@ -109,14 +109,14 @@ if (isset($_GET['getParameters'])) {
                             <!-- Dropdown Structure -->
                             <ul id='userMenu' class='dropdown-content'>
                                 <li>
-                                    <a href="#" data-go="showUserProfile">
+                                    <a href="javascript:;" data-go="showUserProfile">
                                         <i class="material-icons">featured_play_list</i>
                                         Voir mon profil
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li id="btn-logout">
-                                    <a href="#" data-go="logout">
+                                    <a href="javascript:;" data-go="logout">
                                         <i class="material-icons">exit_to_app</i>
                                         Se déconnecter
                                     </a>
@@ -124,7 +124,7 @@ if (isset($_GET['getParameters'])) {
                             </ul>
                         </li>
                         <li class="hideIfLoggedIn">
-                            <a href="#" data-go="login" data-tooltip="Se connecter">
+                            <a href="javascript:;" data-go="login" data-tooltip="Se connecter">
                                 <i class="material-icons">fingerprint</i>
                             </a>
                         </li>

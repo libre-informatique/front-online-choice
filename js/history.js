@@ -4,10 +4,36 @@ $.extend(app, {
         provider: window.history,
 
         add: function (state) {
-            var stateContent = $('#app').html();
-            app.history.provider.pushState({
-                content: stateContent
-            }, state.title, "?/" + state.path);
+
+            var currentState = app.history.provider.state;
+
+            console.info(currentState, state);
+
+            if (currentState === null || currentState.state.path !== state.path) {
+                var content = $('#app').html();
+                app.history.provider.pushState({
+                    content: content,
+                    state: state
+                }, state.title, "?/" + state.path);
+            }
+
+
         }
     }
 });
+
+$(window)
+
+    // -------------------------------------------------------------
+    // HISTORY POP
+    // -------------------------------------------------------------
+
+    .on('popstate', function (event) {
+        var state = event.originalEvent.state;
+        if (state) {
+            $('#app').html(state.content);
+            app.ui.plugins.init();
+        }
+    })
+
+    ;

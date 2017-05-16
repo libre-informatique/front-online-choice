@@ -123,20 +123,6 @@ $.extend(app, {
                 })
 
                 ;
-
-            $(window)
-
-                // -------------------------------------------------------------
-                // HISTORY POP
-                // -------------------------------------------------------------
-
-                .on('popstate', function (event) {
-                    var state = event.originalEvent.state;
-                    if (state)
-                        $('#app').html(state.content);
-                })
-
-                ;
         }
     }
 });
