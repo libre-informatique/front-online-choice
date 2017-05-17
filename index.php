@@ -2,78 +2,18 @@
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-$parameters = getParameters();
+require_once('actions.php');
 
-$wsUrl = sprintf("%s", $parameters->webservice->hostname . "/*");
+$app = new App();
 
-header("Access-Control-Allow-Origin: " . $wsUrl);
-
-/**
- * Api OAuth
- *
- * @param type $refreshToken
- * @return type
- */
-function getApiToken($token = null, $refreshToken = null)
-{
-    $parameters = getParameters();
-
-    $wsUrl = sprintf(
-        "%s://%s%s", $parameters->webservice->protocol, $parameters->webservice->hostname, "/tck.php/api/oauth/v2/token" // specific URL for oauth
-        // $parameters->webservice->apiBaseUri // global API url
-    );
-
-    $user = $parameters->user;
-    $secret = $parameters->secret;
-
-    $ch = curl_init();
-
-    if ($refreshToken) {
-        // API Url to refresh API token from existing token
-        $url = sprintf('%s?client_id=%s&client_secret=%s&grant_type=refresh_token&refresh_token=%s', $wsUrl, $user, $secret, $refreshToken);
-    } else {
-        // Requestiiong new token
-        $url = sprintf('%s?client_id=%s&client_secret=%s&grant_type=password', $wsUrl, $user, $secret);
-    }
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $res = curl_exec($ch);
-
-    return $res;
-}
-
-function getParameters()
-{
-    return json_decode(file_get_contents("./data/parameters.json"));
-}
+$parameters = $app->getParameters();
 
 if (isset($_GET['currentToken'])) {
-    header('Content-Type: application/json');
-
-    $token = (string) filter_var($_GET['currentToken'], FILTER_UNSAFE_RAW);
-
-    if (isset($_GET['refreshToken'])) {
-        $refreshToken = (string) filter_var($_GET['refreshToken'], FILTER_UNSAFE_RAW);
-    } else {
-        $refreshToken = null;
-    }
-
-    $data = getApiToken($token, $refreshToken);
-    echo $data;
-    die();
+    $app->getApiTokenAction($_GET['currentToken'], @$_GET['refreshToken']);
 }
 
 if (isset($_GET['getParameters'])) {
-    $params = getParameters();
-    header('Content-Type: application/json');
-    unset($params->user);
-    unset($params->secret);
-    echo json_encode($params, JSON_FORCE_OBJECT);
-    die();
+    $app->getParametersAction();
 }
 ?>
 

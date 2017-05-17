@@ -8,7 +8,6 @@ $.extend(app, {
         apiAuth: function () {
             return $.ajax({
                 method: 'GET',
-                async: true,
                 url: appHostname + '/',
                 crossDomain: true,
                 data: {
@@ -16,10 +15,13 @@ $.extend(app, {
                     refreshToken: app.session.refresh_token
                 },
                 success: function (data) {
+                    console.info(data);
+                    alert('success apiAuth');
                     $.extend(app.session, data);
                     app.session.save();
                 },
-                arror: function (err) {
+                arror: function (jqXHR, textStatus, errorThrown) {
+                    alert('error apiAuth');
                     app.ui.toast('l\'API ne semble pas être disponible', 'error');
                 }
             });
@@ -49,6 +51,37 @@ $.extend(app, {
 
                 app.ctrl.showEvents();
             }, function (res) {
+
+                // FOR DEV ONLY
+
+                var user = {
+                    "id": 399,
+                    "email": "john.diggle@yahoo.com",
+                    "firstName": "John",
+                    "lastName": "Diggle",
+                    "address": "55, Sunrise St.",
+                    "zip": "F-29000",
+                    "city": "Quimper",
+                    "country": "France",
+                    "phoneNumber": "+987654321",
+                    "subscribedToNewsletter": true
+                };
+                app.session.user = user;
+
+                app.session.loggedIn = true;
+
+                rememberMe == 'on' ?
+                    app.session.enableRememberMe() :
+                    app.session.disableRememberMe();
+
+                app.session.save();
+
+                $(document).trigger('user.logged.in');
+
+                app.ctrl.showEvents();
+
+                // END FOR DEV ONLY
+
                 form.find('input').addClass('invalid');
                 app.ui.toast('Email et/ou mot de passe invalide', 'error');
             });
@@ -67,17 +100,17 @@ $.extend(app, {
 
             });
         },
-        
+
         // ---------------------------------------------------------------------
         // UPDATE USER INFORMATIONS
         // ---------------------------------------------------------------------
 
         updateUser: function (form) {
-            
+
             var formData = app.utils.formToObject(form.serializeArray());
-            
+
             console.info(formData);
-            
+
             return;
             return app.ws.call('POST', '/customers/' + app.session.user.id, {}, function (res) {
                 app.session.user = res;
@@ -164,57 +197,63 @@ $.extend(app, {
         // ---------------------------------------------------------------------
 
         call: function (method, action, data, callback, errorCallback, ignoreApiBaseUri) {
+            var defer = $.Deferred();
 
-            app.session.manageApiToken();
+            app.session.manageApiToken()
+                .then(function () {
+                    if (typeof callback === 'undefined')
+                        callback = function (res, textStatus, jqXHR) {};
 
-            if (typeof callback === 'undefined')
-                callback = function (res, textStatus, jqXHR) {};
+                    if (typeof errorCallback === 'undefined')
+                        errorCallback = function (jqXHR, textStatus, errorThrown) {
+                            app.ui.displayLoading(false);
+                            app.ui.toast(textStatus, 'error');
+                        };
 
-            if (typeof errorCallback === 'undefined')
-                errorCallback = function (jqXHR, textStatus, errorThrown) {
-                    app.ui.displayLoading(false);
-                    app.ui.toast(textStatus, 'error');
-                };
+                    if (typeof method === 'undefined')
+                        method = 'GET';
 
-            if (typeof method === 'undefined')
-                method = 'GET';
+                    if (typeof data === 'undefined')
+                        data = {};
 
-            if (typeof data === 'undefined')
-                data = {};
+                    if (typeof ignoreBaseUrl === 'undefined')
+                        ignoreBaseUrl = false;
 
-            if (typeof ignoreBaseUrl === 'undefined')
-                ignoreBaseUrl = false;
+                    var baseUrl =
+                        app.config.webservice.protocol +
+                        "://" +
+                        app.config.webservice.hostname +
+                        (ignoreApiBaseUri ? '' : app.config.webservice.apiBaseUri);
 
-            var baseUrl =
-                app.config.webservice.protocol +
-                "://" +
-                app.config.webservice.hostname +
-                (ignoreApiBaseUri ? '' : app.config.webservice.apiBaseUri);
-            
-            if(method === "POST") {
-                data = JSON.stringify(data);
-            }
+                    if (method === "POST") {
+                        data = JSON.stringify(data);
+                    }
 
-            return $.ajax({
-                url: baseUrl + action,
-                method: method,
-                data: data,
-                crossDomain: true,
-                success: function (response, textStatus, jqXHR) {
-                    app.ui.displayLoading(false);
-                    if (typeof response !== 'object')
-                        response = JSON.parse(response);
-                    callback(response, textStatus, jqXHR);
-                },
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
-                    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    app.ui.displayLoading(false);
-                    errorCallback(jqXHR, textStatus, errorThrown);
-                }
-            });
+                    $.ajax({
+                        url: baseUrl + action,
+                        method: method,
+                        data: data,
+                        crossDomain: true,
+                        success: function (response, textStatus, jqXHR) {
+                            app.ui.displayLoading(false);
+                            if (typeof response !== 'object')
+                                response = JSON.parse(response);
+                            callback(response, textStatus, jqXHR);
+                            defer.resolve();
+                        },
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
+                            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            app.ui.displayLoading(false);
+                            errorCallback(jqXHR, textStatus, errorThrown);
+                            defer.reject();
+                        }
+                    });
+                });
+
+            return defer;
         }
     }
 });

@@ -58,26 +58,37 @@ $.extend(app, {
             app.session.rememberMe = false;
         },
         manageApiToken: function () {
+            var defer = $.Deferred();
+
             if (app.storage.engine === null)
                 app.session.start();
 
             var now = new Date();
 
             if (typeof app.session.creationDate === 'undefined' || app.session.creationDate === null) {
-                app.ws.apiAuth().then(function () {
-                    app.session.creationDate = now;
+                app.ws.apiAuth()
+                    .always(function () {
+                        app.session.creationDate = now;
 
-                    var tokenExpirationDate = new Date(now);
-                    tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.session.expires_in, 10));
+                        var tokenExpirationDate = new Date(now);
+                        tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.session.expires_in, 10));
 
-                    app.session.tokenExpirationDate = tokenExpirationDate;
-                    app.session.save();
-                });
+                        app.session.tokenExpirationDate = tokenExpirationDate;
+                        app.session.save();
+                        defer.resolve();
+                    });
             } else {
-                if (now > app.session.tokenExpirationDate) {
-                    app.ws.apiAuth();
+                if (now > new Date(app.session.tokenExpirationDate)) {
+                    app.ws.apiAuth()
+                        .always(function () {
+                            defer.resolve();
+                        });
+                } else {
+                    defer.resolve();
                 }
             }
+
+            return defer;
         }
     },
     storage: {
