@@ -55,7 +55,12 @@ if (isset($_GET['currentToken'])) {
     header('Content-Type: application/json');
 
     $token = (string) filter_var($_GET['currentToken'], FILTER_UNSAFE_RAW);
-    $refreshToken = (string) filter_var($_GET['refreshToken'], FILTER_UNSAFE_RAW);
+
+    if (isset($_GET['refreshToken'])) {
+        $refreshToken = (string) filter_var($_GET['refreshToken'], FILTER_UNSAFE_RAW);
+    } else {
+        $refreshToken = null;
+    }
 
     $data = getApiToken($token, $refreshToken);
     echo $data;

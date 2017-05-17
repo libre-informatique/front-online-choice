@@ -60,17 +60,23 @@ $.extend(app, {
         manageApiToken: function () {
             if (app.storage.engine === null)
                 app.session.start();
+
             var now = new Date();
-            if (typeof app.session.creationDate === 'undefined' || app.session.creationDate === null)
-                app.session.creationDate = now;
 
-            var expirationDate = new Date(app.session.creationDate);
-            expirationDate.setSeconds(expirationDate.getSeconds() + parseInt(app.session.expires_in, 10));
+            if (typeof app.session.creationDate === 'undefined' || app.session.creationDate === null) {
+                app.ws.apiAuth().then(function () {
+                    app.session.creationDate = now;
 
-            console.info(app.session.expires_in, app.session.creationDate, expirationDate, now > expirationDate);
+                    var tokenExpirationDate = new Date(now);
+                    tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.session.expires_in, 10));
 
-            if (now > expirationDate) {
-                app.ws.apiAuth();
+                    app.session.tokenExpirationDate = tokenExpirationDate;
+                    app.session.save();
+                });
+            } else {
+                if (now > app.session.tokenExpirationDate) {
+                    app.ws.apiAuth();
+                }
             }
         }
     },

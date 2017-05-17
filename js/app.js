@@ -15,7 +15,8 @@ var app = {
         });
 
         $(document).on('app.session.started', function () {
-            app.ws.apiAuth();
+//            app.ws.apiAuth();
+            app.session.manageApiToken();
             app.ui.initTemplates();
         });
 

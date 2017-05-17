@@ -30,7 +30,7 @@ $.extend(app, {
         // ---------------------------------------------------------------------
 
         userLogin: function (username, password, rememberMe, form) {
-            return app.ws.call('GET', '/login', {
+            return app.ws.call('POST', '/login', {
                 'email': username,
                 'password': password
             }, function (res) {
@@ -190,13 +190,15 @@ $.extend(app, {
                 "://" +
                 app.config.webservice.hostname +
                 (ignoreApiBaseUri ? '' : app.config.webservice.apiBaseUri);
+            
+            if(method === "POST") {
+                data = JSON.stringify(data);
+            }
 
             return $.ajax({
                 url: baseUrl + action,
                 method: method,
                 data: data,
-//                dataType: 'json', 
-//                contentType: "application/json; charset=utf-8",
                 crossDomain: true,
                 success: function (response, textStatus, jqXHR) {
                     app.ui.displayLoading(false);
@@ -206,6 +208,7 @@ $.extend(app, {
                 },
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     app.ui.displayLoading(false);
