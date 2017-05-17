@@ -160,6 +160,7 @@ if (isset($_GET['getParameters'])) {
         <script type="text/javascript" src="js/session.js"></script>
         <script type="text/javascript" src="js/webservice.js"></script>
         <script type="text/javascript" src="js/history.js"></script>
+        <script type="text/javascript" src="js/business.js"></script>
 
         <!-- APP STARTER -->
 
@@ -172,7 +173,6 @@ if (isset($_GET['getParameters'])) {
 
         <script id="login-template" type="text/x-handlebars-template" src="views/login.html"></script>
         <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script>
-        <script id="periods-template" type="text/x-handlebars-template" src="views/blocks/periods.html"></script>
         <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
         <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
 

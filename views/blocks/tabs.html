@@ -3,7 +3,7 @@
 
     <li class="tab col s4">
         <a href="#tab{{tab.id}}">
-            {{tab.label}}
+            {{tab.label}} {{tab.eventsNumber}}
         </a>
     </li>
     {{/each}}
@@ -36,14 +36,16 @@
                 <p class="period-label center">
                     {{event.translations.fr_FR.name}}
                 </p>
-                <div id="events" class="row">
-                    <ul id="event-list">
+                <div id="events{{event.id}}" class="events row">
+                    <ul class="manifestations-list">
 
-                        <!-- LOOP HERE -->
+                        {{#each event.manifestations as |manif|}}
+                        
+                        <!-- EVENT not manif -->
 
                         <li class="row event">
                             <div class="event-time col s4 center">
-                                <span>10h00 - 13h00</span>
+                                <span>{{{formatDate ../minDate 'HH-mm' }}} - {{{formatDate ../maxDate 'HH-mm' }}}</span>
                             </div>
                             <div class="event-card card horizontal z-depth-1 col s8 hoverable row">
                                 <div class="event-image col s2">
@@ -51,7 +53,7 @@
                                 </div>
                                 <div class="label col s5 valign-wrapper">
                                     <p class="event-label">
-                                        {{event.translations.fr_FR.name}}
+                                        #{{manif.id}} {{event.translations.fr_FR.name}} 
                                     </p>
                                 </div>
                                 <div class="presence valign-wrapper col s3">
@@ -64,6 +66,8 @@
                                 </div>
                             </div>
                         </li>
+
+                        {{/each}}
 
                     </ul>
                 </div>

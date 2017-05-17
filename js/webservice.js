@@ -15,13 +15,10 @@ $.extend(app, {
                     refreshToken: app.session.refresh_token
                 },
                 success: function (data) {
-                    console.info(data);
-                    alert('success apiAuth');
                     $.extend(app.session, data);
                     app.session.save();
                 },
                 arror: function (jqXHR, textStatus, errorThrown) {
-                    alert('error apiAuth');
                     app.ui.toast('l\'API ne semble pas être disponible', 'error');
                 }
             });
@@ -112,13 +109,13 @@ $.extend(app, {
             console.info(formData);
 
             return;
-            return app.ws.call('POST', '/customers/' + app.session.user.id, {}, function (res) {
-                app.session.user = res;
-                app.session.userId = res.id;
-                app.session.save();
-            }, function (res) {
-
-            });
+//            return app.ws.call('POST', '/customers/' + app.session.user.id, {}, function (res) {
+//                app.session.user = res;
+//                app.session.userId = res.id;
+//                app.session.save();
+//            }, function (res) {
+//
+//            });
         },
 
         // ---------------------------------------------------------------------
@@ -143,49 +140,8 @@ $.extend(app, {
                 url: appHostname + '/data/events.json',
                 crossDomain: true,
                 success: function (data) {
-                    var events = data;
-
-                    var out = {
-                        tabs: [],
-                        events: []
-                    };
-
-                    for (var i = 0; i <= 2; i++) {
-                        var currentDay = new Date(minInterval.getTime());
-                        currentDay.setDate(currentDay.getDate() + i);
-
-                        currentDay = moment(currentDay);
-
-                        out.tabs.push({
-                            date: currentDay,
-                            label: currentDay.format("dddd DD/MM"),
-                            id: i,
-                            eventsNumber: 0
-                        });
-                    }
-
-                    $.each(events._embedded.items, function (i, event) {
-
-                        $.each(event.manifestations, function (j, manif) {
-                            var min = new Date(manif.startsAt);
-                            var max = new Date(manif.endsAt);
-
-                            // Check if we are in current date interval (today -> +2 days)
-                            if (min > minInterval && max < maxInterval) {
-                                event.toBeManaged = true;
-
-                                if (typeof event.minDate === 'undefined' || min < event.minDate)
-                                    event.minDate = min;
-                                if (typeof event.maxDate === 'undefined' || max > event.maxDate)
-                                    event.maxDate = max;
-                            }
-                        });
-
-                        if (event.toBeManaged)
-                            out.events.push(event);
-                    });
-
-                    deffer.resolve(out);
+                    var events = app.business.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                    deffer.resolve(events);
                 }
             });
 

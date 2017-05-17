@@ -155,7 +155,8 @@ $.extend(app, {
 
                     // Initialize form fields when data is already set
 
-                    Materialize.updateTextFields();
+//                    Materialize.updateTextFields();
+                    app.ui.plugins.init();
                 })
 
                 ;

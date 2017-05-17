@@ -15,7 +15,6 @@ var app = {
         });
 
         $(document).on('app.session.started', function () {
-//            app.ws.apiAuth();
             app.session.manageApiToken();
             app.ui.initTemplates();
         });
@@ -47,6 +46,7 @@ var app = {
                 app.ui.plugins.initSortables();
                 app.ui.plugins.initTooltips();
                 app.ui.plugins.initDropDown();
+                Materialize.updateTextFields();
             },
             initTabs: function () {
                 $('ul#tabs').tabs();
@@ -55,7 +55,7 @@ var app = {
             },
             initSortables: function () {
                 $('.period').each(function () {
-                    Sortable.create($(this).find('#event-list')[0], {
+                    Sortable.create($(this).find('.manifestations-list')[0], {
                         handle: '.priority'
                     });
                 });

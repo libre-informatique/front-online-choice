@@ -20,217 +20,291 @@
     "_embedded": {
         "items": [
             {
-                "id":1,
-                "metaEvent":{
-                    "id":120,
-                    "translations":{
-                        "fr_FR":{
-                            "id":120,
-                            "name":"Réunions 'off' des directions géographiques avec les Ambassadeurs",
-                            "decription":"09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
+                "id": 1,
+                "metaEvent": {
+                    "id": 120,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 120,
+                            "name": "Réunions 'off' des directions géographiques avec les Ambassadeurs",
+                            "decription": "09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
                         }
                     }
                 },
-                "category":"",
-                "translations":{
-                    "fr_FR":{
-                        "id":1,
-                        "name":"Nouveaux défis et perspectives de la politique africaine Française",
-                        "decription":"10h00-13h00 :Nouveaux défis et perspectives de la politique africaine Française"
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 1,
+                        "name": "Nouveaux défis et perspectives de la politique africaine Française",
+                        "decription": "10h00-13h00 :Nouveaux défis et perspectives de la politique africaine Française"
                     }
                 },
-                "imageURL":"",
-                "manifestations":[
-                  {
-                    "id":837,
-                    "startsAt":"2017-05-18T10:00:00+0100",
-                    "endsAt":"2017-05-18T11:00:00+0100"
-                  },
-                  {
-                    "id":838,
-                    "startsAt":"2017-05-18T11:00:00+0100",
-                    "endsAt":"2017-05-18T13:00:00+0100"
-                  }
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 837,
+                        "startsAt": "2017-05-18T10:00:00+0100",
+                        "endsAt": "2017-05-18T11:00:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10001,
+                                "title": "Nouveaux défis et perspectives",
+                                "startsAt": "2017-04-18T09:00:00+0100",
+                                "endsAt": "2017-04-18T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 838,
+                        "startsAt": "2017-05-19T11:00:00+0100",
+                        "endsAt": "2017-05-19T13:00:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10001,
+                                "title": "Nouveaux défis et perspectives",
+                                "startsAt": "2017-04-19T09:00:00+0100",
+                                "endsAt": "2017-04-19T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 839,
+                        "startsAt": "2017-05-17T17:00:00+0100",
+                        "endsAt": "2017-05-17T18:00:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10001,
+                                "title": "Nouveaux défis et perspectives",
+                                "startsAt": "2017-04-17T09:00:00+0100",
+                                "endsAt": "2017-04-17T13:00:00+0100"
+                            }
+                        ]
+                    }
 
                 ]
             },
 
             {
-                "id":2,
-                "metaEvent":{
-                    "id":120,
-                    "translations":{
-                        "fr_FR":{
-                            "id":120,
-                            "name":"Réunions 'off' des directions géographiques avec les Ambassadeurs",
-                            "decription":"09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
+                "id": 2,
+                "metaEvent": {
+                    "id": 120,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 120,
+                            "name": "Réunions 'off' des directions géographiques avec les Ambassadeurs",
+                            "decription": "09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
                         }
                     }
                 },
-                "category":"",
-                "translations":{
-                    "fr_FR":{
-                        "id":2,
-                        "name":"Petit-déjeuner autour des représentants permanents auprès des Nations-Unies",
-                        "decription":"09h00-10h30:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 2,
+                        "name": "Petit-déjeuner autour des représentants permanents auprès des Nations-Unies",
+                        "decription": "09h00-10h30:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
                     }
                 },
-                "imageURL":"",
-                "manifestations":[
-                  {
-                    "id":839,
-                    "startsAt":"2017-05-17T09:00:00+0100",
-                    "endsAt":"2017-05-17T09:30:00+0100"
-                  },
-                  {
-                    "id":840,
-                    "startsAt":"2017-05-17T09:30:00+0100",
-                    "endsAt":"2017-05-17T10:30:00+0100"
-                  }
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 839,
+                        "startsAt": "2017-05-18T09:00:00+0100",
+                        "endsAt": "2017-05-18T09:30:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10002,
+                                "title": "Petit-déjeuner autour des représentants",
+                                "startsAt": "2017-04-18T09:00:00+0100",
+                                "endsAt": "2017-04-18T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 840,
+                        "startsAt": "2017-05-17T09:30:00+0100",
+                        "endsAt": "2017-05-17T10:30:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10002,
+                                "title": "Petit-déjeuner autour des représentants",
+                                "startsAt": "2017-04-17T09:00:00+0100",
+                                "endsAt": "2017-04-17T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 841,
+                        "startsAt": "2017-05-19T09:30:00+0100",
+                        "endsAt": "2017-05-19T10:30:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10002,
+                                "title": "Petit-déjeuner autour des représentants",
+                                "startsAt": "2017-04-19T09:00:00+0100",
+                                "endsAt": "2017-04-19T13:00:00+0100"
+                            }
+                        ]
+                    }
 
                 ]
             },
 
             {
-                "id":3,
-                "metaEvent":{
-                    "id":120,
-                    "translations":{
-                        "fr_FR":{
-                            "id":120,
-                            "name":"Réunions 'off' des directions géographiques avec les Ambassadeurs",
-                            "decription":"09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
+                "id": 3,
+                "metaEvent": {
+                    "id": 120,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 120,
+                            "name": "Réunions 'off' des directions géographiques avec les Ambassadeurs",
+                            "decription": "09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
                         }
                     }
                 },
-                "category":"",
-                "translations":{
-                    "fr_FR":{
-                        "id":3,
-                        "name":"La question des droits de l'homme de zone ANMO",
-                        "decription":"09h00-12h00:La question des droits de l'homme de zone ANMO"
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 3,
+                        "name": "La question des droits de l'homme de zone ANMO",
+                        "decription": "09h00-12h00:La question des droits de l'homme de zone ANMO"
                     }
                 },
-                "imageURL":"",
-                "manifestations":[
-                  {
-                    "id":841,
-                    "startsAt":"2017-05-19T10:00:00+0100",
-                    "endsAt":"2017-05-19T10:55:00+0100"
-                  },
-                  {
-                    "id":842,
-                    "startsAt":"2017-05-19T10:00:00+0100",
-                    "endsAt":"2017-05-19T10:55:00+0100"
-                  }
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 841,
+                        "startsAt": "2017-05-19T10:00:00+0100",
+                        "endsAt": "2017-05-19T10:55:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10003,
+                                "title": "La question des droits de l'homme",
+                                "startsAt": "2017-04-19T09:00:00+0100",
+                                "endsAt": "2017-04-19T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 842,
+                        "startsAt": "2017-05-18T10:00:00+0100",
+                        "endsAt": "2017-05-18T10:55:00+0100",
+                        "timeSlots": [
+                            {
+                                "id":10003,
+                                "title": "La question des droits de l'homme",
+                                "startsAt": "2017-04-18T09:00:00+0100",
+                                "endsAt": "2017-04-18T13:00:00+0100"
+                            }
+                        ]
+                    }
 
                 ]
             },
 
             {
-                "id":4,
-                "metaEvent":{
-                    "id":121,
-                    "translations":{
-                        "fr_FR":{
-                            "id":121,
-                            "name":"Réunions 'off' des directions géographiques avec les Ambassadeurs",
-                            "decription":"14h30-19h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
+                "id": 4,
+                "metaEvent": {
+                    "id": 121,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 121,
+                            "name": "Réunions 'off' des directions géographiques avec les Ambassadeurs",
+                            "decription": "14h30-19h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
                         }
                     }
                 },
-                "category":"",
-                "translations":{
-                    "fr_FR":{
-                        "id":4,
-                        "name":"Nouveaux défis et perspectives de la politique africaine Française",
-                        "decription":"14h30-15h30 :Nouveaux défis et perspectives de la politique africaine Française"
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 4,
+                        "name": "Nouveaux défis et perspectives de la politique africaine Française",
+                        "decription": "14h30-15h30 :Nouveaux défis et perspectives de la politique africaine Française"
                     }
                 },
-                "imageURL":"",
-                "manifestations":[
-                  {
-                    "id":843,
-                    "startsAt":"2017-05-24T14:30:00+0100",
-                    "endsAt":"2017-05-24T15:00:00+0100"
-                  },
-                  {
-                    "id":844,
-                    "startsAt":"2017-05-24T15:00:00+0100",
-                    "endsAt":"2017-05-24T10:15:30+0100"
-                  }
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 843,
+                        "startsAt": "2017-05-24T14:30:00+0100",
+                        "endsAt": "2017-05-24T15:00:00+0100"
+                    },
+                    {
+                        "id": 844,
+                        "startsAt": "2017-05-24T15:00:00+0100",
+                        "endsAt": "2017-05-24T10:15:30+0100"
+                    }
 
                 ]
             },
 
             {
-                "id":5,
-                "metaEvent":{
-                    "id":121,
-                    "translations":{
-                        "fr_FR":{
-                            "id":121,
-                            "name":"Réunions 'off' des directions géographiques avec les Ambassadeurs",
-                            "decription":"14h30-19h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
+                "id": 5,
+                "metaEvent": {
+                    "id": 121,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 121,
+                            "name": "Réunions 'off' des directions géographiques avec les Ambassadeurs",
+                            "decription": "14h30-19h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
                         }
                     }
                 },
-                "category":"",
-                "translations":{
-                    "fr_FR":{
-                        "id":5,
-                        "name":"Petit-déjeuner autour des représentants permanents auprès des Nations-Unies",
-                        "decription":"15h30-19h00:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 5,
+                        "name": "Petit-déjeuner autour des représentants permanents auprès des Nations-Unies",
+                        "decription": "15h30-19h00:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
                     }
                 },
-                "imageURL":"",
-                "manifestations":[
-                  {
-                    "id":845,
-                    "startsAt":"2017-05-22T15:30:00+0100",
-                    "endsAt":"2017-05-22T16:00:00+0100"
-                  },
-                  {
-                    "id":846,
-                    "startsAt":"2017-05-22T16:00:00+0100",
-                    "endsAt":"2017-05-22T19:00:00+0100"
-                  }
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 845,
+                        "startsAt": "2017-05-22T15:30:00+0100",
+                        "endsAt": "2017-05-22T16:00:00+0100"
+                    },
+                    {
+                        "id": 846,
+                        "startsAt": "2017-05-22T16:00:00+0100",
+                        "endsAt": "2017-05-22T19:00:00+0100"
+                    }
 
                 ]
             },
 
             {
-                "id":6,
-                "metaEvent":{
-                    "id":122,
-                    "translations":{
-                        "fr_FR":{
-                            "id":122,
-                            "name":"Evenement sur les innovations numériques dans le domaine culturel",
-                            "decription":"20h00-22h00:Evenement sur les innovations numériques dans le domaine culturel"
+                "id": 6,
+                "metaEvent": {
+                    "id": 122,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 122,
+                            "name": "Evenement sur les innovations numériques dans le domaine culturel",
+                            "decription": "20h00-22h00:Evenement sur les innovations numériques dans le domaine culturel"
                         }
                     }
                 },
-                "category":"",
-                "translations":{
-                    "fr_FR":{
-                        "id":6,
-                        "name":"Nouveaux défis et perspectives de la politique africaine Française",
-                        "decription":"20h00-22h00:Nouveaux défis et perspectives de la politique africaine Française"
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 6,
+                        "name": "Nouveaux défis et perspectives de la politique africaine Française",
+                        "decription": "20h00-22h00:Nouveaux défis et perspectives de la politique africaine Française"
                     }
                 },
-                "imageURL":"",
-                "manifestations":[
-                  {
-                    "id":847,
-                    "startsAt":"2017-05-22T20:00:00+0100",
-                    "endsAt":"2017-05-22T21:00:00+0100"
-                  },
-                  {
-                    "id":848,
-                    "startsAt":"2017-05-23T21:00:00+0100",
-                    "endsAt":"2017-05-23T22:00:00+0100"
-                  }
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 847,
+                        "startsAt": "2017-05-22T20:00:00+0100",
+                        "endsAt": "2017-05-22T21:00:00+0100"
+                    },
+                    {
+                        "id": 848,
+                        "startsAt": "2017-05-23T21:00:00+0100",
+                        "endsAt": "2017-05-23T22:00:00+0100"
+                    }
 
                 ]
             }
