@@ -1,4 +1,4 @@
-$.extend(app, {
+$.extend(app.core, {
     utils: {
         init: function () {
 
@@ -86,4 +86,4 @@ $.extend(app, {
     }
 });
 
-app.utils.init();
+app.core.utils.init();

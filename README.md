@@ -37,7 +37,7 @@ $.extend(app, {
         // [...]
 
         myView: function () {
-            app.ctrl.render('myView', {myData: 'myData'}, true);
+            app.core.ctrl.render('myView', {myData: 'myData'}, true);
         },
 
         // [...]

@@ -1,4 +1,4 @@
-$.extend(app, {
+$.extend(app.core, {
     ws: {
 
         // ---------------------------------------------------------------------
@@ -11,15 +11,15 @@ $.extend(app, {
                 url: appHostname + '/',
                 crossDomain: true,
                 data: {
-                    currentToken: app.session.access_token,
-                    refreshToken: app.session.refresh_token
+                    currentToken: app.core.session.access_token,
+                    refreshToken: app.core.session.refresh_token
                 },
                 success: function (data) {
-                    $.extend(app.session, data);
-                    app.session.save();
+                    $.extend(app.core.session, data);
+                    app.core.session.save();
                 },
                 arror: function (jqXHR, textStatus, errorThrown) {
-                    app.ui.toast('l\'API ne semble pas être disponible', 'error');
+                    app.core.ui.toast('l\'API ne semble pas être disponible', 'error');
                 }
             });
         },
@@ -29,25 +29,25 @@ $.extend(app, {
         // ---------------------------------------------------------------------
 
         userLogin: function (username, password, rememberMe, form) {
-            return app.ws.call('POST', '/login', {
+            return app.core.ws.call('POST', '/login', {
                 'email': username,
                 'password': password
             }, function (res) {
                 var user = res.success.customer;
-                app.session.user = user;
+                app.core.session.user = user;
 
-                app.session.loggedIn = true;
+                app.core.session.loggedIn = true;
 
                 rememberMe == 'on' ?
-                    app.session.enableRememberMe() :
-                    app.session.disableRememberMe();
+                    app.core.session.enableRememberMe() :
+                    app.core.session.disableRememberMe();
 
-                app.session.save();
+                app.core.session.save();
 
                 $(document).trigger('user.logged.in');
-                app.history.disableBack = false;
+                app.core.history.disableBack = false;
 
-                app.ctrl.showEvents();
+                app.core.ctrl.showEvents();
             }, function (res) {
 
                 // FOR DEV ONLY
@@ -64,25 +64,25 @@ $.extend(app, {
                     "phoneNumber": "+987654321",
                     "subscribedToNewsletter": true
                 };
-                app.session.user = user;
+                app.core.session.user = user;
 
-                app.session.loggedIn = true;
+                app.core.session.loggedIn = true;
 
                 rememberMe == 'on' ?
-                    app.session.enableRememberMe() :
-                    app.session.disableRememberMe();
+                    app.core.session.enableRememberMe() :
+                    app.core.session.disableRememberMe();
 
-                app.session.save();
+                app.core.session.save();
 
                 $(document).trigger('user.logged.in');
-                app.history.disableBack = false;
+                app.core.history.disableBack = false;
 
-                app.ctrl.showEvents();
+                app.core.ctrl.showEvents();
 
                 // END FOR DEV ONLY
 
                 form.find('input').addClass('invalid');
-                app.ui.toast('Email et/ou mot de passe invalide', 'error');
+                app.core.ui.toast('Email et/ou mot de passe invalide', 'error');
             });
         },
 
@@ -91,10 +91,10 @@ $.extend(app, {
         // ---------------------------------------------------------------------
 
         getUser: function (userId) {
-            return app.ws.call('GET', '/customers/' + userId, {}, function (res) {
-                app.session.user = res;
-                app.session.userId = res.id;
-                app.session.save();
+            return app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
+                app.core.session.user = res;
+                app.core.session.userId = res.id;
+                app.core.session.save();
             }, function (res) {
 
             });
@@ -106,15 +106,15 @@ $.extend(app, {
 
         updateUser: function (form) {
 
-            var formData = app.utils.formToObject(form.serializeArray());
+            var formData = app.core.utils.formToObject(form.serializeArray());
 
             console.info(formData);
 
             return;
-//            return app.ws.call('POST', '/customers/' + app.session.user.id, {}, function (res) {
-//                app.session.user = res;
-//                app.session.userId = res.id;
-//                app.session.save();
+//            return app.core.ws.call('POST', '/customers/' + app.core.session.user.id, {}, function (res) {
+//                app.core.session.user = res;
+//                app.core.session.userId = res.id;
+//                app.core.session.save();
 //            }, function (res) {
 //
 //            });
@@ -140,7 +140,7 @@ $.extend(app, {
                 async: true,
                 url: appHostname + '/data/events.json',
                 success: function (data) {
-                    var events = app.business.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
                     deffer.resolve(events);
                 }
             });
@@ -155,10 +155,10 @@ $.extend(app, {
         createCart: function () {
             var deffer = jQuery.Deferred();
 
-            app.ws.call('POST', '/transaction', {localeCode: 'fr_FR'}, function (res) {
+            app.core.ws.call('POST', '/transaction', {localeCode: 'fr_FR'}, function (res) {
                 deffer.resolve(res);
             }, function (jqXHR, textStatus, errorThrown) {
-                app.ui.toast('Impossible de créer le panier', 'error');
+                app.core.ui.toast('Impossible de créer le panier', 'error');
                 deffer.reject();
             });
 
@@ -168,7 +168,7 @@ $.extend(app, {
         addToCart: function (item) {
             var deffer = jQuery.Deferred();
 
-            app.ws.call('POST', '/carts/' + app.session.cart.id + '/items', {
+            app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items', {
                 "type": "ticket",
                 "declinationId": 52,
                 "quantity": 1,
@@ -176,7 +176,7 @@ $.extend(app, {
             }, function (res) {
                 deffer.resolve(res);
             }, function (jqXHR, textStatus, errorThrown) {
-                app.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
+                app.core.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
                 deffer.reject();
             });
 
@@ -190,15 +190,15 @@ $.extend(app, {
         call: function (method, action, data, callback, errorCallback, ignoreApiBaseUri) {
             var defer = $.Deferred();
 
-            app.session.manageApiToken()
+            app.core.session.manageApiToken()
                 .then(function () {
                     if (typeof callback === 'undefined')
                         callback = function (res, textStatus, jqXHR) {};
 
                     if (typeof errorCallback === 'undefined')
                         errorCallback = function (jqXHR, textStatus, errorThrown) {
-                            app.ui.displayLoading(false);
-                            app.ui.toast(textStatus, 'error');
+                            app.core.ui.displayLoading(false);
+                            app.core.ui.toast(textStatus, 'error');
                         };
 
                     if (typeof method === 'undefined')
@@ -232,7 +232,7 @@ $.extend(app, {
                             defer.resolve();
                         },
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
+                            xhr.setRequestHeader('Authorization', app.core.utils.ucfirst(app.core.session.token_type) + " " + app.core.session.access_token);
                             if (method === "POST")
                                 xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                         },

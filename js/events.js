@@ -1,167 +1,83 @@
 $.extend(app, {
     events: {
-        init: function () {
-            $(document)
+        manifestationsOrders: [],
+        manageApiResult: function (result, minInterval, maxInterval) {
 
-                // -------------------------------------------------------------
-                // CONFIRMATION FAB BUTTON
-                // -------------------------------------------------------------
+            var finalFormat = {
+                days: {},
+                ts: {}
+            };
 
-                .on('click', '#confirm-fab', function (e) {
-                    app.ui.modal.modal('open');
-                })
+            for (var m = moment(minInterval); m.isBefore(maxInterval); m.add('days', 1)) {
+                var dayId = m.format('dddDDMM');
+                finalFormat.days[dayId] = {
+                    id: m.format('dddDDMM'),
+                    label: m.format('ddd DD/MM'),
+                    ts: [],
+                    manifCount: 0
+                };
+            }
 
-                // -------------------------------------------------------------
-                // CONFIRMATION MODAL BUTTONS
-                // -------------------------------------------------------------
+            $.each(result, function (i, event) {
+                $.each(event.manifestations, function (j, manif) {
+                    $.each(manif.timeSlots, function (k, timeslot) {
+                        var tsId = timeslot.id;
+                        var ts = null;
 
-                .on('click', '#cancel-btn', function (e) {
-                    app.ui.modal.modal('close');
-                })
-
-                .on('click', '#save-btn', function (e) {
-                    app.save();
-                    app.ui.modal.modal('close');
-                })
-
-                // -------------------------------------------------------------    
-                // PRESENCE BUTTON
-                // -------------------------------------------------------------
-
-                .on('click', '.presence-btn:not(.mandatory)', function (e) {
-                    if (!$(this).hasClass('attend')) {
-                        $(this)
-                            .prop('attend', true)
-                            .removeClass('btn blue')
-                            .addClass('attend btn-flat teal')
-                            .html('Présent')
-                            ;
-                    } else {
-                        $(this)
-                            .removeClass('attend btn-flat teal')
-                            .addClass('btn blue')
-                            .html('Participer')
-                            ;
-                    }
-                })
-
-                // -------------------------------------------------------------
-                // LOGIN 
-                // -------------------------------------------------------------
-
-                .on('submit', '#loginForm', function (e) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    var form = $(this);
-
-                    var formData = app.utils.formToObject(form.serializeArray());
-
-                    if (formData.username !== "" && formData.password !== "") {
-                        app.ws.userLogin(formData.username, formData.password, formData.rememberMe, form);
-                    } else {
-                        if (formData.username === "") {
-                            form.find('input[name="username"]').addClass('invalid');
+                        if (!finalFormat.ts.hasOwnProperty(tsId)) {
+                            finalFormat.ts[tsId] = $.extend(timeslot, {manifestations: {}});
                         }
-                        if (formData.password === "") {
-                            form.find('input[name="password"]').addClass('invalid');
+                        ts = finalFormat.ts[tsId];
+
+                        var mId = manif.id;
+                        var m = null;
+
+                        if (!ts.manifestations.hasOwnProperty(mId)) {
+                            ts.manifestations[mId] = $.extend(manif, {event: null, order: 0});
+                            delete manif.timeSlots;
                         }
-                    }
-                })
+                        m = ts.manifestations[mId];
 
-                .on('user.logged.in', function () {
-                    $('#app').addClass('loggedIn');
+                        m.event = event;
 
-                    app.session.user.shortName = app.session.user.firstName.charAt(0) + ". " + app.session.user.lastName;
+                        app.events.manifestationsOrders.push(m);
+                        delete event.manifestations;
+                    });
+                });
+            });
 
-                    $('nav a[data-activates="userMenu"] span.button-label')
-                        .html(app.session.user.shortName);
+            Object.keys(finalFormat.ts).forEach(function (key) {
+                var ts = finalFormat.ts[key];
+                var day = moment(new Date(ts.startsAt));
+                var dayId = day.format('dddDDMM');
 
-                    app.cart.init();
+                if (finalFormat.days.hasOwnProperty(dayId)) {
+                    finalFormat.days[dayId].ts.push(ts);
+                    finalFormat.days[dayId].ts.sort(function (a, b) {
+                        return new Date(a.startsAt) - new Date(b.startsAt);
+                    });
+                }
+            });
 
-                })
+            var sortIndex = 0;
+            $.each(finalFormat.days, function (i, day) {
+                $.each(day.ts, function (j, ts) {
+                    $.each(ts.manifestations, function (k, manif) {
+                        day.manifCount++;
+                        manif.order = sortIndex;
+                        sortIndex++;
+                    });
+                });
+            });
 
-                .on('user.logged.out', function () {
-                    $('#app').removeClass('loggedIn');
-                })
+            app.events.manifestationsOrders.sort(function (a, b) {
+                return a.order - b.order;
+            });
 
-                // -------------------------------------------------------------
-                // SESSION
-                // -------------------------------------------------------------
+            delete finalFormat.ts;
 
-                .on('app.session.started', function () {
-                    if (app.session.user !== null && app.session.loggedIn === true) {
-                        $(document).trigger('user.logged.in');
-                    }
-                })
-
-                // -------------------------------------------------------------
-                // NAV BUTTONS
-                // -------------------------------------------------------------
-
-                .on('click', '*[data-go]', function (e) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    var action = $(this).attr('data-go');
-
-                    var callableAction = app.ctrl[action];
-
-                    callableAction();
-                })
-
-                // -------------------------------------------------------------
-                // FORM CUSTOM SUBMIT
-                // -------------------------------------------------------------
-
-                .on('submit', 'form[data-ws]', function (e) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    var action = $(this).attr('data-ws');
-
-                    var callableAction = app.ws[action];
-
-                    callableAction($(this));
-                })
-
-
-                // -------------------------------------------------------------
-                // AJAX SPINNER
-                // -------------------------------------------------------------
-
-                .ajaxStart(function () {
-                    app.ui.displayLoading();
-                })
-
-                .ajaxStop(function () {
-                    app.ui.displayLoading(false);
-                })
-
-                // -------------------------------------------------------------
-                // GLOBAL BEHAVIORS
-                // -------------------------------------------------------------
-
-                .on('click', '[href="#"]', function (e) {
-                    e.preventDefault();
-                })
-
-                // -------------------------------------------------------------
-                // TEMPLATING ENGINE
-                // -------------------------------------------------------------
-
-                .on('template.applyed', function () {
-
-                    // Initialize form fields when data is already set
-
-//                    Materialize.updateTextFields();
-                    app.ui.plugins.init();
-                })
-
-                ;
+            return finalFormat;
         }
     }
 });
+

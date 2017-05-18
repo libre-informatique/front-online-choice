@@ -1,4 +1,4 @@
-$.extend(app, {
+$.extend(app.core, {
     history: {
 
         currentState: null,
@@ -8,16 +8,16 @@ $.extend(app, {
         disableBack: false,
 
         add: function (state) {
-            var currentState = app.history.provider.state;
+            var currentState = app.core.history.provider.state;
 
             if (currentState === null || currentState.state.path !== state.path) {
                 var content = $('#app').html();
-                app.history.provider.pushState({
+                app.core.history.provider.pushState({
                     content: content,
                     state: state
                 }, state.title, "?/" + state.path);
 
-                app.history.currentState = state;
+                app.core.history.currentState = state;
             }
         }
     }
@@ -31,9 +31,9 @@ $(window)
 
     .on('popstate', function (event) {
         var state = event.originalEvent.state;
-        if (state && !app.history.disableBack) {
+        if (state && !app.core.history.disableBack) {
             $('#app').html(state.content);
-            app.ui.plugins.init();
+            app.core.ui.plugins.init();
             $('.dropdown-button').dropdown('close');
         }
     })
