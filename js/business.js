@@ -1,12 +1,15 @@
 $.extend(app, {
     business: {
         events: {
+            manifestationsOrders: [],
             manageApiResult: function (result, minInterval, maxInterval) {
 
                 var finalFormat = {
                     days: {},
                     ts: {}
                 };
+
+
 
                 $.each(result, function (i, event) {
                     $.each(event.manifestations, function (j, manif) {
@@ -23,12 +26,14 @@ $.extend(app, {
                             var m = null;
 
                             if (!ts.manifestations.hasOwnProperty(mId)) {
-                                ts.manifestations[mId] = $.extend(manif, {event: null});
+                                ts.manifestations[mId] = $.extend(manif, {event: null, order: 0});
                                 delete manif.timeSlots;
                             }
                             m = ts.manifestations[mId];
 
                             m.event = event;
+
+                            app.business.events.manifestationsOrders.push(m);
                             delete event.manifestations;
                         });
                     });
@@ -54,12 +59,19 @@ $.extend(app, {
                     });
                 });
 
+                var sortIndex = 0;
                 $.each(finalFormat.days, function (i, day) {
                     $.each(day.ts, function (j, ts) {
                         $.each(ts.manifestations, function (k, manif) {
                             day.manifCount++;
+                            manif.order = sortIndex;
+                            sortIndex++;
                         });
                     });
+                });
+
+                app.business.events.manifestationsOrders.sort(function (a, b) {
+                    return a.order - b.order;
                 });
 
                 delete finalFormat.ts;
