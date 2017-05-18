@@ -45,6 +45,7 @@ $.extend(app, {
                 app.session.save();
 
                 $(document).trigger('user.logged.in');
+                app.history.disableBack = false;
 
                 app.ctrl.showEvents();
             }, function (res) {
@@ -74,6 +75,7 @@ $.extend(app, {
                 app.session.save();
 
                 $(document).trigger('user.logged.in');
+                app.history.disableBack = false;
 
                 app.ctrl.showEvents();
 

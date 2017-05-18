@@ -24,7 +24,6 @@ $.extend(app, {
         // ---------------------------------------------------------------------
 
         login: function () {
-
             app.ctrl.go('login', {}).then(function () {
                 app.history.add(app.ctrl.states.login);
             });
@@ -32,10 +31,16 @@ $.extend(app, {
 
         logout: function () {
             $('#app').removeClass('loggedIn');
-            app.session.destroy();
-            app.ctrl.go('login').then(function () {
-                $(document).trigger('user.logged.out');
-            });
+
+            app.session.rememberMe = false;
+            app.session.loggedIn = false;
+            app.session.user = null;
+            app.session.save();
+
+            app.history.disableBack = true;
+
+            app.ctrl.login();
+            $(document).trigger('user.logged.out');
         },
 
         showUserProfile: function () {
@@ -59,14 +64,18 @@ $.extend(app, {
         },
 
         showEvents: function () {
-            var events = app.ws.getEvents()
-                .then(function (events) {
-                    app.ctrl.render('mainTabs', events, true).then(function () {
-                        app.ui.plugins.initTabs();
-                        $('#tabs .tab:first-of-type a').trigger('click');
-                        app.history.add(app.ctrl.states.showEvents);
-                    });
-                }, function (error) {});
+            console.info(app.history.currentState !== app.ctrl.states.showEvents);
+            console.info(app.history.currentState, app.ctrl.states.showEvents);
+            if (app.history.currentState !== app.ctrl.states.showEvents) {
+                var events = app.ws.getEvents()
+                    .then(function (events) {
+                        app.ctrl.render('mainTabs', events, true).then(function () {
+                            app.ui.plugins.initTabs();
+                            $('#tabs .tab:first-of-type a').trigger('click');
+                            app.history.add(app.ctrl.states.showEvents);
+                        });
+                    }, function (error) {});
+            }
         },
 
         // ---------------------------------------------------------------------

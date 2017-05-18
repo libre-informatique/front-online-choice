@@ -1,10 +1,13 @@
 $.extend(app, {
     history: {
 
+        currentState: null,
+
         provider: window.history,
 
-        add: function (state) {
+        disableBack: false,
 
+        add: function (state) {
             var currentState = app.history.provider.state;
 
             if (currentState === null || currentState.state.path !== state.path) {
@@ -13,9 +16,9 @@ $.extend(app, {
                     content: content,
                     state: state
                 }, state.title, "?/" + state.path);
+
+                app.history.currentState = state;
             }
-
-
         }
     }
 });
@@ -28,7 +31,7 @@ $(window)
 
     .on('popstate', function (event) {
         var state = event.originalEvent.state;
-        if (state) {
+        if (state && !app.history.disableBack) {
             $('#app').html(state.content);
             app.ui.plugins.init();
             $('.dropdown-button').dropdown('close');

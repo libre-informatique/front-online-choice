@@ -29,9 +29,6 @@ var app = {
         templates: {},
         modal: null,
         init: function () {
-            app.ui.modal = $('#confirm-modal');
-            app.ui.modal.modal();
-
             if (app.session.user) {
                 $('#app').addClass('loggedIn');
                 app.ctrl.showEvents();
@@ -46,6 +43,7 @@ var app = {
                 app.ui.plugins.initSortables();
                 app.ui.plugins.initTooltips();
                 app.ui.plugins.initDropDown();
+                app.ui.plugins.initModal();
                 Materialize.updateTextFields();
             },
             initTabs: function () {
@@ -82,6 +80,10 @@ var app = {
             },
             initDropDown: function () {
                 $('.dropdown-button').dropdown();
+            },
+            initModal: function () {
+                app.ui.modal = $('#confirm-modal');
+                app.ui.modal.modal();
             }
         },
         initTemplates: function () {
