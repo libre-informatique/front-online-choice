@@ -70,7 +70,7 @@ app.register({
                         .then(function (events) {
                             app.core.ctrl.render('mainTabs', events, true).then(function () {
                                 app.core.ui.plugins.initTabs();
-                                $('#tabs .tab:first-of-type a').trigger('click');
+//                                $('#tabs .tab:first-of-type a').trigger('click');
                                 app.core.history.add(app.core.ctrl.states.showEvents);
                             });
                         }, function (error) {});

@@ -18,6 +18,8 @@ app.register({
                             .html('Participer')
                             ;
                     }
+                    app.events.selectManifestation($(this));
+
                 });
         },
         manageApiResult: function (result, minInterval, maxInterval) {
@@ -97,8 +99,27 @@ app.register({
 
             return finalFormat;
         },
-        selectManifestation: function () {
-            
+        selectManifestation: function (button) {
+
+            var manifId = button.closest('.event').attr('data-id');
+            var selecting = button.hasClass('attend');
+            var sortable = button.closest('li.event');
+            var sortableGroup = sortable.parent();
+
+            sortableGroup.find('li.event').sort(function (a, b) {
+                var ap = $(a).find('.presence-btn').hasClass('attend');
+                var bp = $(b).find('.presence-btn').hasClass('attend');
+
+                if (ap < bp) {
+                    return 1;
+                } else if (ap > bp) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }).detach().appendTo(sortableGroup);
+
+            app.core.ui.plugins.initSortables();
         }
     }
 });

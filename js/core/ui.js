@@ -2,6 +2,7 @@ app.register({
     core: {
         ui: {
             templates: {},
+            sortables: [],
             modal: null,
             init: function () {
                 if (app.core.session.user) {
@@ -23,28 +24,40 @@ app.register({
                 },
                 initTabs: function () {
                     $('ul#tabs').tabs();
-
-                    $('ul#tabs li:first-of-type a').trigger('click');
+                    var today = moment(new Date()).format('dddDDMM');
+                    var todayTab = $('ul#tabs li a[data-tabId="' + today + '"]');
+                    if (todayTab.length != 0)
+                        $('ul#tabs li a[data-tabId="' + today + '"]').trigger('click');
+                    else
+                        $('ul#tabs li:first-of-type a').trigger('click');
                 },
                 initSortables: function () {
                     $('.period').each(function () {
                         var manifs = $(this).find('.manifestations-list');
+                        var enabled = false;
 
-                        if (manifs.find('.presence .attend').length > 0) {
+                        if (manifs.find('.presence .attend').length > 1) {
                             manifs.addClass('active');
-                            Sortable.create(manifs[0], {
-                                animation: 100,
-                                handle: '.priority',
-                                scroll: true,
-                                ghostClass: "ghost",
-                                forceFallback: true,
-                                onEnd: function (evt) {
-
-                                },
-                            });
+                            enabled = true;
                         } else {
                             manifs.removeClass('active');
+                            enabled = false;
                         }
+
+                        if (manifs.data().hasOwnProperty('sortable'))
+                            manifs.sortable("destroy");
+
+                        manifs.sortable({
+                            animation: 100,
+                            handle: '.priority',
+                            scroll: true,
+                            ghostClass: "ghost",
+                            forceFallback: true,
+                            disabled: !enabled,
+                            onEnd: function (evt) {
+
+                            }
+                        });
                     });
                 },
                 initTooltips: function () {

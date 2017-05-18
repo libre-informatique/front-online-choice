@@ -2,7 +2,7 @@
     {{#each days as |tab|}}
 
     <li class="tab col">
-        <a href="#tab{{tab.id}}">
+        <a href="#tab{{tab.id}}" data-tabId="{{tab.id}}">
             {{tab.label}} {{tab.eventsNumber}} 
             <span class="badge {{#ifCond tab.manifCount '==' 0}}empty{{/ifCond}}">{{tab.manifCount}}</span>
         </a>
@@ -43,13 +43,13 @@
 
                         <!-- EVENT not manif -->
 
-                        <li class="row event notselectable" data-eventId="{{manif.id}}" data-eventOrder="{{manif.order}}">
+                        <li class="row event notselectable" data-id="{{manif.id}}" data-eventOrder="{{manif.order}}">
                             <div class="event-time col s4 center">
                                 <span>
                                     {{{formatDate manif.startsAt 'HH[h]mm' }}} - {{{formatDate manif.endsAt 'HH[h]mm' }}}
                                 </span>
                             </div>
-                            <div class="event-card card horizontal z-depth-1 col s8 hoverable row">
+                            <div class="event-card card horizontal z-depth-1 col s8 row">
                                 <div class="event-image col s2">
                                     <img src="img/samples/1.jpeg">
                                 </div>
@@ -61,11 +61,11 @@
                                 <div class="presence valign-wrapper col s3">
                                     <a class="presence-btn btn blue waves-effect waves-light">Participer</a>
                                 </div>
-                            <!--<div class="priority col s2 center">
-                                    <i class="priority-up material-icons">arrow_drop_up</i>
-                                    <i class="handle material-icons">drag_handle</i>
-                                    <i class="priority-down material-icons">arrow_drop_down</i>
-                                </div>-->
+                                <!--<div class="priority col s2 center">
+                                        <i class="priority-up material-icons">arrow_drop_up</i>
+                                        <i class="handle material-icons">drag_handle</i>
+                                        <i class="priority-down material-icons">arrow_drop_down</i>
+                                    </div>-->
                                 <div class="priority col s2 center valign-wrapper">
                                     <i class="handle material-icons">apps</i>
                                 </div>

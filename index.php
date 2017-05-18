@@ -145,6 +145,7 @@ if (isset($_GET['getParameters'])) {
         <script src="js/libs/handlebars-v4.0.5.js"></script>
         <script src="js/libs/materialize.min.js"></script>
         <script src="js/libs/Sortable.min.js"></script>
+        <script src="js/libs/jquery.fn.sortable.min.js"></script>
         <script src="js/libs/moment-with-locales.min.js"></script>
         <!--<script src="js/libs/jquery.history.js"></script>-->
 
