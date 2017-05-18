@@ -3,6 +3,7 @@ $accent-color: #ffb74d; // Orange
 $danger-color: #e57373; // red lighten-2
 $info-color: #7986cb; // indigo lighten-2
 $normal-color: #607d8b; // blue-grey
+$body-bg: #FCFCFC;
 
 // MATERIAL ICONS
 /* fallback */
@@ -38,7 +39,7 @@ html {
 html {
     /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
     /*background-size: cover;*/
-    background: #FCFCFC;
+    background: $body-bg;
 
     body {
         #mainLoader {
@@ -126,10 +127,14 @@ html {
 
     #tabs {
         height  : 6%;
-        overflow: hidden;
+        /*overflow: hidden;*/
+        display: flex;
+        flex-direction: row;
 
         .tab {
             height: 100%;
+            width:auto;
+            flex-grow: 1;
 
             .badge {
                 color:$primary-color;
@@ -198,14 +203,17 @@ html {
                 }
 
                 .priority {
-                    margin: auto;
+                    /*margin: auto;*/
                     cursor: move;
 
                     i {
                         display: block;
 
+
                         &.handle {
-                            margin   : -20px 0;
+                            /*margin   : -20px 0;*/
+                            /*margin   : 0;*/
+                            margin: 0 auto;
                             font-size: 2.2em;
 
                             opacity:0.4;
@@ -218,10 +226,20 @@ html {
                     }
 
                     &.disabled {
+                        cursor: default;
                         opacity:0;
                         i {
                             display:none;
                         }
+                    }
+
+                    &:not(.disabled)::before {
+                        content: '';
+                        width:2px;
+                        height:80%;
+                        background:black;
+                        opacity:0.05;
+                        /*box-shadow:0 2px 4px #666;*/
                     }
                 }
             }

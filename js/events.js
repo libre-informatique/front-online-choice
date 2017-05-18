@@ -29,18 +29,18 @@ $.extend(app, {
                 // -------------------------------------------------------------
 
                 .on('click', '.presence-btn:not(.mandatory)', function (e) {
-                    if ($(this).hasClass('attend')) {
-                        $(this)
-                            .removeClass('attend btn-flat teal')
-                            .addClass('btn blue')
-                            .html('Participer')
-                            ;
-                    } else {
+                    if (!$(this).hasClass('attend')) {
                         $(this)
                             .prop('attend', true)
                             .removeClass('btn blue')
                             .addClass('attend btn-flat teal')
                             .html('Présent')
+                            ;
+                    } else {
+                        $(this)
+                            .removeClass('attend btn-flat teal')
+                            .addClass('btn blue')
+                            .html('Participer')
                             ;
                     }
                 })
@@ -77,6 +77,8 @@ $.extend(app, {
 
                     $('nav a[data-activates="userMenu"] span.button-label')
                         .html(app.session.user.shortName);
+
+                    app.cart.init();
 
                 })
 

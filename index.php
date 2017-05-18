@@ -162,6 +162,7 @@ if (isset($_GET['getParameters'])) {
         <script type="text/javascript" src="js/webservice.js"></script>
         <script type="text/javascript" src="js/history.js"></script>
         <script type="text/javascript" src="js/business.js"></script>
+        <script type="text/javascript" src="js/cart.js"></script>
 
         <!-- APP STARTER -->
 

@@ -55,24 +55,16 @@ var app = {
                 $('.period').each(function () {
                     var manifs = $(this).find('.manifestations-list');
 
-                    console.info(manifs);
+                    Sortable.create(manifs[0], {
+                        animation: 100,
+                        handle: '.priority',
+                        scroll: true,
+                        ghostClass: "ghost",
+                        forceFallback: true,
+                        onEnd: function (evt) {
 
-                    if (manifs.find('.event').length > 1) {
-                        Sortable.create(manifs[0], {
-                            animation: 100,
-                            handle: '.priority',
-                            scroll: true,
-                            ghostClass: "ghost",
-                            forceFallback: true,
-                            onEnd: function (/**Event*/evt) {
-//                                evt.oldIndex;  // element's old index within parent
-//                                evt.newIndex;  // element's new index within parent
-                                console.info(evt);
-                            },
-                        });
-                    } else {
-                        manifs.find('.priority').addClass('disabled');
-                    }
+                        },
+                    });
                 });
             },
             initTooltips: function () {

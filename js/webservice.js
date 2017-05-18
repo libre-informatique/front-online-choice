@@ -127,27 +127,58 @@ $.extend(app, {
         getEvents: function () {
 
             // Define min and max interval for tabs
-            var minInterval = new Date();
+            var minInterval = moment(new Date()).startOf('week');
 
-            minInterval.setHours(0, 0, 0, 0);
+            minInterval.hours(0).minutes(0).seconds(0).milliseconds(0);
 
-            var maxInterval = new Date();
-            maxInterval.setHours(23, 59, 59, 0);
-            maxInterval.setDate(minInterval.getDate() + 2);
+            var maxInterval = moment(new Date()).endOf('week').subtract(2, 'days');
+            maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
 
             var deffer = jQuery.Deferred();
 
             $.ajax({
                 async: true,
                 url: appHostname + '/data/events.json',
-                crossDomain: true,
                 success: function (data) {
                     var events = app.business.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
                     deffer.resolve(events);
                 }
             });
-            
-            
+
+            return deffer;
+        },
+
+        // ---------------------------------------------------------------------
+        // CREATE CART
+        // ---------------------------------------------------------------------
+
+        createCart: function () {
+            var deffer = jQuery.Deferred();
+
+            app.ws.call('POST', '/transaction', {localeCode: 'fr_FR'}, function (res) {
+                deffer.resolve(res);
+            }, function (jqXHR, textStatus, errorThrown) {
+                app.ui.toast('Impossible de créer le panier', 'error');
+                deffer.reject();
+            });
+
+            return deffer;
+        },
+
+        addToCart: function (item) {
+            var deffer = jQuery.Deferred();
+
+            app.ws.call('POST', '/carts/' + app.session.cart.id + '/items', {
+                "type": "ticket",
+                "declinationId": 52,
+                "quantity": 1,
+                "priceId": 3
+            }, function (res) {
+                deffer.resolve(res);
+            }, function (jqXHR, textStatus, errorThrown) {
+                app.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
+                deffer.reject();
+            });
 
             return deffer;
         },
@@ -195,7 +226,6 @@ $.extend(app, {
                         data: data,
                         crossDomain: true,
                         success: function (response, textStatus, jqXHR) {
-                            app.ui.displayLoading(false);
                             if (typeof response !== 'object')
                                 response = JSON.parse(response);
                             callback(response, textStatus, jqXHR);
@@ -203,11 +233,10 @@ $.extend(app, {
                         },
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
-                            if(method === "POST")
+                            if (method === "POST")
                                 xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            app.ui.displayLoading(false);
                             errorCallback(jqXHR, textStatus, errorThrown);
                             defer.reject();
                         }

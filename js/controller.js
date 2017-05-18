@@ -64,8 +64,6 @@ $.extend(app, {
         },
 
         showEvents: function () {
-            console.info(app.history.currentState !== app.ctrl.states.showEvents);
-            console.info(app.history.currentState, app.ctrl.states.showEvents);
             if (app.history.currentState !== app.ctrl.states.showEvents) {
                 var events = app.ws.getEvents()
                     .then(function (events) {

@@ -1,7 +1,7 @@
 <ul id="tabs" class="tabs teal z-depth-2">
     {{#each days as |tab|}}
 
-    <li class="tab col s4">
+    <li class="tab col">
         <a href="#tab{{tab.id}}">
             {{tab.label}} {{tab.eventsNumber}} 
             <span class="badge {{#ifCond tab.manifCount '==' 0}}empty{{/ifCond}}">{{tab.manifCount}}</span>
@@ -66,7 +66,7 @@
                                     <i class="handle material-icons">drag_handle</i>
                                     <i class="priority-down material-icons">arrow_drop_down</i>
                                 </div>-->
-                                <div class="priority col s2 center">
+                                <div class="priority col s2 center valign-wrapper">
                                     <i class="handle material-icons">apps</i>
                                 </div>
                             </div>

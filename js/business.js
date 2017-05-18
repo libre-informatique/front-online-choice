@@ -9,7 +9,15 @@ $.extend(app, {
                     ts: {}
                 };
 
-
+                for (var m = moment(minInterval); m.isBefore(maxInterval); m.add('days', 1)) {
+                    var dayId = m.format('dddDDMM');
+                    finalFormat.days[dayId] = {
+                        id: m.format('dddDDMM'),
+                        label: m.format('ddd DD/MM'),
+                        ts: [],
+                        manifCount: 0
+                    };
+                }
 
                 $.each(result, function (i, event) {
                     $.each(event.manifestations, function (j, manif) {
@@ -42,21 +50,14 @@ $.extend(app, {
                 Object.keys(finalFormat.ts).forEach(function (key) {
                     var ts = finalFormat.ts[key];
                     var day = moment(new Date(ts.startsAt));
-                    var dayId = day.format('ddddDDMM');
+                    var dayId = day.format('dddDDMM');
 
-                    if (!finalFormat.days.hasOwnProperty(dayId)) {
-                        finalFormat.days[dayId] = {
-                            id: day.format('ddddDDMM'),
-                            label: day.format('dddd DD/MM'),
-                            ts: [],
-                            manifCount: 0
-                        };
+                    if (finalFormat.days.hasOwnProperty(dayId)) {
+                        finalFormat.days[dayId].ts.push(ts);
+                        finalFormat.days[dayId].ts.sort(function (a, b) {
+                            return new Date(a.startsAt) - new Date(b.startsAt);
+                        });
                     }
-
-                    finalFormat.days[dayId].ts.push(ts);
-                    finalFormat.days[dayId].ts.sort(function (a, b) {
-                        return new Date(a.startsAt) - new Date(b.startsAt);
-                    });
                 });
 
                 var sortIndex = 0;
@@ -75,8 +76,6 @@ $.extend(app, {
                 });
 
                 delete finalFormat.ts;
-
-                console.info(finalFormat);
 
                 return finalFormat;
             }
