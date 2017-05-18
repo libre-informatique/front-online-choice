@@ -5,6 +5,7 @@ var app = {
         $.get(appHostname + '/?getParameters=1', function (params) {
             moment.locale('fr');
             app.config = params;
+            app.core.utils.init();
             app.core.events.init();
             app.core.session.start();
 
@@ -28,5 +29,9 @@ var app = {
     save: function () {
         //Todo send final choices to the server
         alert('Choix sauvegardés');
+    },
+    register: function (component) {
+        $.extend(true, app, component);
+        return app;
     }
 };

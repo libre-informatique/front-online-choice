@@ -1,4 +1,4 @@
-# front-online-choice
+# Front Online Choice
 
 WORK IN PROGRESS
 
@@ -28,10 +28,10 @@ Append to index.php the script tag that holds your view template :
 <script id="myView-template" type="text/x-handlebars-template" src="views/myView.html"></script>
 ```
 
-Add action to js/controller.js
+Add action to js/core/controller.js
 
 ```js
-$.extend(app, {
+$.extend(app.core, {
     ctrl: {
 
         // [...]

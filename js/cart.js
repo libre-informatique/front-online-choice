@@ -1,4 +1,4 @@
-$.extend(app, {
+app.register({
     cart: {
         init: function () {
             app.core.ws.createCart().always(function (cart) {

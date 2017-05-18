@@ -186,69 +186,82 @@ html {
     }
 
     .events {
-        .event {
-            height      : 100px;
-            margin-right: 10%;
+        .manifestations-list {
+            .event {
+                height      : 100px;
+                margin-right: 10%;
 
-            .event-card {
-                .label {
-                    margin-right: 20px;
-                }
-
-                .presence {
-                    justify-content: center;
-                    .attend {
-                        color:white;
+                .event-card {
+                    .label {
+                        margin-right: 20px;
                     }
-                }
 
-                .priority {
-                    /*margin: auto;*/
-                    cursor: move;
-
-                    i {
-                        display: block;
-
-
-                        &.handle {
-                            /*margin   : -20px 0;*/
-                            /*margin   : 0;*/
-                            margin: 0 auto;
-                            font-size: 2.2em;
-
-                            opacity:0.4;
-                        }
-
-                        &.priority-down,
-                        &.priority-up {
-                            font-size: 2.9em;
+                    .presence {
+                        justify-content: center;
+                        .attend {
+                            color:white;
                         }
                     }
 
-                    &.disabled {
-                        cursor: default;
-                        opacity:0;
+                    .priority {
+                        /*margin: auto;*/
+                        cursor: move;
+                        opacity:0.1;
+
                         i {
-                            display:none;
+                            display: block;
+
+
+                            &.handle {
+                                /*margin   : -20px 0;*/
+                                /*margin   : 0;*/
+                                margin: 0 auto;
+                                font-size: 2.2em;
+
+                                opacity:0.4;
+                            }
+
+                            &.priority-down,
+                            &.priority-up {
+                                font-size: 2.9em;
+                            }
+                        }
+
+                        &.disabled {
+                            cursor: default;
+                            opacity:0;
+                            i {
+                                display:none;
+                            }
+                        }
+
+                        &:not(.disabled)::before {
+                            content: '';
+                            width:2px;
+                            height:80%;
+                            background:black;
+                            opacity:0.05;
+                            /*box-shadow:0 2px 4px #666;*/
                         }
                     }
+                }
 
-                    &:not(.disabled)::before {
-                        content: '';
-                        width:2px;
-                        height:80%;
-                        background:black;
-                        opacity:0.05;
-                        /*box-shadow:0 2px 4px #666;*/
-                    }
+                .event-time {
+                    line-height: 120px;
                 }
             }
-
-            .event-time {
-                line-height: 120px;
+            &.active {
+                .event {
+                    .event-card {
+                        .presence {
+                            opacity:1;
+                        }
+                    }
+                }
             }
         }
     }
+
 
     #confirm-fab {
         position: fixed;

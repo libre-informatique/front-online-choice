@@ -1,41 +1,45 @@
-$.extend(app.core, {
-    history: {
+app.register({
+    core: {
+        history: {
 
-        currentState: null,
+            currentState: null,
 
-        provider: window.history,
+            provider: window.history,
 
-        disableBack: false,
+            disableBack: false,
 
-        add: function (state) {
-            var currentState = app.core.history.provider.state;
+            add: function (state) {
+                var currentState = app.core.history.provider.state;
 
-            if (currentState === null || currentState.state.path !== state.path) {
-                var content = $('#app').html();
-                app.core.history.provider.pushState({
-                    content: content,
-                    state: state
-                }, state.title, "?/" + state.path);
+                if (currentState === null || currentState.state.path !== state.path) {
+                    var content = $('#app').html();
+                    app.core.history.provider.pushState({
+                        content: content,
+                        state: state
+                    }, state.title, "?/" + state.path);
 
-                app.core.history.currentState = state;
+                    app.core.history.currentState = state;
+                }
+            },
+            initEvents: function () {
+                $(window)
+
+                    // -------------------------------------------------------------
+                    // HISTORY POP
+                    // -------------------------------------------------------------
+
+                    .on('popstate', function (event) {
+                        var state = event.originalEvent.state;
+                        if (state && !app.core.history.disableBack) {
+                            $('#app').html(state.content);
+                            app.core.ui.plugins.init();
+                            $('.dropdown-button').dropdown('close');
+                        }
+                    })
+
+                    ;
             }
         }
     }
 });
 
-$(window)
-
-    // -------------------------------------------------------------
-    // HISTORY POP
-    // -------------------------------------------------------------
-
-    .on('popstate', function (event) {
-        var state = event.originalEvent.state;
-        if (state && !app.core.history.disableBack) {
-            $('#app').html(state.content);
-            app.core.ui.plugins.init();
-            $('.dropdown-button').dropdown('close');
-        }
-    })
-
-    ;

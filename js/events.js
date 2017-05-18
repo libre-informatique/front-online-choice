@@ -1,6 +1,25 @@
-$.extend(app, {
+app.register({
     events: {
         manifestationsOrders: [],
+        initEvents: function () {
+            $(document)
+                .on('click', '.presence-btn:not(.mandatory)', function (e) {
+                    if (!$(this).hasClass('attend')) {
+                        $(this)
+                            .prop('attend', true)
+                            .removeClass('btn blue')
+                            .addClass('attend btn-flat teal')
+                            .html('Présent')
+                            ;
+                    } else {
+                        $(this)
+                            .removeClass('attend btn-flat teal')
+                            .addClass('btn blue')
+                            .html('Participer')
+                            ;
+                    }
+                });
+        },
         manageApiResult: function (result, minInterval, maxInterval) {
 
             var finalFormat = {
@@ -8,7 +27,7 @@ $.extend(app, {
                 ts: {}
             };
 
-            for (var m = moment(minInterval); m.isBefore(maxInterval); m.add('days', 1)) {
+            for (var m = moment(minInterval); m.isBefore(maxInterval); m.add(1, 'days')) {
                 var dayId = m.format('dddDDMM');
                 finalFormat.days[dayId] = {
                     id: m.format('dddDDMM'),
@@ -77,7 +96,9 @@ $.extend(app, {
             delete finalFormat.ts;
 
             return finalFormat;
+        },
+        selectManifestation: function () {
+            
         }
     }
 });
-

@@ -1,167 +1,171 @@
-$.extend(app.core, {
-    events: {
-        init: function () {
-            $(document)
+app.register({
+    core: {
+        events: {
+            init: function () {
+                $(document)
 
-                // -------------------------------------------------------------
-                // CONFIRMATION FAB BUTTON
-                // -------------------------------------------------------------
+                    // -------------------------------------------------------------
+                    // CONFIRMATION FAB BUTTON
+                    // -------------------------------------------------------------
 
-                .on('click', '#confirm-fab', function (e) {
-                    app.core.ui.modal.modal('open');
-                })
+                    .on('click', '#confirm-fab', function (e) {
+                        app.core.ui.modal.modal('open');
+                    })
 
-                // -------------------------------------------------------------
-                // CONFIRMATION MODAL BUTTONS
-                // -------------------------------------------------------------
+                    // -------------------------------------------------------------
+                    // CONFIRMATION MODAL BUTTONS
+                    // -------------------------------------------------------------
 
-                .on('click', '#cancel-btn', function (e) {
-                    app.core.ui.modal.modal('close');
-                })
+                    .on('click', '#cancel-btn', function (e) {
+                        app.core.ui.modal.modal('close');
+                    })
 
-                .on('click', '#save-btn', function (e) {
-                    app.save();
-                    app.core.ui.modal.modal('close');
-                })
+                    .on('click', '#save-btn', function (e) {
+                        app.save();
+                        app.core.ui.modal.modal('close');
+                    })
 
-                // -------------------------------------------------------------    
-                // PRESENCE BUTTON
-                // -------------------------------------------------------------
+                    // -------------------------------------------------------------
+                    // LOGIN 
+                    // -------------------------------------------------------------
 
-                .on('click', '.presence-btn:not(.mandatory)', function (e) {
-                    if (!$(this).hasClass('attend')) {
-                        $(this)
-                            .prop('attend', true)
-                            .removeClass('btn blue')
-                            .addClass('attend btn-flat teal')
-                            .html('Présent')
-                            ;
-                    } else {
-                        $(this)
-                            .removeClass('attend btn-flat teal')
-                            .addClass('btn blue')
-                            .html('Participer')
-                            ;
-                    }
-                })
+                    .on('submit', '#loginForm', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
 
-                // -------------------------------------------------------------
-                // LOGIN 
-                // -------------------------------------------------------------
+                        var form = $(this);
 
-                .on('submit', '#loginForm', function (e) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    e.preventDefault();
+                        var formData = app.core.utils.formToObject(form.serializeArray());
 
-                    var form = $(this);
-
-                    var formData = app.core.utils.formToObject(form.serializeArray());
-
-                    if (formData.username !== "" && formData.password !== "") {
-                        app.core.ws.userLogin(formData.username, formData.password, formData.rememberMe, form);
-                    } else {
-                        if (formData.username === "") {
-                            form.find('input[name="username"]').addClass('invalid');
+                        if (formData.username !== "" && formData.password !== "") {
+                            app.core.ws.userLogin(formData.username, formData.password, formData.rememberMe, form);
+                        } else {
+                            if (formData.username === "") {
+                                form.find('input[name="username"]').addClass('invalid');
+                            }
+                            if (formData.password === "") {
+                                form.find('input[name="password"]').addClass('invalid');
+                            }
                         }
-                        if (formData.password === "") {
-                            form.find('input[name="password"]').addClass('invalid');
+                    })
+
+                    .on('user.logged.in', function () {
+                        $('#app').addClass('loggedIn');
+
+                        app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
+
+                        $('nav a[data-activates="userMenu"] span.button-label')
+                            .html(app.core.session.user.shortName);
+
+                        app.cart.init();
+
+                    })
+
+                    .on('user.logged.out', function () {
+                        $('#app').removeClass('loggedIn');
+                    })
+
+                    // -------------------------------------------------------------
+                    // SESSION
+                    // -------------------------------------------------------------
+
+                    .on('session.started', function () {
+                        if (app.core.session.user !== null && app.core.session.loggedIn === true) {
+                            $(document).trigger('user.logged.in');
                         }
-                    }
-                })
+                    })
 
-                .on('user.logged.in', function () {
-                    $('#app').addClass('loggedIn');
+                    // -------------------------------------------------------------
+                    // NAV BUTTONS
+                    // -------------------------------------------------------------
 
-                    app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
+                    .on('click', '*[data-go]', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
 
-                    $('nav a[data-activates="userMenu"] span.button-label')
-                        .html(app.core.session.user.shortName);
+                        var action = $(this).attr('data-go');
 
-                    app.cart.init();
+                        var callableAction = app.core.ctrl[action];
 
-                })
+                        callableAction();
+                    })
 
-                .on('user.logged.out', function () {
-                    $('#app').removeClass('loggedIn');
-                })
+                    // -------------------------------------------------------------
+                    // FORM CUSTOM SUBMIT
+                    // -------------------------------------------------------------
 
-                // -------------------------------------------------------------
-                // SESSION
-                // -------------------------------------------------------------
+                    .on('submit', 'form[data-ws]', function (e) {
+                        e.stopImmediatePropagation();
+                        e.stopPropagation();
+                        e.preventDefault();
 
-                .on('session.started', function () {
-                    if (app.core.session.user !== null && app.core.session.loggedIn === true) {
-                        $(document).trigger('user.logged.in');
-                    }
-                })
+                        var action = $(this).attr('data-ws');
 
-                // -------------------------------------------------------------
-                // NAV BUTTONS
-                // -------------------------------------------------------------
+                        var callableAction = app.core.ws[action];
 
-                .on('click', '*[data-go]', function (e) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    var action = $(this).attr('data-go');
-
-                    var callableAction = app.core.ctrl[action];
-
-                    callableAction();
-                })
-
-                // -------------------------------------------------------------
-                // FORM CUSTOM SUBMIT
-                // -------------------------------------------------------------
-
-                .on('submit', 'form[data-ws]', function (e) {
-                    e.stopImmediatePropagation();
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    var action = $(this).attr('data-ws');
-
-                    var callableAction = app.core.ws[action];
-
-                    callableAction($(this));
-                })
+                        callableAction($(this));
+                    })
 
 
-                // -------------------------------------------------------------
-                // AJAX SPINNER
-                // -------------------------------------------------------------
+                    // -------------------------------------------------------------
+                    // AJAX SPINNER
+                    // -------------------------------------------------------------
 
-                .ajaxStart(function () {
-                    app.core.ui.displayLoading();
-                })
+                    .ajaxStart(function () {
+                        app.core.ui.displayLoading();
+                    })
 
-                .ajaxStop(function () {
-                    app.core.ui.displayLoading(false);
-                })
+                    .ajaxStop(function () {
+                        app.core.ui.displayLoading(false);
+                    })
 
-                // -------------------------------------------------------------
-                // GLOBAL BEHAVIORS
-                // -------------------------------------------------------------
+                    // -------------------------------------------------------------
+                    // GLOBAL BEHAVIORS
+                    // -------------------------------------------------------------
 
-                .on('click', '[href="#"]', function (e) {
-                    e.preventDefault();
-                })
+                    .on('click', '[href="#"]', function (e) {
+                        e.preventDefault();
+                    })
 
-                // -------------------------------------------------------------
-                // TEMPLATING ENGINE
-                // -------------------------------------------------------------
+                    // -------------------------------------------------------------
+                    // TEMPLATING ENGINE
+                    // -------------------------------------------------------------
 
-                .on('template.applyed', function () {
+                    .on('template.applyed', function () {
 
-                    // Initialize form fields when data is already set
+                        // Initialize form fields when data is already set
 
 //                    Materialize.updateTextFields();
-                    app.core.ui.plugins.init();
-                })
+                        app.core.ui.plugins.init();
+                    })
 
-                ;
+                    ;
+
+                // -----------------------------------------------------------------
+                // CALL COMPONENTS REGISTERED EVENTS
+                // -----------------------------------------------------------------
+
+                app.core.events.registerComponentEvents(app);
+            },
+            registerComponentEvents: function (component, deep) {
+                if (typeof deep === 'undefined')
+                    deep = 0;
+
+                if (deep > 3)
+                    return;
+
+                Object.keys(component).forEach(function (key) {
+                    var c = component[key];
+                    if (c.hasOwnProperty('initEvents')) {
+                        c.initEvents();
+                    } else if (typeof c === "object") {
+                        app.core.events.registerComponentEvents(c, ++deep);
+                    }
+
+                });
+            }
         }
     }
 });
