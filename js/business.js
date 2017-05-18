@@ -29,14 +29,12 @@ $.extend(app, {
                             m = ts.manifestations[mId];
 
                             m.event = event;
-
                             delete event.manifestations;
                         });
                     });
                 });
 
                 Object.keys(finalFormat.ts).forEach(function (key) {
-
                     var ts = finalFormat.ts[key];
                     var day = moment(new Date(ts.startsAt));
                     var dayId = day.format('ddddDDMM');
@@ -45,11 +43,23 @@ $.extend(app, {
                         finalFormat.days[dayId] = {
                             id: day.format('ddddDDMM'),
                             label: day.format('dddd DD/MM'),
-                            ts: []
+                            ts: [],
+                            manifCount: 0
                         };
                     }
 
                     finalFormat.days[dayId].ts.push(ts);
+                    finalFormat.days[dayId].ts.sort(function (a, b) {
+                        return new Date(a.startsAt) - new Date(b.startsAt);
+                    });
+                });
+
+                $.each(finalFormat.days, function (i, day) {
+                    $.each(day.ts, function (j, ts) {
+                        $.each(ts.manifestations, function (k, manif) {
+                            day.manifCount++;
+                        });
+                    });
                 });
 
                 delete finalFormat.ts;

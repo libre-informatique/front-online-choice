@@ -47,7 +47,7 @@
                         "endsAt": "2017-05-18T11:00:00+0100",
                         "timeSlots": [
                             {
-                                "id":10018,
+                                "id": 10018,
                                 "title": "Nouveaux défis et perspectives",
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"
@@ -56,11 +56,11 @@
                     },
                     {
                         "id": 838,
-                        "startsAt": "2017-05-19T11:00:00+0100",
-                        "endsAt": "2017-05-19T13:00:00+0100",
+                        "startsAt": "2017-05-18T11:00:00+0100",
+                        "endsAt": "2017-05-18T13:00:00+0100",
                         "timeSlots": [
                             {
-                                "id":10019,
+                                "id": 10019,
                                 "title": "Nouveaux défis et perspectives",
                                 "startsAt": "2017-05-19T09:00:00+0100",
                                 "endsAt": "2017-05-19T13:00:00+0100"
@@ -69,18 +69,17 @@
                     },
                     {
                         "id": 839,
-                        "startsAt": "2017-05-17T17:00:00+0100",
-                        "endsAt": "2017-05-17T18:00:00+0100",
+                        "startsAt": "2017-05-17T09:15:00+0100",
+                        "endsAt": "2017-05-17T10:45:00+0100",
                         "timeSlots": [
                             {
-                                "id":10017,
+                                "id": 10017,
                                 "title": "Nouveaux défis et perspectives",
                                 "startsAt": "2017-05-17T09:00:00+0100",
                                 "endsAt": "2017-05-17T13:00:00+0100"
                             }
                         ]
                     }
-
                 ]
             },
 
@@ -112,7 +111,7 @@
                         "endsAt": "2017-05-18T09:30:00+0100",
                         "timeSlots": [
                             {
-                                "id":10118,
+                                "id": 10118,
                                 "title": "Petit-déjeuner autour des représentants",
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"
@@ -125,7 +124,7 @@
                         "endsAt": "2017-05-17T10:30:00+0100",
                         "timeSlots": [
                             {
-                                "id":10117,
+                                "id": 10117,
                                 "title": "Petit-déjeuner autour des représentants",
                                 "startsAt": "2017-05-17T09:00:00+0100",
                                 "endsAt": "2017-05-17T13:00:00+0100"
@@ -138,7 +137,7 @@
                         "endsAt": "2017-05-19T10:30:00+0100",
                         "timeSlots": [
                             {
-                                "id":10119,
+                                "id": 10119,
                                 "title": "Petit-déjeuner autour des représentants",
                                 "startsAt": "2017-05-19T09:00:00+0100",
                                 "endsAt": "2017-05-19T13:00:00+0100"
@@ -177,7 +176,7 @@
                         "endsAt": "2017-05-19T10:55:00+0100",
                         "timeSlots": [
                             {
-                                "id":10219,
+                                "id": 10219,
                                 "title": "La question des droits de l'homme",
                                 "startsAt": "2017-05-19T09:00:00+0100",
                                 "endsAt": "2017-05-19T13:00:00+0100"
@@ -190,7 +189,7 @@
                         "endsAt": "2017-05-18T10:55:00+0100",
                         "timeSlots": [
                             {
-                                "id":10218,
+                                "id": 10218,
                                 "title": "La question des droits de l'homme",
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"

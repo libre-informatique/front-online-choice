@@ -1,15 +1,17 @@
 <ul id="tabs" class="tabs teal z-depth-2">
-    {{#each tabs as |tab|}}
+    {{#each days as |tab|}}
 
     <li class="tab col s4">
         <a href="#tab{{tab.id}}">
-            {{tab.label}} {{tab.eventsNumber}}
+            {{tab.label}} {{tab.eventsNumber}} 
+            <span class="badge {{#ifCond tab.manifCount '==' 0}}empty{{/ifCond}}">{{tab.manifCount}}</span>
         </a>
     </li>
+
     {{/each}}
 </ul>
 
-{{#each tabs as |tab|}}
+{{#each days as |tab|}}
 <div id="tab{{this.id}}" class="tab-content col s12">
     <div id="headers" class="row center">
         <div id="time-header" class="col s4 header">
@@ -28,24 +30,24 @@
     <div id="periods">
         <ul id="period-list">
 
-            {{#each ../events as |event|}}
-
-            {{#ifForCurrentDay event tab}}
+            {{#each tab.ts as |timeslot|}}
 
             <li class="period">
                 <p class="period-label center">
-                    {{event.translations.fr_FR.name}}
+                    {{timeslot.title}}
                 </p>
-                <div id="events{{event.id}}" class="events row">
+                <div id="events{{timeslot.id}}" class="events row">
                     <ul class="manifestations-list">
 
-                        {{#each event.manifestations as |manif|}}
-                        
+                        {{#each timeslot.manifestations as |manif|}}
+
                         <!-- EVENT not manif -->
 
                         <li class="row event">
                             <div class="event-time col s4 center">
-                                <span>{{{formatDate ../minDate 'HH-mm' }}} - {{{formatDate ../maxDate 'HH-mm' }}}</span>
+                                <span>
+                                    {{{formatDate manif.startsAt 'HH[h]mm' }}} - {{{formatDate manif.endsAt 'HH[h]mm' }}}
+                                </span>
                             </div>
                             <div class="event-card card horizontal z-depth-1 col s8 hoverable row">
                                 <div class="event-image col s2">
@@ -53,7 +55,7 @@
                                 </div>
                                 <div class="label col s5 valign-wrapper">
                                     <p class="event-label">
-                                        #{{manif.id}} {{event.translations.fr_FR.name}} 
+                                        {{manif.event.translations.fr_FR.name}}
                                     </p>
                                 </div>
                                 <div class="presence valign-wrapper col s3">
@@ -73,11 +75,9 @@
                 </div>
             </li>
 
-            {{/ifForCurrentDay}}
-
             {{/each}}
 
-            {{#ifCond tab.eventsNumber '==' 0}}
+            {{#ifCond tab.manifCount '==' 0}}
             <li class="center-align">
                 <div class="card-panel">
                     <i class="material-icons">info_outline</i>
@@ -85,6 +85,7 @@
                 </div>
             </li>
             {{/ifCond}}
+
         </ul>
     </div>
 </div>

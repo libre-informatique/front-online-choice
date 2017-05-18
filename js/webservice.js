@@ -199,7 +199,8 @@ $.extend(app, {
                         },
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader('Authorization', app.utils.ucfirst(app.session.token_type) + " " + app.session.access_token);
-                            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                            if(method === "POST")
+                                xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             app.ui.displayLoading(false);

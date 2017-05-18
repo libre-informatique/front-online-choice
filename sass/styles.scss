@@ -130,6 +130,21 @@ html {
 
         .tab {
             height: 100%;
+
+            .badge {
+                color:$primary-color;
+                background-color:white;
+                border-radius: 0.2em;
+                width: 1.5em;
+                height: 1.5em;
+                min-width: auto;
+                float: none;
+                font-weight:bold;
+
+                &.empty {
+                    opacity:0.4; 
+                }
+            }
         }
 
         .indicator {
