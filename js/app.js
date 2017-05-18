@@ -55,9 +55,42 @@ var app = {
             },
             initSortables: function () {
                 $('.period').each(function () {
-                    Sortable.create($(this).find('.manifestations-list')[0], {
-                        handle: '.priority'
-                    });
+                    var manifs = $(this).find('.manifestations-list');
+                    
+                    console.info(manifs);
+
+                    if (manifs.find('.event').length > 1) {
+                        Sortable.create(manifs[0], {
+                            animation: 100,
+                            handle: '.priority',
+                            scroll: true,
+                            ghostClass: "ghost",
+                            forceFallback: true,
+                            store: {
+                                /**
+                                 * Get the order of elements. Called once during initialization.
+                                 * @param   {Sortable}  sortable
+                                 * @returns {Array}
+                                 */
+                                get: function (sortable) {
+                                    console.info(sortable);
+                                    var order = localStorage.getItem(sortable.options.group.name);
+                                    return order ? order.split('|') : [];
+                                },
+
+                                /**
+                                 * Save the order of elements. Called onEnd (when the item is dropped).
+                                 * @param {Sortable}  sortable
+                                 */
+                                set: function (sortable) {
+                                    var order = sortable.toArray();
+                                    localStorage.setItem(sortable.options.group.name, order.join('|'));
+                                }
+                            }
+                        });
+                    } else {
+                        manifs.find('.priority').addClass('disabled');
+                    }
                 });
             },
             initTooltips: function () {

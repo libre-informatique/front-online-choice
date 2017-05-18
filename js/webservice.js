@@ -144,6 +144,8 @@ $.extend(app, {
                     deffer.resolve(events);
                 }
             });
+            
+            
 
             return deffer;
         },

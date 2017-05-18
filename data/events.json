@@ -69,14 +69,14 @@
                     },
                     {
                         "id": 839,
-                        "startsAt": "2017-05-17T09:15:00+0100",
-                        "endsAt": "2017-05-17T10:45:00+0100",
+                        "startsAt": "2017-05-17T14:15:00+0100",
+                        "endsAt": "2017-05-17T17:45:00+0100",
                         "timeSlots": [
                             {
                                 "id": 10017,
                                 "title": "Nouveaux défis et perspectives",
-                                "startsAt": "2017-05-17T09:00:00+0100",
-                                "endsAt": "2017-05-17T13:00:00+0100"
+                                "startsAt": "2017-05-17T14:00:00+0100",
+                                "endsAt": "2017-05-17T20:00:00+0100"
                             }
                         ]
                     }
@@ -193,6 +193,19 @@
                                 "title": "La question des droits de l'homme",
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 1843,
+                        "startsAt": "2017-05-17T18:00:00+0100",
+                        "endsAt": "2017-05-17T19:55:00+0100",
+                        "timeSlots": [
+                            {
+                                "id": 10017,
+                                "title": "Nouveaux défis et perspectives",
+                                "startsAt": "2017-05-17T14:00:00+0100",
+                                "endsAt": "2017-05-17T20:00:00+0100"
                             }
                         ]
                     }

@@ -204,11 +204,20 @@ html {
                         &.handle {
                             margin   : -20px 0;
                             font-size: 2.2em;
+
+                            opacity:0.4;
                         }
 
                         &.priority-down,
                         &.priority-up {
                             font-size: 2.9em;
+                        }
+                    }
+
+                    &.disabled {
+                        opacity:0;
+                        i {
+                            display:none;
                         }
                     }
                 }
@@ -292,4 +301,26 @@ html {
 
 ::-moz-focus-inner {
     border: 0;
+}
+
+.notselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none;
+    user-select: none; 
+}
+
+.selectable {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text; 
+    -ms-user-select: text;
+    user-select: text; 
+}
+
+.ghost {
+    opacity:0;
 }
