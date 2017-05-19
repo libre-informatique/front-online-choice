@@ -10,7 +10,7 @@ class App
      * @param type $refreshToken
      * @return string
      */
-    public function getApiToken($token = null, $refreshToken = null)
+    public function getApiToken($token = null, $refreshToken = null, $recursion = false)
     {
         $parameters = $this->getParameters();
 
@@ -40,7 +40,20 @@ class App
 
         $res = curl_exec($ch);
 
-        return $res;
+        if ($res == "") {
+            if (!$recursion)
+                $res = $this->getApiToken(null, null, true);
+        }
+
+        $json = json_decode($res);
+
+        if (!isset($json->lifecycle) && $refreshToken) {
+            $json->lifecycle = "refresh";
+        } else {
+            $json->lifecycle = "create";
+        }
+
+        return json_encode($json);
     }
 
     public function getParameters()

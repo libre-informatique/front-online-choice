@@ -3,7 +3,7 @@
         {{user.firstName}} {{user.lastName}}
         <a href="javascript:;" data-go="showUserProfile" class="btn right">
             Annuler
-            <i class="material-icons">undo</i>
+            <i class="material-icons right">undo</i>
         </a>
     </h2>
     <div class="card horizontal">
@@ -15,15 +15,39 @@
                             <tr>
                                 <td>
                                     <div class="input-field col s6">
-                                        <input placeholder="Placeholder" id="email" type="text" class="validate" name="email" value="{{user.email}}">
-                                        <label for="email">First Name</label>
+                                        <input disabled placeholder="Email" id="email" type="text" class="validate" name="email" value="{{user.email}}">
+                                        <label for="email">Email</label>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <div class="input-field col s6">
-                                        <input placeholder="Placeholder" id="address" type="text" class="validate" value="{{user.address}}" name="address">
+                                        <input placeholder="Prénom" id="firstName" type="text" class="validate" name="firstName" value="{{user.firstName}}">
+                                        <label for="firstName">Prénom</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Nom" id="lastName" type="text" class="validate" name="lastName" value="{{user.lastName}}">
+                                        <label for="lastName">Nom</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Pseudo" id="shortName" type="text" class="validate" name="shortName" value="{{user.shortName}}">
+                                        <label for="shortName">Pseudo</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="input-field col s6">
+                                        <input placeholder="Adresse" id="address" type="text" class="validate" value="{{user.address}}" name="address">
                                         <label for="address">Adresse</label>
                                     </div>
                                 </td>
@@ -31,7 +55,7 @@
                             <tr>
                                 <td>
                                     <div class="input-field col s6">
-                                        <input placeholder="Placeholder" id="city" type="text" class="validate" value="{{user.city}}" name="city">
+                                        <input placeholder="Ville" id="city" type="text" class="validate" value="{{user.city}}" name="city">
                                         <label for="city">Ville</label>
                                     </div>
                                 </td>
@@ -39,7 +63,7 @@
                             <tr>
                                 <td>
                                     <div class="input-field col s6">
-                                        <input placeholder="Placeholder" id="zip" type="text" class="validate" value="{{user.zip}}" name="zip">
+                                        <input placeholder="Code postal" id="zip" type="text" class="validate" value="{{user.zip}}" name="zip">
                                         <label for="zip">Code postal</label>
                                     </div>
                                 </td>
@@ -47,7 +71,7 @@
                             <tr>
                                 <td>
                                     <div class="input-field col s6">
-                                        <input placeholder="Placeholder" id="country" type="text" class="validate" value="{{user.country}}" name="country">
+                                        <input placeholder="Pays" id="country" type="text" class="validate" value="{{user.country}}" name="country">
                                         <label for="country">Pays</label>
                                     </div>
                                 </td>
@@ -55,7 +79,7 @@
                             <tr>
                                 <td>
                                     <div class="input-field col s6">
-                                        <input placeholder="Placeholder" id="phoneNumber" type="text" class="validate" value="{{user.phoneNumber}}" name="phoneNumber">
+                                        <input placeholder="Téléphone" id="phoneNumber" type="text" class="validate" value="{{user.phoneNumber}}" name="phoneNumber">
                                         <label for="phoneNumber">Téléphone</label>
                                     </div>
                                 </td>
@@ -74,7 +98,7 @@
                                 <td>
                                     <a href="javascript:;" data-go="showUserProfile" class="btn right">
                                         Annuler
-                                        <i class="material-icons">undo</i>
+                                        <i class="material-icons right">undo</i>
                                     </a>
                                     <button class="btn waves-effect waves-light left" type="submit" name="action">
                                         Enregistrer

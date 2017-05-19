@@ -53,7 +53,9 @@ app.register({
                     .on('user.logged.in', function () {
                         $('#app').addClass('loggedIn');
 
-                        app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
+                        if (app.core.session.user.shortName === null || app.core.session.user.shortName === "") {
+                            app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
+                        }
 
                         $('nav a[data-activates="userMenu"] span.button-label')
                             .html(app.core.session.user.shortName);
@@ -71,7 +73,7 @@ app.register({
                     // -------------------------------------------------------------
 
                     .on('session.started', function () {
-                        if (app.core.session.user !== null && app.core.session.loggedIn === true) {
+                        if (app.core.session.user !== null) {
                             $(document).trigger('user.logged.in');
                         }
                     })

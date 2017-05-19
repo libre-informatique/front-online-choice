@@ -58,13 +58,24 @@ app.register({
                 localStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = false;
             },
-            manageApiToken: function () {
+            manageApiToken: function (force) {
                 var defer = $.Deferred();
 
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
 
+                if (typeof force === 'undefined')
+                    force = false;
+
+                if (force) {
+                    delete app.core.session.tokenExpirationDate;
+                    app.core.session.creationDate = null;
+                    app.core.session.save();
+                }
+
                 var now = new Date();
+
+                // CREATE API TOKEN FROM SCRATCH
 
                 if (typeof app.core.session.creationDate === 'undefined' || app.core.session.creationDate === null) {
                     app.core.ws.apiAuth()
@@ -78,15 +89,22 @@ app.register({
                             app.core.session.save();
                             defer.resolve();
                         });
+                }
+
+                // RENEW OUTDATED API TOKEN
+
+                if (typeof app.core.session.tokenExpirationDate !== 'undefined' && now > new Date(app.core.session.tokenExpirationDate)) {
+                    app.core.ws.apiAuth()
+                        .always(function () {
+                            app.core.session.tokenExpirationDate = null;
+                            app.core.session.creationDate = null;
+                            app.core.session.save();
+                            app.core.session.manageApiToken();
+                            defer.resolve();
+                        });
                 } else {
-                    if (now > new Date(app.core.session.tokenExpirationDate)) {
-                        app.core.ws.apiAuth()
-                            .always(function () {
-                                defer.resolve();
-                            });
-                    } else {
-                        defer.resolve();
-                    }
+
+                    defer.resolve();
                 }
 
                 return defer;

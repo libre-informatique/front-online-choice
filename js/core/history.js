@@ -3,6 +3,8 @@ app.register({
         history: {
 
             currentState: null,
+            
+            currentCallable: null,
 
             provider: window.history,
 

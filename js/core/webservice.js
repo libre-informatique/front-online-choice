@@ -16,10 +16,20 @@ app.register({
                         refreshToken: app.core.session.refresh_token
                     },
                     success: function (data) {
+                        if (data.lifecycle === "create") {
+                            data.user = null;
+                            data.rememberMe = false;
+                        }
                         $.extend(app.core.session, data);
                         app.core.session.save();
+
+                        if (data.lifecycle === "create" && app.core.history.currentState.path !== app.core.ctrl.states.login.path) {
+                            app.core.ctrl.login();
+                        } else if (data.lifecycle === "refresh") {
+                            app.core.history.currentCallable();
+                        }
                     },
-                    arror: function (jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         app.core.ui.toast('l\'API ne semble pas être disponible', 'error');
                     }
                 });
@@ -36,8 +46,6 @@ app.register({
                 }, function (res) {
                     var user = res.success.customer;
                     app.core.session.user = user;
-
-                    app.core.session.loggedIn = true;
 
                     rememberMe == 'on' ?
                         app.core.session.enableRememberMe() :
@@ -67,8 +75,6 @@ app.register({
                     };
                     app.core.session.user = user;
 
-                    app.core.session.loggedIn = true;
-
                     rememberMe == 'on' ?
                         app.core.session.enableRememberMe() :
                         app.core.session.disableRememberMe();
@@ -88,16 +94,29 @@ app.register({
             },
 
             // ---------------------------------------------------------------------
+            // PERFORM USER (CUSTOMER) LOGOUT
+            // ---------------------------------------------------------------------
+
+            userLogout: function () {
+                return app.core.ws.call('POST', '/logout', {}).always(function () {
+                    app.core.session.rememberMe = false;
+                    app.core.session.user = null;
+                    app.core.session.save();
+                    app.core.history.disableBack = true;
+                });
+            },
+
+            // ---------------------------------------------------------------------
             // REFRESH USER INFORMATIONS
             // ---------------------------------------------------------------------
 
             getUser: function (userId) {
                 return app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
+                    console.info(res, res.id);
+
                     app.core.session.user = res;
                     app.core.session.userId = res.id;
                     app.core.session.save();
-                }, function (res) {
-
                 });
             },
 
@@ -107,81 +126,15 @@ app.register({
 
             updateUser: function (form) {
 
-                var formData = app.core.utils.formToObject(form.serializeArray());
+                var formData =
+                    $.extend(app.core.session.user, app.core.utils.formToObject(form.serializeArray()));
 
                 console.info(formData);
 
-                return;
-//            return app.core.ws.call('POST', '/customers/' + app.core.session.user.id, {}, function (res) {
-//                app.core.session.user = res;
-//                app.core.session.userId = res.id;
-//                app.core.session.save();
-//            }, function (res) {
-//
-//            });
-            },
-
-            // ---------------------------------------------------------------------
-            // GET EVENTS DATAS
-            // ---------------------------------------------------------------------
-
-            getEvents: function () {
-
-                // Define min and max interval for tabs
-                var minInterval = moment(new Date()).startOf('week');
-
-                minInterval.hours(0).minutes(0).seconds(0).milliseconds(0);
-
-                var maxInterval = moment(new Date()).endOf('week').subtract(2, 'days');
-                maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
-
-                var deffer = jQuery.Deferred();
-
-                $.ajax({
-                    async: true,
-                    url: appHostname + '/data/events.json',
-                    success: function (data) {
-                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                        deffer.resolve(events);
-                    }
-                });
-
-                return deffer;
-            },
-
-            // ---------------------------------------------------------------------
-            // CREATE CART
-            // ---------------------------------------------------------------------
-
-            createCart: function () {
-                var deffer = jQuery.Deferred();
-
-                app.core.ws.call('POST', '/transaction', {localeCode: 'fr_FR'}, function (res) {
-                    deffer.resolve(res);
-                }, function (jqXHR, textStatus, errorThrown) {
-                    app.core.ui.toast('Impossible de créer le panier', 'error');
-                    deffer.reject();
-                });
-
-                return deffer;
-            },
-
-            addToCart: function (item) {
-                var deffer = jQuery.Deferred();
-
-                app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items', {
-                    "type": "ticket",
-                    "declinationId": 52,
-                    "quantity": 1,
-                    "priceId": 3
-                }, function (res) {
-                    deffer.resolve(res);
-                }, function (jqXHR, textStatus, errorThrown) {
-                    app.core.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
-                    deffer.reject();
-                });
-
-                return deffer;
+                return app.core.ws.call('POST', '/customers/' + app.core.session.user.id,
+                    formData, function (res) {
+                        app.core.ctrl.showUserProfile();
+                    });
             },
 
             // ---------------------------------------------------------------------
@@ -191,6 +144,37 @@ app.register({
             call: function (method, action, data, callback, errorCallback, ignoreApiBaseUri) {
                 var defer = $.Deferred();
 
+                var statusCode = {
+                    0: function () {
+
+                    },
+                    302: function (response) {
+                        if (app.config.debug) {
+                            app.core.ui.toast('Appel non géré par l\'API', 'warning');
+                        }
+                    },
+                    401: function (response) {
+                        if (app.config.debug) {
+                            app.core.ui.toast('Accès refusé (' + response.responseJSON.code + '): ' + response.responseJSON.message, 'warning');
+                        }
+
+                        if (response.responseJSON.message === "api key not valid") {
+                            // TODO : manage token correctly
+                        }
+
+                    },
+                    404: function (response) {
+                        if (app.config.debug) {
+                            app.core.ui.toast('Page non trouvée pour l\'URL : ' + baseUrl + action, 'warning');
+                        }
+                    },
+                    500: function (response) {
+                        if (app.config.debug) {
+                            app.core.ui.toast('Le serveur à rencontré une erreur', 'warning');
+                        }
+                    }
+                };
+
                 app.core.session.manageApiToken()
                     .then(function () {
                         if (typeof callback === 'undefined')
@@ -198,8 +182,7 @@ app.register({
 
                         if (typeof errorCallback === 'undefined')
                             errorCallback = function (jqXHR, textStatus, errorThrown) {
-                                app.core.ui.displayLoading(false);
-                                app.core.ui.toast(textStatus, 'error');
+                                statusCode[jqXHR.status](jqXHR);
                             };
 
                         if (typeof method === 'undefined')
@@ -221,6 +204,8 @@ app.register({
                             data = JSON.stringify(data);
                         }
 
+
+
                         $.ajax({
                             url: baseUrl + action,
                             method: method,
@@ -229,6 +214,11 @@ app.register({
                             success: function (response, textStatus, jqXHR) {
                                 if (typeof response !== 'object')
                                     response = JSON.parse(response);
+
+                                if (response.hasOwnProperty('message') && response.message == "api key not valid") {
+                                    app.core.ws.apiAuth();
+                                }
+
                                 callback(response, textStatus, jqXHR);
                                 defer.resolve();
                             },
@@ -238,10 +228,18 @@ app.register({
                                     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
+                                console.info(jqXHR);
+                                if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.message === "api key not valid") {
+                                    app.core.ws.apiAuth();
+                                }
+
                                 errorCallback(jqXHR, textStatus, errorThrown);
                                 defer.reject();
                             }
                         });
+                    }, function () {
+                        if (app.core.history.currentState.path !== app.core.ctrl.states.login.path)
+                            app.core.ctrl.login();
                     });
 
                 return defer;

@@ -120,6 +120,57 @@ app.register({
             }).detach().appendTo(sortableGroup);
 
             app.core.ui.plugins.initSortables();
+        },
+        ws: {
+
+            // ---------------------------------------------------------------------
+            // GET EVENTS DATAS
+            // ---------------------------------------------------------------------
+
+            getEvents: function () {
+
+                // Define min and max interval for tabs
+                var minInterval = moment(new Date()).startOf('week');
+
+                minInterval.hours(0).minutes(0).seconds(0).milliseconds(0);
+
+                var maxInterval = moment(new Date()).endOf('week').subtract(2, 'days');
+                maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
+
+                var deffer = jQuery.Deferred();
+
+                $.ajax({
+                    async: true,
+                    url: appHostname + '/data/events.json',
+                    success: function (data) {
+                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                        deffer.resolve(events);
+                    }
+                });
+
+                return deffer;
+            },
+        }
+    },
+    core: {
+        ctrl: {
+            states: {
+                showEvents: {
+                    path: "events",
+                    title: "Évènements"
+                }
+            },
+            showEvents: function () {
+                if (app.core.history.currentState !== app.core.ctrl.states.showEvents) {
+                    var events = app.events.ws.getEvents()
+                        .then(function (events) {
+                            app.core.ctrl.render('mainTabs', events, true).then(function () {
+                                app.core.ui.plugins.initTabs();
+                                app.core.history.add(app.core.ctrl.states.showEvents);
+                            });
+                        }, function (error) {});
+                }
+            }
         }
     }
 });
