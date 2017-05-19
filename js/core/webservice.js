@@ -59,39 +59,6 @@ app.register({
 
                     app.core.ctrl.showEvents();
                 }, function (res) {
-<<<<<<< HEAD
-
-                    // FOR DEV ONLY
-
-                    var user = {
-                        "id": 399,
-                        "email": "john.diggle@yahoo.com",
-                        "firstName": "MBARAKA",
-                        "lastName": "Ahamada",
-                        "address": "55, Sunrise St.",
-                        "zip": "F-29000",
-                        "city": "Quimper",
-                        "country": "France",
-                        "phoneNumber": "+987654321",
-                        "subscribedToNewsletter": true
-                    };
-                    app.core.session.user = user;
-
-                    rememberMe == 'on' ?
-                        app.core.session.enableRememberMe() :
-                        app.core.session.disableRememberMe();
-
-                    app.core.session.save();
-
-                    $(document).trigger('user.logged.in');
-                    app.core.history.disableBack = false;
-
-                    app.core.ctrl.showEvents();
-
-                    // END FOR DEV ONLY
-
-=======
->>>>>>> ad8ac0476745b9ea5ff541e5cc0c0fb752908fe9
                     form.find('input').addClass('invalid');
                     app.core.ui.toast('Email et/ou mot de passe invalide', 'error');
                 });
