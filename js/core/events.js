@@ -98,17 +98,25 @@ app.register({
                     // FORM CUSTOM SUBMIT
                     // -------------------------------------------------------------
 
-                    .on('submit', 'form[data-ws]', function (e) {
+                    .on('submit', 'form[data-ws], form[data-ctrl]', function (e) {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                         e.preventDefault();
 
-                        var action = $(this).attr('data-ws');
+                        var callableAction = null;
 
-                        var callableAction = app.core.ws[action];
+                        if ($(this).attr('data-ws')) {
+                            callableAction = app.core.ws[$(this).attr('data-ws')];
+                        } else if ($(this).attr('data-ctrl')) {
+                            callableAction = app.core.ctrl[$(this).attr('data-ctrl')];
+                        } else {
+                            app.core.ui.toast("Mauvais callable de traitement de formulaire", "error");
+                            return;
+                        }
 
                         callableAction($(this));
                     })
+
 
 
                     // -------------------------------------------------------------

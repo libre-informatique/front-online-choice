@@ -101,6 +101,7 @@ if (isset($_GET['getParameters'])) {
 
                 <handlebar-placeholder template="userProfile"></handlebar-placeholder>
                 <handlebar-placeholder template="editUserProfile"></handlebar-placeholder>
+                <handlebar-placeholder template="editUserPassword"></handlebar-placeholder>
 
             </div>
 

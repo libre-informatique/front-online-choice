@@ -1,6 +1,6 @@
 <div class="col s12 m7">
     <h2 class="header">
-        {{user.firstName}} {{user.lastName}}
+        Modifier le profile
         <a href="javascript:;" data-go="showUserProfile" class="btn right">
             Annuler
             <i class="material-icons right">undo</i>
@@ -87,8 +87,8 @@
                             <tr>
                                 <td>
                                     <p>
-                                        <input type="hidden" id="subscribedToNewsletterDefault" name="subscribedToNewsletter" value="0"/>
-                                        <input type="checkbox" id="subscribedToNewsletter" name="subscribedToNewsletter" value="1"
+                                        <input type="hidden" id="subscribedToNewsletterDefault" name="subscribedToNewsletter" value="false"/>
+                                        <input type="checkbox" id="subscribedToNewsletter" name="subscribedToNewsletter" value="true"
                                                {{#ifCond user.subscribedToNewsletter '==' true}} checked="checked" {{/ifCond}} />
                                                <label for="subscribedToNewsletter">Lettre d'information ?</label>
                                     </p>

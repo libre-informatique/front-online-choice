@@ -76,6 +76,17 @@ app.register({
                 });
             },
 
+            updatePassword: function (form) {
+
+                var formData = app.core.utils.formToObject(form.serializeArray());
+
+                if (formData.password_1 == formData.password_2) {
+                    app.core.ws.updateUser(form);
+                } else {
+                    form.find('input[type="password"]').addClass('invalid');
+                }
+            },
+
             // ---------------------------------------------------------------------
             // INTERNAL METHODS
             // ---------------------------------------------------------------------

@@ -77,7 +77,13 @@ app.register({
 
                 var returnArray = {};
                 for (var i = 0; i < formArray.length; i++) {
-                    returnArray[formArray[i]['name']] = formArray[i]['value'];
+                    var value = formArray[i]['value'];
+
+                    if (value == "true" || value == "false")
+                        value = (value == "true");
+
+
+                    returnArray[formArray[i]['name']] = value;
                 }
                 return returnArray;
             },

@@ -44,6 +44,7 @@ app.register({
                     'email': username,
                     'password': password
                 }, function (res) {
+                    console.info(res);
                     var user = res.success.customer;
                     app.core.session.user = user;
 
@@ -129,12 +130,10 @@ app.register({
                 var formData =
                     $.extend(app.core.session.user, app.core.utils.formToObject(form.serializeArray()));
 
-                console.info(formData);
-
                 return app.core.ws.call('POST', '/customers/' + app.core.session.user.id,
-                    formData, function (res) {
-                        app.core.ctrl.showUserProfile();
-                    });
+                    formData).then(function () {
+                    app.core.ctrl.showUserProfile();
+                });
             },
 
             // ---------------------------------------------------------------------
@@ -212,8 +211,13 @@ app.register({
                             data: data,
                             crossDomain: true,
                             success: function (response, textStatus, jqXHR) {
+
+                                if (jqXHR.status === 204)
+                                    response = "{}";
+
                                 if (typeof response !== 'object')
                                     response = JSON.parse(response);
+
 
                                 if (response.hasOwnProperty('message') && response.message == "api key not valid") {
                                     app.core.ws.apiAuth();
