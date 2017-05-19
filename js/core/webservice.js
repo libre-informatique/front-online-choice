@@ -7,7 +7,10 @@ app.register({
             // ---------------------------------------------------------------------
 
             apiAuth: function () {
-                return $.ajax({
+
+                var defer = $.Deferred();
+
+                $.ajax({
                     method: 'GET',
                     url: appHostname + '/',
                     crossDomain: true,
@@ -17,22 +20,20 @@ app.register({
                     },
                     success: function (data) {
                         if (data.lifecycle === "create") {
-                            data.user = null;
-                            data.rememberMe = false;
+                            app.core.session.user = null;
+                            app.core.session.rememberMe = false;
                         }
                         $.extend(app.core.session, data);
                         app.core.session.save();
-
-                        if (data.lifecycle === "create" && app.core.history.currentState.path !== app.core.ctrl.states.login.path) {
-                            app.core.ctrl.login();
-                        } else if (data.lifecycle === "refresh") {
-                            app.core.history.currentCallable();
-                        }
+                        defer.resolve();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        app.core.ui.toast('l\'API ne semble pas être disponible', 'error');
+                        app.core.ui.toast('l\'API n\'est pas être disponible', 'error');
+                        defer.reject();
                     }
                 });
+
+                return defer;
             },
 
             // ---------------------------------------------------------------------
@@ -58,36 +59,6 @@ app.register({
 
                     app.core.ctrl.showEvents();
                 }, function (res) {
-
-                    // FOR DEV ONLY
-
-                    var user = {
-                        "id": 399,
-                        "email": "john.diggle@yahoo.com",
-                        "firstName": "John",
-                        "lastName": "Diggle",
-                        "address": "55, Sunrise St.",
-                        "zip": "F-29000",
-                        "city": "Quimper",
-                        "country": "France",
-                        "phoneNumber": "+987654321",
-                        "subscribedToNewsletter": true
-                    };
-                    app.core.session.user = user;
-
-                    rememberMe == 'on' ?
-                        app.core.session.enableRememberMe() :
-                        app.core.session.disableRememberMe();
-
-                    app.core.session.save();
-
-                    $(document).trigger('user.logged.in');
-                    app.core.history.disableBack = false;
-
-                    app.core.ctrl.showEvents();
-
-                    // END FOR DEV ONLY
-
                     form.find('input').addClass('invalid');
                     app.core.ui.toast('Email et/ou mot de passe invalide', 'error');
                 });
@@ -171,7 +142,7 @@ app.register({
                     }
                 };
 
-                app.core.session.manageApiToken()
+                app.core.ws.apiAuth()
                     .then(function () {
                         if (typeof callback === 'undefined')
                             callback = function (res, textStatus, jqXHR) {};
@@ -215,11 +186,6 @@ app.register({
                                 if (typeof response !== 'object')
                                     response = JSON.parse(response);
 
-
-                                if (response.hasOwnProperty('message') && response.message == "api key not valid") {
-                                    app.core.ws.apiAuth();
-                                }
-
                                 callback(response, textStatus, jqXHR);
                                 defer.resolve();
                             },
@@ -229,10 +195,6 @@ app.register({
                                     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
-                                if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.message === "api key not valid") {
-                                    app.core.ws.apiAuth();
-                                }
-
                                 errorCallback(jqXHR, textStatus, errorThrown);
                                 defer.reject();
                             }

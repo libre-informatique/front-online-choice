@@ -1,5 +1,6 @@
 app.register({
     events: {
+        manifestations: {},
         manifestationsOrders: [],
         currentWeek: null,
         ws: {
@@ -29,9 +30,9 @@ app.register({
                     }
                 });
 
-//                app.core.ws.call('GET', '/events', null, function (res) {
-//                    alert('OK');
-//                    defer.resolve(res);
+//                app.core.ws.call('GET', '/events', null, function (data) {
+//                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+//                    defer.resolve(events);
 //                });
 
                 return defer;
@@ -39,7 +40,9 @@ app.register({
         },
         initEvents: function () {
 
-            app.events.currentWeek = moment().startOf('week');
+//            app.events.currentWeek = moment().startOf('week');
+//            app.events.currentWeek = moment('20170725').startOf('week');
+            app.events.currentWeek = moment('20170517').startOf('week');
 
             $(document)
                 .on('click', '.presence-btn:not(.mandatory)', function (e) {
@@ -62,8 +65,6 @@ app.register({
                 })
 
                 .on('click', '#tabs .prevWeek, #tabs .nextWeek', function () {
-
-
                     var next = $(this).hasClass('nextWeek');
 
                     app.events.changeWeek(next);
@@ -72,13 +73,14 @@ app.register({
 
                     app.core.ctrl.showEvents(true);
                 })
+
                 ;
         },
         manageApiResult: function (result, minInterval, maxInterval) {
 
             var finalFormat = {
                 days: {},
-                ts: {}
+                ts: {},
             };
 
             for (var m = moment(minInterval); m.isBefore(maxInterval); m.add(1, 'days')) {
@@ -114,6 +116,7 @@ app.register({
                         m.event = event;
 
                         app.events.manifestationsOrders.push(m);
+                        app.events.manifestations[m.id] = m;
                         delete event.manifestations;
                     });
                 });
@@ -147,10 +150,13 @@ app.register({
                 return a.order - b.order;
             });
 
+
             delete finalFormat.ts;
+            delete finalFormat.manifsFlat;
 
             return finalFormat;
         },
+
         selectManifestation: function (button) {
 
             var manifId = button.closest('.event').attr('data-id');
@@ -172,7 +178,18 @@ app.register({
             }).detach().appendTo(sortableGroup);
 
             app.core.ui.plugins.initSortables();
+
+            if (selecting) {
+                // get Full manif if gauges are not in /events api result
+                console.info();
+                // Add to cart
+            } else {
+                // get Full manif if gauges are not in /events api result
+
+                // removeFromCart
+            }
         },
+
         changeWeek: function (next) {
             if (typeof next === 'undefined')
                 next = false;

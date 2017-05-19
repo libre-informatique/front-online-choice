@@ -24,12 +24,13 @@ app.register({
                 },
                 initTabs: function () {
                     $('ul#tabs').tabs();
-                    var today = moment(new Date()).format('dddDDMM');
-                    var todayTab = $('ul#tabs li a[data-tabId="' + today + '"]');
-                    if (todayTab.length != 0)
-                        $('ul#tabs li a[data-tabId="' + today + '"]').trigger('click');
-                    else
-                        $('ul#tabs li:first-of-type a').trigger('click');
+//                    var today = moment(new Date()).format('dddDDMM');
+//                    var todayTab = $('ul#tabs li a[data-tabId="' + today + '"]');
+//                    if (todayTab.length != 0)
+//                        $('ul#tabs li a[data-tabId="' + today + '"]').trigger('click');
+//                    else
+//                        $('ul#tabs li:first-of-type a').trigger('click');
+                    $('ul#tabs li:first-of-type a').trigger('click');
                 },
                 initSortables: function () {
                     $('.period').each(function () {

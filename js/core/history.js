@@ -4,7 +4,7 @@ app.register({
 
             currentState: null,
             
-            currentCallable: null,
+            currentCallable: function() {},
 
             provider: window.history,
 

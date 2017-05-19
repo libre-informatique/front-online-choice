@@ -11,6 +11,11 @@ app.register({
 
             user: null,
 
+            initEvents: function () {
+                if (app.core.sessionStorage.engine === null)
+                    app.core.session.start();
+            },
+
             start: function () {
                 if (localStorage.getItem(app.config.clientSessionName))
                     app.core.session.enableRememberMe();
@@ -78,6 +83,9 @@ app.register({
                 // CREATE API TOKEN FROM SCRATCH
 
                 if (typeof app.core.session.creationDate === 'undefined' || app.core.session.creationDate === null) {
+
+                    console.info('FROM SCRATCH');
+
                     app.core.ws.apiAuth()
                         .always(function () {
                             app.core.session.creationDate = now;
@@ -89,11 +97,9 @@ app.register({
                             app.core.session.save();
                             defer.resolve();
                         });
-                }
+                } else if (typeof app.core.session.tokenExpirationDate !== 'undefined' && now > new Date(app.core.session.tokenExpirationDate)) {
+                    console.info('EXPIRED');
 
-                // RENEW OUTDATED API TOKEN
-
-                if (typeof app.core.session.tokenExpirationDate !== 'undefined' && now > new Date(app.core.session.tokenExpirationDate)) {
                     app.core.ws.apiAuth()
                         .always(function () {
                             app.core.session.tokenExpirationDate = null;
@@ -103,7 +109,6 @@ app.register({
                             defer.resolve();
                         });
                 } else {
-
                     defer.resolve();
                 }
 
