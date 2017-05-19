@@ -64,8 +64,8 @@ app.register({
                     var user = {
                         "id": 399,
                         "email": "john.diggle@yahoo.com",
-                        "firstName": "John",
-                        "lastName": "Diggle",
+                        "firstName": "MBARAKA",
+                        "lastName": "Ahamada",
                         "address": "55, Sunrise St.",
                         "zip": "F-29000",
                         "city": "Quimper",
