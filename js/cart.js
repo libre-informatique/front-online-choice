@@ -5,7 +5,7 @@ app.register({
                 var cart = res._embedded.items[0];
                 $.extend(app.core.session, {cart: cart});
             }, function () {
-                
+
             });
         },
         ws: {
@@ -14,16 +14,16 @@ app.register({
             // ---------------------------------------------------------------------
 
             getCart: function () {
-                var deffer = jQuery.Deferred();
+                var defer = jQuery.Deferred();
 
                 app.core.ws.call('GET', '/carts', {}, function (res) {
-                    deffer.resolve(res);
+                    defer.resolve(res);
                 }, function (jqXHR, textStatus, errorThrown) {
                     app.core.ui.toast('Impossible de récupérer le panier', 'error');
-                    deffer.reject();
+                    defer.reject();
                 });
 
-                return deffer;
+                return defer;
             },
 
             // ---------------------------------------------------------------------
@@ -31,7 +31,7 @@ app.register({
             // ---------------------------------------------------------------------
 
             addToCart: function (item) {
-                var deffer = jQuery.Deferred();
+                var defer = jQuery.Deferred();
 
                 app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items', {
                     "type": "ticket",
@@ -39,13 +39,13 @@ app.register({
                     "quantity": 1,
                     "priceId": 3
                 }, function (res) {
-                    deffer.resolve(res);
+                    defer.resolve(res);
                 }, function (jqXHR, textStatus, errorThrown) {
                     app.core.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
-                    deffer.reject();
+                    defer.reject();
                 });
 
-                return deffer;
+                return defer;
             }
         }
     }

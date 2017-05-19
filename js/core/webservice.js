@@ -44,7 +44,6 @@ app.register({
                     'email': username,
                     'password': password
                 }, function (res) {
-                    console.info(res);
                     var user = res.success.customer;
                     app.core.session.user = user;
 
@@ -113,8 +112,6 @@ app.register({
 
             getUser: function (userId) {
                 return app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
-                    console.info(res, res.id);
-
                     app.core.session.user = res;
                     app.core.session.userId = res.id;
                     app.core.session.save();
@@ -232,7 +229,6 @@ app.register({
                                     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
-                                console.info(jqXHR);
                                 if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.message === "api key not valid") {
                                     app.core.ws.apiAuth();
                                 }
