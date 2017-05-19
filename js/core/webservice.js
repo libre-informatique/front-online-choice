@@ -7,7 +7,10 @@ app.register({
             // ---------------------------------------------------------------------
 
             apiAuth: function () {
-                return $.ajax({
+
+                var defer = $.Deferred();
+
+                $.ajax({
                     method: 'GET',
                     url: appHostname + '/',
                     crossDomain: true,
@@ -17,22 +20,20 @@ app.register({
                     },
                     success: function (data) {
                         if (data.lifecycle === "create") {
-                            data.user = null;
-                            data.rememberMe = false;
+                            app.core.session.user = null;
+                            app.core.session.rememberMe = false;
                         }
                         $.extend(app.core.session, data);
                         app.core.session.save();
-
-                        if (data.lifecycle === "create" && app.core.history.currentState.path !== app.core.ctrl.states.login.path) {
-                            app.core.ctrl.login();
-                        } else if (data.lifecycle === "refresh") {
-                            app.core.history.currentCallable();
-                        }
+                        defer.resolve();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        app.core.ui.toast('l\'API ne semble pas être disponible', 'error');
+                        app.core.ui.toast('l\'API n\'est pas être disponible', 'error');
+                        defer.reject();
                     }
                 });
+
+                return defer;
             },
 
             // ---------------------------------------------------------------------
@@ -44,7 +45,6 @@ app.register({
                     'email': username,
                     'password': password
                 }, function (res) {
-                    console.info(res);
                     var user = res.success.customer;
                     app.core.session.user = user;
 
@@ -59,6 +59,7 @@ app.register({
 
                     app.core.ctrl.showEvents();
                 }, function (res) {
+<<<<<<< HEAD
 
                     // FOR DEV ONLY
 
@@ -89,6 +90,8 @@ app.register({
 
                     // END FOR DEV ONLY
 
+=======
+>>>>>>> ad8ac0476745b9ea5ff541e5cc0c0fb752908fe9
                     form.find('input').addClass('invalid');
                     app.core.ui.toast('Email et/ou mot de passe invalide', 'error');
                 });
@@ -113,8 +116,6 @@ app.register({
 
             getUser: function (userId) {
                 return app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
-                    console.info(res, res.id);
-
                     app.core.session.user = res;
                     app.core.session.userId = res.id;
                     app.core.session.save();
@@ -174,7 +175,7 @@ app.register({
                     }
                 };
 
-                app.core.session.manageApiToken()
+                app.core.ws.apiAuth()
                     .then(function () {
                         if (typeof callback === 'undefined')
                             callback = function (res, textStatus, jqXHR) {};
@@ -218,11 +219,6 @@ app.register({
                                 if (typeof response !== 'object')
                                     response = JSON.parse(response);
 
-
-                                if (response.hasOwnProperty('message') && response.message == "api key not valid") {
-                                    app.core.ws.apiAuth();
-                                }
-
                                 callback(response, textStatus, jqXHR);
                                 defer.resolve();
                             },
@@ -232,11 +228,6 @@ app.register({
                                     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
-                                console.info(jqXHR);
-                                if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.message === "api key not valid") {
-                                    app.core.ws.apiAuth();
-                                }
-
                                 errorCallback(jqXHR, textStatus, errorThrown);
                                 defer.reject();
                             }

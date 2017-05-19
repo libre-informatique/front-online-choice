@@ -96,7 +96,7 @@ app.register({
             },
 
             render: function (templateName, data, clearContent) {
-                var deffered = $.Deferred();
+                var defer = $.Deferred();
 
                 if (typeof data === 'undefined')
                     data = {};
@@ -111,8 +111,10 @@ app.register({
                 app.core.ui.applyTemplate(templateName, compiled(data));
 
                 $('.dropdown-button').dropdown('close');
+                
+                defer.resolve();
 
-                return deffered.resolve();
+                return defer;
             }
         }
     }

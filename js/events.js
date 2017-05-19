@@ -1,7 +1,49 @@
 app.register({
     events: {
+        manifestations: {},
         manifestationsOrders: [],
+        currentWeek: null,
+        ws: {
+
+            // ---------------------------------------------------------------------
+            // GET EVENTS DATAS
+            // ---------------------------------------------------------------------
+
+            getEvents: function () {
+
+                // Define min and max interval for tabs
+                var minInterval = moment(app.events.currentWeek).startOf('week');
+
+                minInterval.hours(0).minutes(0).seconds(0).milliseconds(0);
+
+                var maxInterval = moment(app.events.currentWeek).endOf('week').subtract(2, 'days');
+                maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
+
+                var defer = jQuery.Deferred();
+
+                $.ajax({
+                    async: true,
+                    url: appHostname + '/data/events.json',
+                    success: function (data) {
+                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                        defer.resolve(events);
+                    }
+                });
+
+//                app.core.ws.call('GET', '/events', null, function (data) {
+//                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+//                    defer.resolve(events);
+//                });
+
+                return defer;
+            }
+        },
         initEvents: function () {
+
+//            app.events.currentWeek = moment().startOf('week');
+//            app.events.currentWeek = moment('20170725').startOf('week');
+            app.events.currentWeek = moment('20170517').startOf('week');
+
             $(document)
                 .on('click', '.presence-btn:not(.mandatory)', function (e) {
                     if (!$(this).hasClass('attend')) {
@@ -20,13 +62,25 @@ app.register({
                     }
                     app.events.selectManifestation($(this));
 
-                });
+                })
+
+                .on('click', '#tabs .prevWeek, #tabs .nextWeek', function () {
+                    var next = $(this).hasClass('nextWeek');
+
+                    app.events.changeWeek(next);
+
+                    console.info(app.events.currentWeek);
+
+                    app.core.ctrl.showEvents(true);
+                })
+
+                ;
         },
         manageApiResult: function (result, minInterval, maxInterval) {
 
             var finalFormat = {
                 days: {},
-                ts: {}
+                ts: {},
             };
 
             for (var m = moment(minInterval); m.isBefore(maxInterval); m.add(1, 'days')) {
@@ -62,6 +116,7 @@ app.register({
                         m.event = event;
 
                         app.events.manifestationsOrders.push(m);
+                        app.events.manifestations[m.id] = m;
                         delete event.manifestations;
                     });
                 });
@@ -95,10 +150,13 @@ app.register({
                 return a.order - b.order;
             });
 
+
             delete finalFormat.ts;
+            delete finalFormat.manifsFlat;
 
             return finalFormat;
         },
+
         selectManifestation: function (button) {
 
             var manifId = button.closest('.event').attr('data-id');
@@ -120,37 +178,29 @@ app.register({
             }).detach().appendTo(sortableGroup);
 
             app.core.ui.plugins.initSortables();
+
+            if (selecting) {
+                // get Full manif if gauges are not in /events api result
+                console.info();
+                // Add to cart
+            } else {
+                // get Full manif if gauges are not in /events api result
+
+                // removeFromCart
+            }
         },
-        ws: {
 
-            // ---------------------------------------------------------------------
-            // GET EVENTS DATAS
-            // ---------------------------------------------------------------------
+        changeWeek: function (next) {
+            if (typeof next === 'undefined')
+                next = false;
 
-            getEvents: function () {
-
-                // Define min and max interval for tabs
-                var minInterval = moment(new Date()).startOf('week');
-
-                minInterval.hours(0).minutes(0).seconds(0).milliseconds(0);
-
-                var maxInterval = moment(new Date()).endOf('week').subtract(2, 'days');
-                maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
-
-                var deffer = jQuery.Deferred();
-
-                $.ajax({
-                    async: true,
-                    url: appHostname + '/data/events.json',
-                    success: function (data) {
-                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                        deffer.resolve(events);
-                    }
-                });
-
-                return deffer;
-            },
+            if (next) {
+                app.events.currentWeek.add(7, 'days').startOf('day');
+            } else {
+                app.events.currentWeek.subtract(7, 'days').startOf('day');
+            }
         }
+
     },
     core: {
         ctrl: {
@@ -160,8 +210,8 @@ app.register({
                     title: "Évènements"
                 }
             },
-            showEvents: function () {
-                if (app.core.history.currentState !== app.core.ctrl.states.showEvents) {
+            showEvents: function (force) {
+                if (app.core.history.currentState !== app.core.ctrl.states.showEvents || force) {
                     var events = app.events.ws.getEvents()
                         .then(function (events) {
                             app.core.ctrl.render('mainTabs', events, true).then(function () {

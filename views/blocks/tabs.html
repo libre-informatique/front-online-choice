@@ -1,4 +1,8 @@
 <ul id="tabs" class="tabs teal z-depth-2">
+    <li class="tab col prevWeek">
+        <i class="material-icons">chevron_left</i>
+    </li>
+
     {{#each days as |tab|}}
 
     <li class="tab col">
@@ -9,6 +13,10 @@
     </li>
 
     {{/each}}
+
+    <li class="tab col nextWeek">
+        <i class="material-icons">chevron_right</i>
+    </li>
 </ul>
 
 {{#each days as |tab|}}
