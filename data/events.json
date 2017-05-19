@@ -319,6 +319,71 @@
                     }
 
                 ]
+            },
+
+            {
+                "id": 7,
+                "metaEvent": {
+                    "id": 120,
+                    "translations": {
+                        "fr_FR": {
+                            "id": 120,
+                            "name": "Réunions 'off' des directions géographiques avec les Ambassadeurs",
+                            "decription": "09h00-13h00:Réunions 'off' des directions géographiques avec les Ambassadeurs"
+                        }
+                    }
+                },
+                "category": "",
+                "translations": {
+                    "fr_FR": {
+                        "id": 7,
+                        "name": "Petit-déjeuner autour des représentants permanents auprès des Nations-Unies",
+                        "decription": "09h00-10h30:Petit-déjeuner autour des représentants permanents auprès des Nations-Unies"
+                    }
+                },
+                "imageURL": "",
+                "manifestations": [
+                    {
+                        "id": 89,
+                        "startsAt": "2017-05-15T09:00:00+0100",
+                        "endsAt": "2017-05-15T09:30:00+0100",
+                        "timeSlots": [
+                            {
+                                "id": 1118,
+                                "title": "Petit-déjeuner autour des représentants",
+                                "startsAt": "2017-05-15T09:00:00+0100",
+                                "endsAt": "2017-05-15T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 80,
+                        "startsAt": "2017-05-16T09:30:00+0100",
+                        "endsAt": "2017-05-16T10:30:00+0100",
+                        "timeSlots": [
+                            {
+                                "id": 1117,
+                                "title": "Petit-déjeuner autour des représentants",
+                                "startsAt": "2017-05-16T09:00:00+0100",
+                                "endsAt": "2017-05-16T13:00:00+0100"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 81,
+                        "startsAt": "2017-05-16T09:30:00+0100",
+                        "endsAt": "2017-05-16T10:30:00+0100",
+                        "timeSlots": [
+                            {
+                                "id": 1119,
+                                "title": "Petit-déjeuner autour des représentants",
+                                "startsAt": "2017-05-16T09:00:00+0100",
+                                "endsAt": "2017-05-16T13:00:00+0100"
+                            }
+                        ]
+                    }
+
+                ]
             }
 
         ]
