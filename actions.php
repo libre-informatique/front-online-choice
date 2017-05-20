@@ -4,10 +4,11 @@ class App
 {
 
     /**
-     * getApiToken
-     * 
+     * getApiToken.
+     *
      * @param type $token
      * @param type $refreshToken
+     *
      * @return string
      */
     public function getApiToken($token = null, $refreshToken = null, $recursion = false)
@@ -15,7 +16,7 @@ class App
         $parameters = $this->getParameters();
 
         $wsUrl = sprintf(
-            "%s://%s%s", $parameters->webservice->protocol, $parameters->webservice->hostname, "/tck.php/api/oauth/v2/token"
+            '%s://%s%s', $parameters->webservice->protocol, $parameters->webservice->hostname, '/tck.php/api/oauth/v2/token'
         );
 
         $user = $parameters->user;
@@ -40,17 +41,18 @@ class App
 
         $res = curl_exec($ch);
 
-        if ($res == "") {
-            if (!$recursion)
+        if ($res == '') {
+            if (!$recursion) {
                 $res = $this->getApiToken(null, null, true);
+            }
         }
 
         $json = json_decode($res);
 
         if (!isset($json->lifecycle) && $refreshToken) {
-            $json->lifecycle = "refresh";
+            $json->lifecycle = 'refresh';
         } else {
-            $json->lifecycle = "create";
+            $json->lifecycle = 'create';
         }
 
         return json_encode($json);
@@ -58,7 +60,7 @@ class App
 
     public function getParameters()
     {
-        return json_decode(file_get_contents("./data/parameters.json"));
+        return json_decode(file_get_contents('./data/parameters.json'));
     }
 
     public function getApiTokenAction($token, $refreshToken = null)
