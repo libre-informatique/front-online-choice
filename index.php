@@ -105,12 +105,6 @@ if (isset($_GET['getParameters'])) {
 
             </div>
 
-            <!-- CONFIRM FAB -->
-
-            <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light orange z-depth-3 showIfLoggedIn">
-                <i class="material-icons">check</i>
-            </a>
-
             <!-- CONFIRM MODAL -->
 
             <div id="confirm-modal" class="modal bottom-sheet">
