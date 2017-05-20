@@ -2,7 +2,6 @@
 
 class App
 {
-
     /**
      * getApiToken.
      *
@@ -89,5 +88,4 @@ class App
         echo json_encode($params, JSON_FORCE_OBJECT);
         die();
     }
-
 }
