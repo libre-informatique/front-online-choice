@@ -1,14 +1,14 @@
 app.register({
     core: {
         events: {
-            init: function () {
+            init: function() {
                 $(document)
 
                     // -------------------------------------------------------------
                     // CONFIRMATION FAB BUTTON
                     // -------------------------------------------------------------
 
-                    .on('click', '#confirm-fab', function (e) {
+                    .on('click', '#confirm-fab', function(e) {
                         app.core.ui.modal.modal('open');
                     })
 
@@ -16,20 +16,20 @@ app.register({
                     // CONFIRMATION MODAL BUTTONS
                     // -------------------------------------------------------------
 
-                    .on('click', '#cancel-btn', function (e) {
+                    .on('click', '#cancel-btn', function(e) {
                         app.core.ui.modal.modal('close');
                     })
 
-                    .on('click', '#save-btn', function (e) {
-                        app.save();
+                    .on('click', '#save-btn', function(e) {
+                        // TODO: Validate cart
                         app.core.ui.modal.modal('close');
                     })
 
                     // -------------------------------------------------------------
-                    // LOGIN 
+                    // LOGIN
                     // -------------------------------------------------------------
 
-                    .on('submit', '#loginForm', function (e) {
+                    .on('submit', '#loginForm', function(e) {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                         e.preventDefault();
@@ -50,7 +50,7 @@ app.register({
                         }
                     })
 
-                    .on('user.logged.in', function () {
+                    .on('user.logged.in', function() {
                         $('#app').addClass('loggedIn');
 
                         if (app.core.session.user.shortName === null || app.core.session.user.shortName === "") {
@@ -64,7 +64,7 @@ app.register({
 
                     })
 
-                    .on('user.logged.out', function () {
+                    .on('user.logged.out', function() {
                         $('#app').removeClass('loggedIn');
                     })
 
@@ -72,7 +72,7 @@ app.register({
                     // SESSION
                     // -------------------------------------------------------------
 
-                    .on('session.started', function () {
+                    .on('session.started', function() {
                         if (app.core.session.user !== null) {
                             $(document).trigger('user.logged.in');
                         }
@@ -82,7 +82,7 @@ app.register({
                     // NAV BUTTONS
                     // -------------------------------------------------------------
 
-                    .on('click', '*[data-go]', function (e) {
+                    .on('click', '*[data-go]', function(e) {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                         e.preventDefault();
@@ -98,7 +98,7 @@ app.register({
                     // FORM CUSTOM SUBMIT
                     // -------------------------------------------------------------
 
-                    .on('submit', 'form[data-ws], form[data-ctrl]', function (e) {
+                    .on('submit', 'form[data-ws], form[data-ctrl]', function(e) {
                         e.stopImmediatePropagation();
                         e.stopPropagation();
                         e.preventDefault();
@@ -123,11 +123,11 @@ app.register({
                     // AJAX SPINNER
                     // -------------------------------------------------------------
 
-                    .ajaxStart(function () {
+                    .ajaxStart(function() {
                         app.core.ui.displayLoading();
                     })
 
-                    .ajaxStop(function () {
+                    .ajaxStop(function() {
                         app.core.ui.displayLoading(false);
                     })
 
@@ -135,7 +135,7 @@ app.register({
                     // GLOBAL BEHAVIORS
                     // -------------------------------------------------------------
 
-                    .on('click', '[href="#"]', function (e) {
+                    .on('click', '[href="#"]', function(e) {
                         e.preventDefault();
                     })
 
@@ -143,37 +143,38 @@ app.register({
                     // TEMPLATING ENGINE
                     // -------------------------------------------------------------
 
-                    .on('template.applyed', function () {
+                    .on('template.applyed', function() {
 
                         // Initialize form fields when data is already set
 
-//                    Materialize.updateTextFields();
+                        //                    Materialize.updateTextFields();
                         app.core.ui.plugins.init();
                     })
 
-                    ;
-
-                // -----------------------------------------------------------------
-                // CALL COMPONENTS REGISTERED EVENTS
-                // -----------------------------------------------------------------
+                ;
 
                 app.core.events.registerComponentEvents(app);
             },
-            registerComponentEvents: function (component, deep) {
+
+            // ---------------------------------------------------------------------
+            // INITIALIZE COMPONENTS EVENTS
+            // ---------------------------------------------------------------------
+
+            registerComponentEvents: function(component, deep) {
                 if (typeof deep === 'undefined')
                     deep = 0;
 
-                if (deep > 3)
+                if (deep > 3) // LIMIT INIT SEARCH RECURSION TO 4 LEVEL
                     return;
 
-                Object.keys(component).forEach(function (key) {
+                // RECURSION OVER APPLICATION COMPONENTS
+                Object.keys(component).forEach(function(key) {
                     var c = component[key];
                     if (c.hasOwnProperty('initEvents')) {
                         c.initEvents();
                     } else if (typeof c === "object") {
                         app.core.events.registerComponentEvents(c, ++deep);
                     }
-
                 });
             }
         }

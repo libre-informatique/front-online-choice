@@ -23,7 +23,7 @@ app.register({
                     defer.reject();
                 });
 
-                return defer;
+                return defer.promise();
             },
 
             // ---------------------------------------------------------------------
@@ -45,7 +45,7 @@ app.register({
                     defer.reject();
                 });
 
-                return defer;
+                return defer.promise();
             }
         }
     }

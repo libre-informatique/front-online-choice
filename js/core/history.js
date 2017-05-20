@@ -2,15 +2,28 @@ app.register({
     core: {
         history: {
 
+            // HOLDS CURRENT VIEW STATE
             currentState: null,
-            
-            currentCallable: function() {},
 
+            // HOLDS CURRENT VIEW CALLABLE (USED FOR RECALL)
+            currentCallable: function() {
+                app.core.ctrl.login();
+            },
+
+            // WRAPPER BROWSER HISTORY
+            // provider: History,
+            
+            // NATIVE BROWSER HISTORY
             provider: window.history,
 
+            // DISABLE BACK ACTION WHEN TRUE
             disableBack: false,
 
-            add: function (state) {
+            // ---------------------------------------------------------------------
+            // ADD ENTRY TO BROWSER HISTORY STACK
+            // ---------------------------------------------------------------------
+
+            add: function(state) {
                 var currentState = app.core.history.provider.state;
 
                 if (currentState === null || currentState.state.path !== state.path) {
@@ -23,25 +36,27 @@ app.register({
                     app.core.history.currentState = state;
                 }
             },
-            initEvents: function () {
+
+            // ---------------------------------------------------------------------
+            // INIT EVENTS (CALLED BY APP CORE EVENTS)
+            // ---------------------------------------------------------------------
+
+            initEvents: function() {
+
+                // -----------------------------------------------------------------
+                // HISTORY POP
+                // -----------------------------------------------------------------
+
                 $(window)
-
-                    // -------------------------------------------------------------
-                    // HISTORY POP
-                    // -------------------------------------------------------------
-
-                    .on('popstate', function (event) {
+                    .on('popstate', function(event) {
                         var state = event.originalEvent.state;
                         if (state && !app.core.history.disableBack) {
                             $('#app').html(state.content);
                             app.core.ui.plugins.init();
                             $('.dropdown-button').dropdown('close');
                         }
-                    })
-
-                    ;
+                    });
             }
         }
     }
 });
-

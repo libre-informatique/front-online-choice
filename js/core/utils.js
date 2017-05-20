@@ -1,33 +1,13 @@
 app.register({
     core: {
         utils: {
-            init: function () {
-
-                // -----------------------------------------------------------------
-                // EVENTS TEMPLATE LOOP - IS FOR CURRENT DAY
-                // -----------------------------------------------------------------
-
-                Handlebars.registerHelper('ifForCurrentDay', function (event, tab, options) {
-                    if (tab.date.isSameOrAfter(event.minDate, 'day') && tab.date.isSameOrBefore(event.maxDate, 'day')) {
-                        tab.eventsNumber++;
-                        return options.fn(this);
-                    }
-                    return options.inverse(this);
-                });
-
-                // -----------------------------------------------------------------
-                // EVENTS TEMPLATE LOOP - EVENT COUNTER
-                // -----------------------------------------------------------------
-
-                Handlebars.registerHelper('incrementCounter', function (counter) {
-                    return counter + 1;
-                });
+            init: function() {
 
                 // -----------------------------------------------------------------
                 // HANDLEBAR MISSING IF
                 // -----------------------------------------------------------------
 
-                Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+                Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
 
                     switch (operator) {
                         case '==':
@@ -59,7 +39,7 @@ app.register({
                 // RENDER DATE / DATETIME
                 // -----------------------------------------------------------------
 
-                Handlebars.registerHelper('formatDate', function (dateStr, format) {
+                Handlebars.registerHelper('formatDate', function(dateStr, format) {
                     var date = moment(new Date(dateStr));
                     return date.format(format);
                 });
@@ -68,12 +48,17 @@ app.register({
                 // RENDER YES / NO BADGE
                 // -----------------------------------------------------------------
 
-                Handlebars.registerHelper('ouiNon', function (boolean) {
+                Handlebars.registerHelper('ouiNon', function(boolean) {
                     return (boolean ? '<span class="teal badge white-text">Oui</span>' : '<span class="red badge">Non</span>');
                 });
 
             },
-            formToObject: function (formArray) {
+
+            // ---------------------------------------------------------------------
+            // CONVERT FORM (AFTER .serializeArray() ) TO OBJECT
+            // ---------------------------------------------------------------------
+
+            formToObject: function(formArray) {
 
                 var returnArray = {};
                 for (var i = 0; i < formArray.length; i++) {
@@ -87,7 +72,12 @@ app.register({
                 }
                 return returnArray;
             },
-            ucfirst: function (string) {
+
+            // ---------------------------------------------------------------------
+            // PUTS FIRST LETTER OF STRING IN UPPER CASE
+            // ---------------------------------------------------------------------
+
+            ucfirst: function(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
         }

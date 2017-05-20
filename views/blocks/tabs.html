@@ -7,7 +7,7 @@
 
     <li class="tab col">
         <a href="#tab{{tab.id}}" data-tabId="{{tab.id}}">
-            {{tab.label}} {{tab.eventsNumber}} 
+            {{tab.label}}
             <span class="badge {{#ifCond tab.manifCount '==' 0}}empty{{/ifCond}}">{{tab.manifCount}}</span>
         </a>
     </li>
@@ -69,11 +69,6 @@
                                 <div class="presence valign-wrapper col s3">
                                     <a class="presence-btn btn blue waves-effect waves-light">Participer</a>
                                 </div>
-                                <!--<div class="priority col s2 center">
-                                        <i class="priority-up material-icons">arrow_drop_up</i>
-                                        <i class="handle material-icons">drag_handle</i>
-                                        <i class="priority-down material-icons">arrow_drop_down</i>
-                                    </div>-->
                                 <div class="priority col s2 center valign-wrapper">
                                     <i class="handle material-icons">apps</i>
                                 </div>
@@ -88,13 +83,16 @@
 
             {{/each}}
 
+            <!-- -- >
+
             {{#ifCond tab.manifCount '==' 0}}
+
             <li class="center-align">
                 <div class="card-panel">
-                    <i class="material-icons">info_outline</i>
-                    Aucuns évènements pour ce jour
+                    <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
                 </div>
             </li>
+
             {{/ifCond}}
 
         </ul>

@@ -47,9 +47,9 @@ if (isset($_GET['getParameters'])) {
                     <ul id="nav-mobile-right" class="right">
                         <li class="showIfLoggedIn">
                             <a class='dropdown-button navbar-user-btn' href="javascript:;"
-                               data-activates='userMenu' 
-                               data-alignment="right" 
-                               data-constrainWidth="false" 
+                               data-activates='userMenu'
+                               data-alignment="right"
+                               data-constrainWidth="false"
                                data-belowOrigin="true"
                                >
                                 <i class="material-icons right">person_outline</i>
@@ -135,11 +135,6 @@ if (isset($_GET['getParameters'])) {
 
         </div>
 
-
-
-
-
-
         <!-- LIBS -->
 
         <script src="js/libs/jquery-3.2.1.min.js"></script>
@@ -148,6 +143,7 @@ if (isset($_GET['getParameters'])) {
         <script src="js/libs/Sortable.min.js"></script>
         <script src="js/libs/jquery.fn.sortable.min.js"></script>
         <script src="js/libs/moment-with-locales.min.js"></script>
+        <!-- UNCOMMENT IF YOU WANT TO SUPPORT LEGACY BROWSER -->
         <!--<script src="js/libs/jquery.history.js"></script>-->
 
         <!-- APP -->
@@ -174,25 +170,19 @@ if (isset($_GET['getParameters'])) {
 
         <script type="text/javascript">
             // START APP
-            $(document).ready(app.init);
+            $(document).ready(app.init());
         </script>
 
-        <!-- TEMPLATES LOADS DIRECTLY-->
+        <!-- TEMPLATES LOADED DIRECTLY-->
 
         <script id="login-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/login.html'); ?></script>
         <script id="mainTabs-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/tabs.html'); ?></script>
-<!--        <script id="userProfile-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/profile.html'); ?></script>
-        <script id="editUserProfile-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editProfile.html'); ?></script>
-        <script id="editUserPassword-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editPassword.html'); ?></script>-->
-        
-        <!-- TEMPLATES LOADS VIA AJAX-->
 
-<!--    <script id="login-template" type="text/x-handlebars-template" src="views/login.html"></script>
-        <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script>-->
+        <!-- TEMPLATES LOADED VIA AJAX-->
+
         <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
         <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
         <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script>
-
 
         <div id="mainLoader" class="preloader-wrapper small active">
             <div class="spinner-layer spinner-blue">

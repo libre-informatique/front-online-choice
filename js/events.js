@@ -1,15 +1,22 @@
 app.register({
     events: {
+        // HOLDS MANIFESTATIONS IN FLAT OBJECT
         manifestations: {},
+
+        // HOLDS MANIFESTATIONS RANKS
         manifestationsOrders: [],
+
+        // USED TO CENTER TABS ON CURRENT WEEK
+        // TODO: REMOVE THIS
         currentWeek: null,
+
         ws: {
 
             // ---------------------------------------------------------------------
             // GET EVENTS DATAS
             // ---------------------------------------------------------------------
 
-            getEvents: function () {
+            getEvents: function() {
 
                 // Define min and max interval for tabs
                 var minInterval = moment(app.events.currentWeek).startOf('week');
@@ -21,68 +28,88 @@ app.register({
 
                 var defer = jQuery.Deferred();
 
-                $.ajax({
-                    async: true,
-                    url: appHostname + '/data/events.json',
-                    success: function (data) {
-                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                        defer.resolve(events);
-                    }
+                // FOR DEV, USE EVENTS.JSON
+
+                // $.ajax({
+                //     async: true,
+                //     url: appHostname + '/data/events.json',
+                //     success: function (data) {
+                //         var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                //         defer.resolve(events);
+                //     }
+                // });
+
+                // FOR PROD, USE EVENTS API
+
+                app.core.ws.call('GET', '/events', {
+                    'criteria[manifestations.id][type]': 'not empty',
+                    'limit': 100
+                }, function(data) {
+                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                    defer.resolve(events);
                 });
 
-//                app.core.ws.call('GET', '/events', null, function (data) {
-//                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-//                    defer.resolve(events);
-//                });
-
-                return defer;
+                return defer.promise();
             }
         },
-        initEvents: function () {
 
-//            app.events.currentWeek = moment().startOf('week');
-//            app.events.currentWeek = moment('20170725').startOf('week');
+        // -------------------------------------------------------------------------
+        // ADD UI EVENTS (PRESENCE BUTTONS)
+        // -------------------------------------------------------------------------
+
+        initEvents: function() {
+
+            // TODO: DEFINE HOW CENTER THE TABS
+
+            //            app.events.currentWeek = moment().startOf('week');
+            //            app.events.currentWeek = moment('20170725').startOf('week');
             app.events.currentWeek = moment('20170517').startOf('week');
 
             $(document)
-                .on('click', '.presence-btn:not(.mandatory)', function (e) {
+
+                // -----------------------------------------------------------------
+                // PRESENCE BUTTONS
+                // -----------------------------------------------------------------
+
+                .on('click', '.presence-btn:not(.mandatory)', function(e) {
                     if (!$(this).hasClass('attend')) {
                         $(this)
                             .prop('attend', true)
                             .removeClass('btn blue')
                             .addClass('attend btn-flat teal')
-                            .html('Présent')
-                            ;
+                            .html('Présent');
                     } else {
                         $(this)
                             .removeClass('attend btn-flat teal')
                             .addClass('btn blue')
-                            .html('Participer')
-                            ;
+                            .html('Participer');
                     }
                     app.events.selectManifestation($(this));
-
                 })
 
-                .on('click', '#tabs .prevWeek, #tabs .nextWeek', function () {
+                // -----------------------------------------------------------------
+                // TABS PREVIOUS / NEXT (TO BE REMOVED ?)
+                // -----------------------------------------------------------------
+
+                .on('click', '#tabs .prevWeek, #tabs .nextWeek', function() {
                     var next = $(this).hasClass('nextWeek');
-
                     app.events.changeWeek(next);
-
-                    console.info(app.events.currentWeek);
-
                     app.core.ctrl.showEvents(true);
-                })
-
-                ;
+                });
         },
-        manageApiResult: function (result, minInterval, maxInterval) {
+
+        // -------------------------------------------------------------------------
+        // TRANSFORM API DATA STRUCTURE TO BE USED IN FRONTEND UI STRUCTURE
+        // -------------------------------------------------------------------------
+
+        manageApiResult: function(result, minInterval, maxInterval) {
 
             var finalFormat = {
                 days: {},
-                ts: {},
+                ts: {}, // TEMP FIELD, DELETED WHEN FUNCTION ENDS
             };
 
+            // CREATE DAYS BETWEEN MIN AND MAX INTERVAL
             for (var m = moment(minInterval); m.isBefore(maxInterval); m.add(1, 'days')) {
                 var dayId = m.format('dddDDMM');
                 finalFormat.days[dayId] = {
@@ -93,14 +120,18 @@ app.register({
                 };
             }
 
-            $.each(result, function (i, event) {
-                $.each(event.manifestations, function (j, manif) {
-                    $.each(manif.timeSlots, function (k, timeslot) {
+            // LOOP OVER API RESULTS
+            $.each(result, function(i, event) {
+                $.each(event.manifestations, function(j, manif) {
+                    $.each(manif.timeSlots, function(k, timeslot) {
                         var tsId = timeslot.id;
                         var ts = null;
 
                         if (!finalFormat.ts.hasOwnProperty(tsId)) {
-                            finalFormat.ts[tsId] = $.extend(timeslot, {manifestations: {}});
+                            // CREATE TIMESLOT IF NOT EXISTS
+                            finalFormat.ts[tsId] = $.extend(timeslot, {
+                                manifestations: {}
+                            });
                         }
                         ts = finalFormat.ts[tsId];
 
@@ -108,8 +139,12 @@ app.register({
                         var m = null;
 
                         if (!ts.manifestations.hasOwnProperty(mId)) {
-                            ts.manifestations[mId] = $.extend(manif, {event: null, order: 0});
-                            delete manif.timeSlots;
+                            // CREATE MANIFESTATION IF NOT EXISTS
+                            ts.manifestations[mId] = $.extend(manif, {
+                                event: null,
+                                order: 0
+                            });
+                            delete manif.timeSlots; // AVOID TOO MUCH RECURSION
                         }
                         m = ts.manifestations[mId];
 
@@ -117,28 +152,31 @@ app.register({
 
                         app.events.manifestationsOrders.push(m);
                         app.events.manifestations[m.id] = m;
-                        delete event.manifestations;
+
+                        delete event.manifestations; // AVOID TOO MUCH RECURSION
                     });
                 });
             });
 
-            Object.keys(finalFormat.ts).forEach(function (key) {
+            // MOVE TIMESLOTS INTO TAB DAYS
+            Object.keys(finalFormat.ts).forEach(function(key) {
                 var ts = finalFormat.ts[key];
                 var day = moment(new Date(ts.startsAt));
                 var dayId = day.format('dddDDMM');
 
                 if (finalFormat.days.hasOwnProperty(dayId)) {
                     finalFormat.days[dayId].ts.push(ts);
-                    finalFormat.days[dayId].ts.sort(function (a, b) {
+                    finalFormat.days[dayId].ts.sort(function(a, b) {
                         return new Date(a.startsAt) - new Date(b.startsAt);
                     });
                 }
             });
 
+            // COUNT MANIFESTATIONS FOR EACH DAYS AND INIT MANIFESTATIONS ORDER
             var sortIndex = 0;
-            $.each(finalFormat.days, function (i, day) {
-                $.each(day.ts, function (j, ts) {
-                    $.each(ts.manifestations, function (k, manif) {
+            $.each(finalFormat.days, function(i, day) {
+                $.each(day.ts, function(j, ts) {
+                    $.each(ts.manifestations, function(k, manif) {
                         day.manifCount++;
                         manif.order = sortIndex;
                         sortIndex++;
@@ -146,25 +184,28 @@ app.register({
                 });
             });
 
-            app.events.manifestationsOrders.sort(function (a, b) {
+            // SORTING MANIFESTATIONS
+            app.events.manifestationsOrders.sort(function(a, b) {
                 return a.order - b.order;
             });
 
-
             delete finalFormat.ts;
-            delete finalFormat.manifsFlat;
 
             return finalFormat;
         },
 
-        selectManifestation: function (button) {
+        // -------------------------------------------------------------------------
+        // HANDLE MANIFESTATION SELECTION
+        // -------------------------------------------------------------------------
+
+        selectManifestation: function(button) {
 
             var manifId = button.closest('.event').attr('data-id');
             var selecting = button.hasClass('attend');
             var sortable = button.closest('li.event');
             var sortableGroup = sortable.parent();
 
-            sortableGroup.find('li.event').sort(function (a, b) {
+            sortableGroup.find('li.event').sort(function(a, b) {
                 var ap = $(a).find('.presence-btn').hasClass('attend');
                 var bp = $(b).find('.presence-btn').hasClass('attend');
 
@@ -181,7 +222,7 @@ app.register({
 
             if (selecting) {
                 // get Full manif if gauges are not in /events api result
-                console.info();
+
                 // Add to cart
             } else {
                 // get Full manif if gauges are not in /events api result
@@ -190,7 +231,11 @@ app.register({
             }
         },
 
-        changeWeek: function (next) {
+        // -------------------------------------------------------------------------
+        // MOVE TO NEXT / PREV WEEK (TO BE REMOVED ?)
+        // -------------------------------------------------------------------------
+
+        changeWeek: function(next) {
             if (typeof next === 'undefined')
                 next = false;
 
@@ -210,15 +255,15 @@ app.register({
                     title: "Évènements"
                 }
             },
-            showEvents: function (force) {
+            showEvents: function(force) {
                 if (app.core.history.currentState !== app.core.ctrl.states.showEvents || force) {
                     var events = app.events.ws.getEvents()
-                        .then(function (events) {
-                            app.core.ctrl.render('mainTabs', events, true).then(function () {
+                        .then(function(events) {
+                            app.core.ctrl.render('mainTabs', events, true).then(function() {
                                 app.core.ui.plugins.initTabs();
                                 app.core.history.add(app.core.ctrl.states.showEvents);
                             });
-                        }, function (error) {});
+                        }, function(error) {});
                 }
             }
         }

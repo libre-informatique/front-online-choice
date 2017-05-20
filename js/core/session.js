@@ -11,12 +11,12 @@ app.register({
 
             user: null,
 
-            initEvents: function () {
+            initEvents: function() {
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
             },
 
-            start: function () {
+            start: function() {
                 if (localStorage.getItem(app.config.clientSessionName))
                     app.core.session.enableRememberMe();
                 else
@@ -32,17 +32,17 @@ app.register({
                 $(document).trigger('session.started');
             },
 
-            save: function () {
+            save: function() {
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
                 app.core.sessionStorage.set(app.config.clientSessionName, JSON.stringify(app.core.session));
             },
 
-            destroy: function () {
+            destroy: function() {
                 app.core.sessionStorage.remove(app.config.clientSessionName);
             },
 
-            reload: function () {
+            reload: function() {
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
                 var currentSession = app.core.sessionStorage.get(app.config.clientSessionName);
@@ -53,79 +53,49 @@ app.register({
 
                 $.extend(app.core.session, currentSession);
             },
-            enableRememberMe: function () {
+            enableRememberMe: function() {
                 app.core.sessionStorage.engine = localStorage;
                 sessionStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = true;
             },
-            disableRememberMe: function () {
+            disableRememberMe: function() {
                 app.core.sessionStorage.engine = sessionStorage;
                 localStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = false;
             },
-            manageApiToken: function (force) {
-                var defer = $.Deferred();
+            tokenIsValid: function() {
+                if (!app.core.session.tokenIsSet())
+                    return false;
 
-                if (app.core.sessionStorage.engine === null)
-                    app.core.session.start();
+                var expireDate = new Date(app.core.session.tokenExpirationDate);
 
-                if (typeof force === 'undefined')
-                    force = false;
-
-                if (force) {
-                    delete app.core.session.tokenExpirationDate;
-                    app.core.session.creationDate = null;
-                    app.core.session.save();
+                if (typeof expireDate !== 'undefined') {
+                    return expireDate > new Date();
                 }
+                return true;
+            },
+            tokenIsSet: function() {
+                return (app.core.session.access_token !== null ? true : false);
+            },
+            updateTokenExpirationDate: function() {
+                var tokenExpirationDate = new Date();
+                tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.core.session.expires_in, 10));
 
-                var now = new Date();
-
-                // CREATE API TOKEN FROM SCRATCH
-
-                if (typeof app.core.session.creationDate === 'undefined' || app.core.session.creationDate === null) {
-
-                    console.info('FROM SCRATCH');
-
-                    app.core.ws.apiAuth()
-                        .always(function () {
-                            app.core.session.creationDate = now;
-
-                            var tokenExpirationDate = new Date(now);
-                            tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.core.session.expires_in, 10));
-
-                            app.core.session.tokenExpirationDate = tokenExpirationDate;
-                            app.core.session.save();
-                            defer.resolve();
-                        });
-                } else if (typeof app.core.session.tokenExpirationDate !== 'undefined' && now > new Date(app.core.session.tokenExpirationDate)) {
-                    console.info('EXPIRED');
-
-                    app.core.ws.apiAuth()
-                        .always(function () {
-                            app.core.session.tokenExpirationDate = null;
-                            app.core.session.creationDate = null;
-                            app.core.session.save();
-                            app.core.session.manageApiToken();
-                            defer.resolve();
-                        });
-                } else {
-                    defer.resolve();
-                }
-
-                return defer;
+                app.core.session.tokenExpirationDate = tokenExpirationDate;
+                app.core.session.save();
             }
         },
         sessionStorage: {
             engine: null,
-            get: function (key) {
+            get: function(key) {
                 return app.core.sessionStorage.engine.getItem(key);
             },
-            set: function (key, val) {
+            set: function(key, val) {
                 var r = app.core.sessionStorage.engine.setItem(key, val);
                 app.core.session.reload();
                 return r;
             },
-            remove: function (key) {
+            remove: function(key) {
                 return app.core.sessionStorage.engine.removeItem(key);
             }
         }

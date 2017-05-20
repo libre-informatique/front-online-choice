@@ -4,7 +4,7 @@ app.register({
             templates: {},
             sortables: [],
             modal: null,
-            init: function () {
+            init: function() {
                 if (app.core.session.user) {
                     $('#app').addClass('loggedIn');
                     app.core.ctrl.showEvents();
@@ -14,26 +14,20 @@ app.register({
                 }
             },
             plugins: {
-                init: function () {
+                init: function() {
                     app.core.ui.plugins.initTabs();
                     app.core.ui.plugins.initSortables();
                     app.core.ui.plugins.initTooltips();
                     app.core.ui.plugins.initDropDown();
                     app.core.ui.plugins.initModal();
-                    Materialize.updateTextFields();
                 },
-                initTabs: function () {
+                initTabs: function() {
                     $('ul#tabs').tabs();
-//                    var today = moment(new Date()).format('dddDDMM');
-//                    var todayTab = $('ul#tabs li a[data-tabId="' + today + '"]');
-//                    if (todayTab.length != 0)
-//                        $('ul#tabs li a[data-tabId="' + today + '"]').trigger('click');
-//                    else
-//                        $('ul#tabs li:first-of-type a').trigger('click');
-                    $('ul#tabs li:first-of-type a').trigger('click');
+                    var tabsId = $('div.tab-content:first-of-type').attr('id');
+                    $('ul#tabs').tabs('select_tab', tabsId);
                 },
-                initSortables: function () {
-                    $('.period').each(function () {
+                initSortables: function() {
+                    $('.period').each(function() {
                         var manifs = $(this).find('.manifestations-list');
                         var enabled = false;
 
@@ -55,30 +49,32 @@ app.register({
                             ghostClass: "ghost",
                             forceFallback: true,
                             disabled: !enabled,
-                            onEnd: function (evt) {
+                            onEnd: function(evt) {
 
                             }
                         });
                     });
                 },
-                initTooltips: function () {
-                    $('*[data-tooltip]').tooltip({delay: 50});
+                initTooltips: function() {
+                    $('*[data-tooltip]').tooltip({
+                        delay: 50
+                    });
                 },
-                initDropDown: function () {
+                initDropDown: function() {
                     $('.dropdown-button').dropdown();
                 },
-                initModal: function () {
+                initModal: function() {
                     app.core.ui.modal = $('#confirm-modal');
                     app.core.ui.modal.modal();
                 }
             },
-            initTemplates: function () {
+            initTemplates: function() {
 
                 var promises = [];
 
                 // FETCH REMOTE TEMPLATES
 
-                $('script[type="text/x-handlebars-template"]').each(function () {
+                $('script[type="text/x-handlebars-template"]').each(function() {
                     var tpl = $(this);
                     var id = tpl.attr('id').replace('-template', '');
                     var src = tpl.attr('src');
@@ -88,7 +84,7 @@ app.register({
                         $.ajax({
                             async: true,
                             url: src,
-                            success: function (data) {
+                            success: function(data) {
 
                                 // REGISTER TEMPLATE
 
@@ -100,9 +96,6 @@ app.register({
 
                                 // UPDATE SCRIPT TEMPLATE HTML
                                 tpl.html(data);
-
-                                // TRIGGER TEMPALTE EVENT
-                                $(document).trigger('template.registered', [id]);
                             }
                         });
                         promises.push(this);
@@ -115,22 +108,21 @@ app.register({
                             element: tpl
                         };
 
-                        // TRIGGER TEMPALTE EVENT
-                        $(document).trigger('template.registered', [id]);
+                        promises.push(this);
                     }
                 });
 
-                $.when.apply($, promises).then(function (schemas) {
+                $.when.apply($, promises).then(function(schemas) {
                     $(document).trigger('templates.registered');
-                }, function (e) {
+                }, function(e) {
                     $(document).trigger('app.failed');
                 });
             },
-            applyTemplate: function (name, tpl) {
+            applyTemplate: function(name, tpl) {
                 $('handlebar-placeholder[template="' + name + '"]').html(tpl);
                 $(document).trigger('template.applyed', [name]);
             },
-            displayLoading: function (show) {
+            displayLoading: function(show) {
                 if (typeof show === 'undefined')
                     show = true;
                 var loader = $('#mainLoader');
@@ -140,7 +132,7 @@ app.register({
                 else
                     loader.addClass('hidden');
             },
-            toast: function (message, type, delay) {
+            toast: function(message, type, delay) {
                 if (typeof delay === 'undefined')
                     delay = 5000;
                 if (typeof type === 'undefined')
@@ -156,7 +148,7 @@ app.register({
                     case 'error':
                         icon = '<i class="material-icons right">error</i>';
                         break;
-                    case 'success' :
+                    case 'success':
                         icon = '<i class="material-icons right">check_circle</i>';
                         break;
                     default:
