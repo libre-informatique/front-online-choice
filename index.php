@@ -170,10 +170,10 @@ if (isset($_GET['getParameters'])) {
         <!-- TEMPLATES LOADED DIRECTLY-->
 
         <script id="login-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/login.html'); ?></script>
-        <script id="mainTabs-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/tabs.html'); ?></script>
 
         <!-- TEMPLATES LOADED VIA AJAX-->
 
+        <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script>
         <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
         <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
         <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script>

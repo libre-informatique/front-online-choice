@@ -16,7 +16,7 @@ app.register({
             // GET EVENTS DATAS
             // ---------------------------------------------------------------------
 
-            getEvents: function() {
+            getEvents: function () {
 
                 // Define min and max interval for tabs
                 var minInterval = moment(app.events.currentWeek).startOf('week');
@@ -30,24 +30,25 @@ app.register({
 
                 // FOR DEV, USE EVENTS.JSON
 
-                // $.ajax({
-                //     async: true,
-                //     url: appHostname + '/data/events.json',
-                //     success: function (data) {
-                //         var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                //         defer.resolve(events);
-                //     }
-                // });
+                $.ajax({
+                    async: true,
+                    url: appHostname + '/data/events.json',
+                    success: function (data) {
+                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                        defer.resolve(events);
+                    }
+                });
 
                 // FOR PROD, USE EVENTS API
 
-                app.core.ws.call('GET', '/events', {
-                    'criteria[manifestations.id][type]': 'not empty',
-                    'limit': 100
-                }, function(data) {
-                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                    defer.resolve(events);
-                });
+//                app.core.ws.call('GET', '/events', {
+//                    'criteria[manifestations][type]': 'contains',
+//                    'criteria[category][value]': 'Concert',
+//                    'limit': 20
+//                }, function(data) {
+//                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+//                    defer.resolve(events);
+//                });
 
                 return defer.promise();
             }
@@ -57,7 +58,7 @@ app.register({
         // ADD UI EVENTS (PRESENCE BUTTONS)
         // -------------------------------------------------------------------------
 
-        initEvents: function() {
+        initEvents: function () {
 
             // TODO: DEFINE HOW CENTER THE TABS
 
@@ -71,18 +72,11 @@ app.register({
                 // PRESENCE BUTTONS
                 // -----------------------------------------------------------------
 
-                .on('click', '.presence-btn:not(.mandatory)', function(e) {
+                .on('click', '.presence-btn:not(.mandatory)', function (e) {
                     if (!$(this).hasClass('attend')) {
-                        $(this)
-                            .prop('attend', true)
-                            .removeClass('btn blue')
-                            .addClass('attend btn-flat teal')
-                            .html('Présent');
+                        app.events.ui.presenceButton($(this));
                     } else {
-                        $(this)
-                            .removeClass('attend btn-flat teal')
-                            .addClass('btn blue')
-                            .html('Participer');
+                        app.events.ui.participateButton($(this));
                     }
                     app.events.selectManifestation($(this));
                 })
@@ -91,18 +85,45 @@ app.register({
                 // TABS PREVIOUS / NEXT (TO BE REMOVED ?)
                 // -----------------------------------------------------------------
 
-                .on('click', '#tabs .prevWeek, #tabs .nextWeek', function() {
+                .on('click', '#tabs .prevWeek, #tabs .nextWeek', function () {
                     var next = $(this).hasClass('nextWeek');
                     app.events.changeWeek(next);
                     app.core.ctrl.showEvents(true);
                 });
         },
 
+        ui: {
+
+            // ---------------------------------------------------------------------
+            // SWITCH BUTTON TO PRESENCE
+            // ---------------------------------------------------------------------
+
+            presenceButton: function (button) {
+                $(button)
+                    .prop('attend', true)
+                    .removeClass('btn blue')
+                    .addClass('attend btn-flat teal')
+                    .html('Présent');
+            },
+
+            // ---------------------------------------------------------------------
+            // SWITCH BUTTON TO PARTICIPATE
+            // ---------------------------------------------------------------------
+
+            participateButton: function (button) {
+                $(button)
+                    .removeAttr('attend')
+                    .removeClass('attend btn-flat teal')
+                    .addClass('btn blue')
+                    .html('Participer');
+            }
+        },
+
         // -------------------------------------------------------------------------
         // TRANSFORM API DATA STRUCTURE TO BE USED IN FRONTEND UI STRUCTURE
         // -------------------------------------------------------------------------
 
-        manageApiResult: function(result, minInterval, maxInterval) {
+        manageApiResult: function (result, minInterval, maxInterval) {
 
             var finalFormat = {
                 days: {},
@@ -121,9 +142,9 @@ app.register({
             }
 
             // LOOP OVER API RESULTS
-            $.each(result, function(i, event) {
-                $.each(event.manifestations, function(j, manif) {
-                    $.each(manif.timeSlots, function(k, timeslot) {
+            $.each(result, function (i, event) {
+                $.each(event.manifestations, function (j, manif) {
+                    $.each(manif.timeSlots, function (k, timeslot) {
                         var tsId = timeslot.id;
                         var ts = null;
 
@@ -159,14 +180,14 @@ app.register({
             });
 
             // MOVE TIMESLOTS INTO TAB DAYS
-            Object.keys(finalFormat.ts).forEach(function(key) {
+            Object.keys(finalFormat.ts).forEach(function (key) {
                 var ts = finalFormat.ts[key];
                 var day = moment(new Date(ts.startsAt));
                 var dayId = day.format('dddDDMM');
 
                 if (finalFormat.days.hasOwnProperty(dayId)) {
                     finalFormat.days[dayId].ts.push(ts);
-                    finalFormat.days[dayId].ts.sort(function(a, b) {
+                    finalFormat.days[dayId].ts.sort(function (a, b) {
                         return new Date(a.startsAt) - new Date(b.startsAt);
                     });
                 }
@@ -174,9 +195,9 @@ app.register({
 
             // COUNT MANIFESTATIONS FOR EACH DAYS AND INIT MANIFESTATIONS ORDER
             var sortIndex = 0;
-            $.each(finalFormat.days, function(i, day) {
-                $.each(day.ts, function(j, ts) {
-                    $.each(ts.manifestations, function(k, manif) {
+            $.each(finalFormat.days, function (i, day) {
+                $.each(day.ts, function (j, ts) {
+                    $.each(ts.manifestations, function (k, manif) {
                         day.manifCount++;
                         manif.order = sortIndex;
                         sortIndex++;
@@ -185,7 +206,7 @@ app.register({
             });
 
             // SORTING MANIFESTATIONS
-            app.events.manifestationsOrders.sort(function(a, b) {
+            app.events.manifestationsOrders.sort(function (a, b) {
                 return a.order - b.order;
             });
 
@@ -198,36 +219,56 @@ app.register({
         // HANDLE MANIFESTATION SELECTION
         // -------------------------------------------------------------------------
 
-        selectManifestation: function(button) {
+        selectManifestation: function (button) {
 
             var manifId = button.closest('.event').attr('data-id');
             var selecting = button.hasClass('attend');
             var sortable = button.closest('li.event');
             var sortableGroup = sortable.parent();
 
-            sortableGroup.find('li.event').sort(function(a, b) {
-                var ap = $(a).find('.presence-btn').hasClass('attend');
-                var bp = $(b).find('.presence-btn').hasClass('attend');
+            sortable.animate({
+                opacity: 0
+            }, 150, 'swing', function () {
+                sortableGroup.find('li.event').sort(function (a, b) {
+                    var ap = $(a).find('.presence-btn').hasClass('attend');
+                    var bp = $(b).find('.presence-btn').hasClass('attend');
 
-                if (ap < bp) {
-                    return 1;
-                } else if (ap > bp) {
-                    return -1;
-                } else {
-                    return 0;
-                }
-            }).detach().appendTo(sortableGroup);
+                    if (ap < bp) {
+                        return 1;
+                    } else if (ap > bp) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
 
-            app.core.ui.plugins.initSortables();
+                }).detach().appendTo(sortableGroup);
+                app.core.ui.plugins.initSortables();
+
+                sortable.not('.ghost').animate({
+                    opacity: 1
+                }, 450);
+            });
+
+            var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
+            var priceId = app.events.manifestations[manifId].gauges[0].prices[0].id;
 
             if (selecting) {
-                // get Full manif if gauges are not in /events api result
-
                 // Add to cart
+                app.cart.ws.addToCart(declinaisonId, priceId).then(function () {
+
+                }, function () {
+
+                });
             } else {
-                // get Full manif if gauges are not in /events api result
+                var cartItemId = app.events.manifestations[manifId].cartItemId;
 
                 // removeFromCart
+                app.cart.ws.removeFromCart(declinaisonId, priceId).then(function () {
+
+                }, function () {
+
+                });
+
             }
         },
 
@@ -235,7 +276,7 @@ app.register({
         // MOVE TO NEXT / PREV WEEK (TO BE REMOVED ?)
         // -------------------------------------------------------------------------
 
-        changeWeek: function(next) {
+        changeWeek: function (next) {
             if (typeof next === 'undefined')
                 next = false;
 
@@ -255,15 +296,15 @@ app.register({
                     title: "Évènements"
                 }
             },
-            showEvents: function(force) {
+            showEvents: function (force) {
                 if (app.core.history.currentState !== app.core.ctrl.states.showEvents || force) {
                     var events = app.events.ws.getEvents()
-                        .then(function(events) {
-                            app.core.ctrl.render('mainTabs', events, true).then(function() {
+                        .then(function (events) {
+                            app.core.ctrl.render('mainTabs', events, true).then(function () {
                                 app.core.ui.plugins.initTabs();
                                 app.core.history.add(app.core.ctrl.states.showEvents);
                             });
-                        }, function(error) {});
+                        }, function (error) {});
                 }
             }
         }

@@ -52,6 +52,26 @@
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"
                             }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 837,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 837,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {
@@ -65,6 +85,26 @@
                                 "startsAt": "2017-05-19T09:00:00+0100",
                                 "endsAt": "2017-05-19T13:00:00+0100"
                             }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 838,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 838,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {
@@ -77,6 +117,26 @@
                                 "title": "Nouveaux défis et perspectives",
                                 "startsAt": "2017-05-17T14:00:00+0100",
                                 "endsAt": "2017-05-17T20:00:00+0100"
+                            }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 839,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 839,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -116,6 +176,26 @@
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"
                             }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 839,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 839,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {
@@ -129,6 +209,26 @@
                                 "startsAt": "2017-05-17T09:00:00+0100",
                                 "endsAt": "2017-05-17T13:00:00+0100"
                             }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 840,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 840,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {
@@ -141,6 +241,26 @@
                                 "title": "Petit-déjeuner autour des représentants",
                                 "startsAt": "2017-05-19T09:00:00+0100",
                                 "endsAt": "2017-05-19T13:00:00+0100"
+                            }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 841,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 841,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -181,6 +301,26 @@
                                 "startsAt": "2017-05-19T09:00:00+0100",
                                 "endsAt": "2017-05-19T13:00:00+0100"
                             }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 841,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 841,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {
@@ -194,6 +334,26 @@
                                 "startsAt": "2017-05-18T09:00:00+0100",
                                 "endsAt": "2017-05-18T13:00:00+0100"
                             }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 842,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 842,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         ]
                     },
                     {
@@ -206,6 +366,26 @@
                                 "title": "Nouveaux défis et perspectives",
                                 "startsAt": "2017-05-17T14:00:00+0100",
                                 "endsAt": "2017-05-17T20:00:00+0100"
+                            }
+                        ],
+                        "gauges": [
+                            {
+                                "id": 1843,
+                                "name": "Placement libre assis",
+                                "availableUnits": 10,
+                                "prices": [
+                                    {
+                                        "id": 1843,
+                                        "value": "20.000",
+                                        "currencyCode": 978,
+                                        "translations": {
+                                            "fr": {
+                                                "name": "TP",
+                                                "description": "Tarif Plein"
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }

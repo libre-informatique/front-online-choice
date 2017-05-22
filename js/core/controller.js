@@ -64,6 +64,7 @@ app.register({
                             user: app.core.session.user
                         }).then(function() {
                             app.core.history.add(app.core.ctrl.states.editUserProfile);
+                            Materialize.updateTextFields();
                         });
                     });
                 } else {
@@ -124,8 +125,6 @@ app.register({
                 app.core.ui.applyTemplate(templateName, compiled(data));
 
                 $('.dropdown-button').dropdown('close');
-
-                Materialize.updateTextFields();
 
                 defer.resolve();
 

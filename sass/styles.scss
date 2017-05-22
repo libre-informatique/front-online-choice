@@ -29,6 +29,7 @@ $body-bg: #FCFCFC;
     -moz-font-feature-settings: 'liga';
     -moz-osx-font-smoothing   : grayscale;
 }
+
 // APP
 
 body,
@@ -64,6 +65,7 @@ html {
 
 #app {
     nav {
+        box-shadow:none;
         .nav-wrapper {
             z-index: 998;
         }
@@ -371,9 +373,13 @@ html {
 }
 
 .ghost {
-    opacity:0;
+    opacity:0 !important;
 }
 
 .badge.red {
     color:white;
+}
+
+.btn-fullwidth {
+    width:100%;
 }
