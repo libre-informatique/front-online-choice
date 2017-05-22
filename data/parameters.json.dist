@@ -9,5 +9,6 @@
         "protocol": "https",
         "apiBaseUri": "/api"
     },
-    "clientSessionName": "frontOnlineChoiceSession"
+    "clientSessionName": "frontOnlineChoiceSession",
+    "metaEventId": 1
 }

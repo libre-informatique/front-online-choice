@@ -4,7 +4,7 @@ app.register({
             app.cart.ws.getCart().then(function (res) {
                 var cart = res._embedded.items[0];
                 $.extend(app.core.session, {cart: cart});
-                
+
                 app.cart.applyCart();
             }, function () {
 
@@ -18,12 +18,14 @@ app.register({
             $.each(items, function (i, item) {
                 var declinaisonId = item.declination.id;
                 var manif = app.cart.private.findManifestationWithDeclinaison(declinaisonId);
-                
+
                 // ASSIGN CART ITEM ID TO MANIFESTATION IN FLAT « ARRAY »
-                manif.cartItemId = item.id;
-                
-                // UPDATE EVENTS ON UI
-                app.events.ui.presenceButton($('li.event[data-id="'+manif.id+'"] .presence-btn'));
+                if (manif !== null) {
+                    manif.cartItemId = item.id;
+
+                    // UPDATE EVENTS ON UI
+                    app.events.ui.presenceButton($('li.event[data-id="' + manif.id + '"] .presence-btn'));
+                }
             });
         },
 

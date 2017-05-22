@@ -125,12 +125,12 @@ app.register({
                     formData.contact.password = formData.password_1;
                     delete formData.password_1;
                     delete formData.password_2;
-
                 }
 
                 return app.core.ws.call('POST', '/customers/' + app.core.session.user.id,
                     formData).then(function () {
                     app.core.ctrl.showUserProfile();
+                    $(document).trigger('user.logged.in');
                 });
             },
 

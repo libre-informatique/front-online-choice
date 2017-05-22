@@ -26,29 +26,48 @@ app.register({
                 var maxInterval = moment(app.events.currentWeek).endOf('week').subtract(2, 'days');
                 maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
 
+                var minInterval = null;
+                var maxInterval = null;
+
                 var defer = jQuery.Deferred();
 
                 // FOR DEV, USE EVENTS.JSON
 
-                $.ajax({
-                    async: true,
-                    url: appHostname + '/data/events.json',
-                    success: function (data) {
-                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                        defer.resolve(events);
-                    }
-                });
+//                $.ajax({
+//                    async: true,
+//                    url: appHostname + '/data/events.json',
+//                    success: function (data) {
+//                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+//                        defer.resolve(events);
+//                    }
+//                });
 
                 // FOR PROD, USE EVENTS API
 
-//                app.core.ws.call('GET', '/events', {
-//                    'criteria[manifestations][type]': 'contains',
-//                    'criteria[category][value]': 'Concert',
-//                    'limit': 20
-//                }, function(data) {
-//                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-//                    defer.resolve(events);
-//                });
+                app.core.ws.call('GET', '/events', {
+                    'criteria[metaEvents.id][type]': 'equals',
+                    'criteria[metaEvents.id][value]': app.config.metaEventId,
+                    'limit': 20
+                }, function (data) {
+
+                    minInterval = null;
+                    maxInterval = null;
+
+                    $.each(data._embedded.items, function (i, event) {
+                        $.each(event.manifestations, function (j, manif) {
+                            if ((new Date(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
+                                minInterval = new Date(manif.startsAt);
+                            if ((new Date(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
+                                maxInterval = new Date(manif.endsAt);
+                        });
+                    });
+                    
+                    if(maxInterval === null)
+                        maxInterval = moment(minInterval).add(5,'days').toDate();
+
+                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                    defer.resolve(events);
+                });
 
                 return defer.promise();
             }
@@ -129,6 +148,8 @@ app.register({
                 days: {},
                 ts: {}, // TEMP FIELD, DELETED WHEN FUNCTION ENDS
             };
+
+            console.info(minInterval, maxInterval);
 
             // CREATE DAYS BETWEEN MIN AND MAX INTERVAL
             for (var m = moment(minInterval); m.isBefore(maxInterval); m.add(1, 'days')) {
@@ -211,6 +232,9 @@ app.register({
             });
 
             delete finalFormat.ts;
+            
+            // TEMP FOR DEV
+            app.events.debug = finalFormat;
 
             return finalFormat;
         },
