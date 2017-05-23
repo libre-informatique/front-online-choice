@@ -20,6 +20,7 @@ app.register({
             var items = app.core.session.cart.items;
 
             var promises = [];
+            
             // LOOP OVER CART ITEMS
             $.each(items, function (i, item) {
                 var declinaisonId = item.declination.id;
@@ -92,11 +93,6 @@ app.register({
                     "quantity": 1,
                     "priceId": priceId
                 }, function (res) {
-                    var cart = res;
-
-                    app.core.session.cart = cart;
-                    app.core.session.save();
-
                     defer.resolve(res);
                 }, function (jqXHR, textStatus, errorThrown) {
                     app.core.ui.toast('Impossible d\'ajouter un élément au panier', 'error');

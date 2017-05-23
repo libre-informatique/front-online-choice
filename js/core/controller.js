@@ -79,6 +79,7 @@ app.register({
                         app.core.ctrl.go('editUserPassword', {
                             user: app.core.session.user
                         }).then(function() {
+                            Materialize.updateTextFields();
                             app.core.history.add(app.core.ctrl.states.editUserPassword);
                         });
                     });

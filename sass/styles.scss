@@ -1,8 +1,17 @@
-$primary-color: #009688; //Teal
-$accent-color: #ffb74d; // Orange
-$danger-color: #e57373; // red lighten-2
-$info-color: #7986cb; // indigo lighten-2
-$normal-color: #607d8b; // blue-grey
+@import "materializecss/ghpages-materialize";
+
+/*$primary-color: #009688; //Teal*/
+$primary-color: color('blue-grey', 'base'); //Teal
+/*$accent-color: #ffb74d; // Orange*/
+$accent-color: color('amber', 'lighten-2'); // Orange
+/*$success-color: #e57373; //  green lighten-1*/
+$success-color: color('green', 'lighten-1'); // green
+/*$danger-color: #e57373; // red lighten-2*/
+$danger-color: color('red', 'lighten-2'); // red lighten-2
+/*$info-color: #7986cb; // indigo lighten-2*/
+$info-color: color('indigo', 'lighten-2'); // indigo lighten-2
+/*$normal-color: #607d8b; // blue-grey*/
+$normal-color: color('blue-grey', 'base'); // blue-grey
 $body-bg: #FCFCFC;
 
 // MATERIAL ICONS
@@ -41,33 +50,6 @@ html {
     /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
     /*background-size: cover;*/
     background: $body-bg;
-
-    body {
-        #mainLoader {
-            z-index      : 999;
-            opacity      : 1;
-            position     : fixed;
-            top:0;
-            margin: 0;
-            background-color: $accent-color;
-            /*            top          : 3em;
-                        left         : 50%;
-                        margin-left  : -29px;
-                        background   : #FFF;
-                        border-radius: 50%;
-                        border       : 3px solid #FFF;
-                        box-shadow   : 0 0 3px #999;
-                        transition   : opacity 0.5s ease;*/
-
-            &.hidden {
-                opacity: 0;
-            }
-
-            .progress.indeterminate {
-                /*background-color: $accent-color;*/
-            }
-        }
-    }
 }
 
 #app {
@@ -94,6 +76,15 @@ html {
             left    : auto !important;
             li {
                 z-index:999;
+            }
+        }
+
+        li {
+            a {
+                &:hover, 
+                    &:active {
+                    background-color:color('blue-grey', 'darken-2');
+                }
             }
         }
     }
@@ -131,7 +122,7 @@ html {
     }
 
     .content {
-        padding-top:4.3em;
+        padding:4.3em 1em 1em 1em;
 
         #main {
             .col {
@@ -147,6 +138,7 @@ html {
                 z-index: 990;
 
                 .tab {
+                    background-color:darken($normal-color,10%);
                     height: 100%;
                     width:auto;
                     flex-grow: 1;
@@ -164,17 +156,6 @@ html {
                         &.empty {
                             opacity:0.4;
                         }
-                    }
-                }
-
-                .prevWeek,
-                .nextWeek {
-                    max-width:30px;
-                    cursor:pointer;
-                    i {
-                        position: relative;
-                        top: 0.3em;
-                        color: white;
                     }
                 }
 
@@ -216,11 +197,27 @@ html {
                 .manifestations-list {
                     .event {
                         height      : 100px;
+                        min-height  : 100px;
                         margin-right: 10%;
 
                         .event-card {
+
+                            height      : 100px;
+                            min-height  : 100px;
+
+                            .event-image {
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                                background-size: contain;
+                                background-color:$primary-color;
+                                background-image:url('../img/default-manifestation.png');
+                            }
+
                             .label {
                                 margin-right: 20px;
+                                .event-label {
+                                    padding-left:1em;
+                                }
                             }
 
                             .presence {
@@ -367,6 +364,13 @@ html {
     border: 0;
 }
 
+::selection {
+  background: $accent-color; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: $accent-color; /* Gecko Browsers */
+}
+
 .notselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -395,4 +399,68 @@ html {
 
 .btn-fullwidth {
     width:100%;
+}
+
+
+/* label color */
+.input-field label {
+    color: $primary-color;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: $primary-color;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid $primary-color;
+    box-shadow: 0 1px 0 0 $primary-color;
+}
+/* valid color */
+.input-field input[type=text].valid {
+    border-bottom: 1px solid $success-color;
+    box-shadow: 0 1px 0 0 $success-color;
+}
+/* invalid color */
+.input-field input[type=text].invalid {
+    border-bottom: 1px solid $danger-color;
+    box-shadow: 0 1px 0 0 $danger-color;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: $primary-color;
+}
+
+#mainLoader {
+    z-index      : 999;
+    opacity      : 1;
+    position     : fixed;
+    top:0;
+    margin: 0;
+    background-color: color('blue-grey','lighten-2'); 
+
+    &.hidden {
+        opacity: 0;
+    }
+    &.progress {
+        .indeterminate {
+            background-color: color('blue-grey','darken-1');
+        }
+    }
+}
+
+.dropdown-content {
+    li {
+        &> a{
+            color: $primary-color;
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}
+
+[type="checkbox"]:checked + label::before {
+    border-right: 2px solid $success-color;
+    border-bottom: 2px solid $success-color;
 }

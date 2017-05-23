@@ -3,6 +3,8 @@ nbproject
 .sass-cache
 css/styles.css
 css/styles.css.map
+css/materializecss
+css/materializecss/*
 sass/styles.css
 sass/styles.css.map
 data/parameters.json

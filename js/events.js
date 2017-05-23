@@ -3,9 +3,6 @@ app.register({
         // HOLDS MANIFESTATIONS IN FLAT OBJECT
         manifestations: {},
 
-        // HOLDS MANIFESTATIONS RANKS
-        manifestationsOrders: [],
-
         ws: {
 
             // ---------------------------------------------------------------------
@@ -15,8 +12,6 @@ app.register({
             getEvents: function () {
 
                 var defer = jQuery.Deferred();
-
-                // FOR PROD, USE EVENTS API
 
                 app.core.ws.call('GET', '/events', {
                     'criteria[metaEvents.id][type]': 'equals',
@@ -68,15 +63,15 @@ app.register({
                     app.events.selectManifestation($(this));
                 })
 
-                // -----------------------------------------------------------------
-                // TABS PREVIOUS / NEXT (TO BE REMOVED ?)
-                // -----------------------------------------------------------------
+                .on('events.reordered', function (e, container) {
+                    var events = container.find('li.event');
 
-                .on('click', '#tabs .prevWeek, #tabs .nextWeek', function () {
-                    var next = $(this).hasClass('nextWeek');
-                    app.events.changeWeek(next);
-                    app.core.ctrl.showEvents(true);
-                });
+                    events.each(function () {
+
+                    });
+                })
+
+                ;
         },
 
         ui: {
@@ -109,6 +104,10 @@ app.register({
                 $(button).closest('.event').addClass('cantSort');
             },
 
+            // ---------------------------------------------------------------------
+            // SORT MANIFESTATIONS ON PRESENCE AND RANK
+            // ---------------------------------------------------------------------
+
             sortManifestations: function (sortableGroup) {
 
                 if (typeof sortableGroup === 'undefined') {
@@ -117,16 +116,33 @@ app.register({
 
                 if (sortableGroup.length > 1) {
                     sortableGroup.each(function () {
-                        sortItems($(this)).detach().appendTo($(this));
+                        sortPresents($(this)).detach().appendTo($(this));
+                        sortRanks($(this)).detach().appendTo($(this));
                     });
                 } else {
-                    sortItems(sortableGroup).detach().appendTo(sortableGroup);
+                    sortPresents(sortableGroup).detach().appendTo(sortableGroup);
+                    sortRanks(sortableGroup).detach().appendTo(sortableGroup);
                 }
 
-                function sortItems(group) {
+                function sortPresents(group) {
                     return $(group).find('li.event').sort(function (a, b) {
                         var ap = $(a).find('.presence-btn').hasClass('attend');
                         var bp = $(b).find('.presence-btn').hasClass('attend');
+
+                        if (ap < bp) {
+                            return 1;
+                        } else if (ap > bp) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                }
+
+                function sortRanks(group) {
+                    return $(group).find('li.event').sort(function (a, b) {
+                        var ap = parseInt($(a).attr('data-rank'), 10);
+                        var bp = parseInt($(b).attr('data-rank'), 10);
 
                         if (ap < bp) {
                             return 1;
@@ -192,7 +208,6 @@ app.register({
 
                         m.event = event;
 
-                        app.events.manifestationsOrders.push(m);
                         app.events.manifestations[m.id] = m;
 
                         delete event.manifestations; // AVOID TOO MUCH RECURSION
@@ -224,11 +239,6 @@ app.register({
                         sortIndex++;
                     });
                 });
-            });
-
-            // SORTING MANIFESTATIONS
-            app.events.manifestationsOrders.sort(function (a, b) {
-                return a.order - b.order;
             });
 
             delete finalFormat.ts;
@@ -264,8 +274,8 @@ app.register({
 
             if (selecting) {
                 // Add to cart
-                app.cart.ws.addToCart(declinaisonId, priceId).then(function () {
-
+                app.cart.ws.addToCart(declinaisonId, priceId).then(function (res) {
+                    app.events.manifestations[manifId].cartItemId = res.id;
                 }, function () {
 
                 });
@@ -276,7 +286,7 @@ app.register({
                 app.cart.ws.removeFromCart(cartItemId).then(function () {
                     app.cart.getCart();
                 }, function () {
-                    
+
                 });
 
             }

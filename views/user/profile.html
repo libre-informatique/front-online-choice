@@ -1,16 +1,10 @@
 <div class="col s12 m7">
-    <h2 class="header">
-        {{user.firstName}} {{user.lastName}}
+    <h2 class="header blue-grey-text">
+        <i class="material-icons medium blue-grey-text">person_pin_circle</i>
 
-        <a href="javascript:;" data-go="editUserProfile" class="btn right">
-            Modifier mon profil
-            <i class="material-icons right">mode_edit</i>
-        </a>
-        <a href="javascript:;" data-go="editUserPassword" class="btn right">
-            Modifier mon mot de passe
-            <i class="material-icons right">vpn_key</i>
-        </a>
+        {{user.firstName}} {{user.lastName}}
     </h2>
+
     <div class="card horizontal">
         <div class="card-stacked">
             <div class="card-content">
@@ -60,5 +54,23 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="fixed-action-btn vertical click-to-toggle">
+        <a class="btn-floating btn-large green lighten-1">
+            <i class="material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li>
+                <a class="btn-floating blue-grey" href="javascript:;" data-go="editUserProfile" data-tooltip="Modifier le profil" data-position="left">
+                    <i class="material-icons">person_pin</i>
+                </a>
+            </li>
+            <li>
+                <a class="btn-floating red" href="javascript:;" data-go="editUserPassword" data-tooltip="Modifier le mot de passe" data-position="left">
+                    <i class="material-icons">vpn_key</i>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>

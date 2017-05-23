@@ -1,4 +1,4 @@
-<ul id="tabs" class="tabs teal z-depth-2">
+<ul id="tabs" class="tabs blue-grey z-depth-2">
     {{#each days as |tab|}}
 
     <li class="tab col">
@@ -50,8 +50,7 @@
                                 </span>
                             </div>
                             <div class="event-card card horizontal z-depth-1 col s8 row">
-                                <div class="event-image col s2">
-                                    <img src="img/samples/1.jpeg">
+                                <div class="event-image col s2" data-image="{{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}}">
                                 </div>
                                 <div class="label col s5 valign-wrapper selectable">
                                     <p class="event-label">

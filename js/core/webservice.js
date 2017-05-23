@@ -117,9 +117,6 @@ app.register({
                 var formData =
                     $.extend(app.core.session.user, app.core.utils.formToObject(form.serializeArray()));
 
-                // HACK TO CORRECT INVERTER IN CUSTOMER API
-                formData.subscribedToNewsletter = !formData.subscribedToNewsletter;
-
                 if (formData.hasOwnProperty('password_1')) {
                     formData.contact = {};
                     formData.contact.password = formData.password_1;

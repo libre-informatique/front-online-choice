@@ -22,7 +22,7 @@ if (isset($_GET['getParameters'])) {
     <head>
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" href="css/materialize.min.css">
+        <!--<link rel="stylesheet" href="css/materialize.min.css">-->
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title><?php echo $parameters->applicationName; ?></title>
 
@@ -40,7 +40,7 @@ if (isset($_GET['getParameters'])) {
 
 
             <nav>
-                <div class="nav-wrapper teal">
+                <div class="nav-wrapper blue-grey">
                     <a href="/" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
                     <ul id="nav-mobile-left" class="left">
                         <li class="showIfLoggedIn">
@@ -183,48 +183,6 @@ if (isset($_GET['getParameters'])) {
         <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
         <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
         <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script>
-
-<!--        <div id="mainLoader" class="preloader-wrapper small active">
-            <div class="spinner-layer spinner-blue">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                    <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="spinner-layer spinner-red">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                    <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="spinner-layer spinner-yellow">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                    <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-
-            <div class="spinner-layer spinner-green">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                    <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>-->
 
     </body>
 </html>

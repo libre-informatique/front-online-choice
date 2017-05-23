@@ -52,12 +52,17 @@ app.register({
                             filter: ".cantSort",
                             preventOnFilter: true,
                             onEnd: function (evt) {
+                                var container = $(evt.from);
+
                                 app.events.ui.sortManifestations();
+
+                                $(document).trigger('events.reordered', [container]);
                             }
                         });
                     });
                 },
                 initTooltips: function () {
+                    $('.material-tooltip').remove();
                     $('*[data-tooltip]').tooltip({
                         delay: 50
                     });
