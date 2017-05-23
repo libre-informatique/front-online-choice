@@ -118,13 +118,13 @@ if (isset($_GET['getParameters'])) {
                     <h4>Valider vos choix pour la semaine ?</h4>
                     <div class="btn-toolbar row">
                         <div class="col s6">
-                            <a id="save-btn" class="waves-effect waves-light btn">
+                            <a id="save-btn" class="waves-effect waves-light btn green lighten-1">
                                 <i class="material-icons left">check_circle</i>
                                 oui
                             </a>
                         </div>
                         <div class="col s6">
-                            <a id="cancel-btn" class="waves-effect waves-light btn">
+                            <a id="cancel-btn" class="waves-effect waves-light btn blue-grey">
                                 <i class="material-icons right">cancel</i>
                                 non
                             </a>

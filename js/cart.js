@@ -20,7 +20,7 @@ app.register({
             var items = app.core.session.cart.items;
 
             var promises = [];
-            
+
             // LOOP OVER CART ITEMS
             $.each(items, function (i, item) {
                 var declinaisonId = item.declination.id;
@@ -118,6 +118,19 @@ app.register({
 
                 return defer.promise();
             },
+
+            updateCartItem: function (cartItemId, data) {
+                var defer = jQuery.Deferred();
+
+                app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, data, function (res) {
+                    defer.resolve(res);
+                }, function (jqXHR, textStatus, errorThrown) {
+                    app.core.ui.toast('Impossible de mettre à jour un élément du panier', 'error');
+                    defer.reject();
+                });
+
+                return defer.promise();
+            }
         }
     }
 });

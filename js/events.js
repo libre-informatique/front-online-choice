@@ -64,10 +64,20 @@ app.register({
                 })
 
                 .on('events.reordered', function (e, container) {
-                    var events = container.find('li.event');
+                    var events = container.find('li.event:not(.cantSort)');
 
+                    var promises = [];
+
+                    var i = 1;
                     events.each(function () {
+                        console.info("EVENT", $(this));
+                        var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
+                        promises.push(app.cart.ws.updateCartItem(cartItemId, {'rank': i}));
+                        i++;
+                    });
 
+                    $.when.apply($, promises).then(function () {
+                        app.cart.getCart();
                     });
                 })
 
