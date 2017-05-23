@@ -26,8 +26,8 @@ app.register({
                 var maxInterval = moment(app.events.currentWeek).endOf('week').subtract(2, 'days');
                 maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
 
-                var minInterval = null;
-                var maxInterval = null;
+//                var minInterval = null;
+//                var maxInterval = null;
 
                 var defer = jQuery.Deferred();
 
@@ -252,7 +252,7 @@ app.register({
 
             sortable.animate({
                 opacity: 0
-            }, 150, 'swing', function () {
+            }, 1000, 'swing', function () {
                 sortableGroup.find('li.event').sort(function (a, b) {
                     var ap = $(a).find('.presence-btn').hasClass('attend');
                     var bp = $(b).find('.presence-btn').hasClass('attend');
@@ -270,7 +270,7 @@ app.register({
 
                 sortable.not('.ghost').animate({
                     opacity: 1
-                }, 450);
+                }, 1000);
             });
 
             var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
