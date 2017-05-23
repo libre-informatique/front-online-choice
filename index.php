@@ -33,6 +33,12 @@ if (isset($_GET['getParameters'])) {
 
             <!-- NAVBAR -->
 
+
+            <div id="mainLoader" class="progress">
+                <div class="indeterminate"></div>
+            </div>
+
+
             <nav>
                 <div class="nav-wrapper teal">
                     <a href="/" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
@@ -178,7 +184,7 @@ if (isset($_GET['getParameters'])) {
         <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
         <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script>
 
-        <div id="mainLoader" class="preloader-wrapper small active">
+<!--        <div id="mainLoader" class="preloader-wrapper small active">
             <div class="spinner-layer spinner-blue">
                 <div class="circle-clipper left">
                     <div class="circle"></div>
@@ -218,7 +224,7 @@ if (isset($_GET['getParameters'])) {
                     <div class="circle"></div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
     </body>
 </html>

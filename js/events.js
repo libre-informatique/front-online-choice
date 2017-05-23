@@ -47,7 +47,7 @@ app.register({
                 app.core.ws.call('GET', '/events', {
                     'criteria[metaEvents.id][type]': 'equals',
                     'criteria[metaEvents.id][value]': app.config.metaEventId,
-                    'limit': 20
+                    'limit': 50
                 }, function (data) {
 
                     minInterval = null;
@@ -55,15 +55,17 @@ app.register({
 
                     $.each(data._embedded.items, function (i, event) {
                         $.each(event.manifestations, function (j, manif) {
-                            if ((new Date(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
-                                minInterval = new Date(manif.startsAt);
-                            if ((new Date(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
-                                maxInterval = new Date(manif.endsAt);
+                            if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
+                                minInterval = app.core.utils.parseApiDate(manif.startsAt);
+                            if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
+                                maxInterval = app.core.utils.parseApiDate(manif.endsAt);
                         });
                     });
-                    
-                    if(maxInterval === null)
-                        maxInterval = moment(minInterval).add(5,'days').toDate();
+
+                    if (maxInterval === null)
+                        maxInterval = moment(minInterval).add(5, 'days').toDate();
+
+                    console.info(minInterval, maxInterval);
 
                     var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
                     defer.resolve(events);
@@ -149,8 +151,6 @@ app.register({
                 ts: {}, // TEMP FIELD, DELETED WHEN FUNCTION ENDS
             };
 
-            console.info(minInterval, maxInterval);
-
             // CREATE DAYS BETWEEN MIN AND MAX INTERVAL
             for (var m = moment(minInterval); m.isBefore(maxInterval); m.add(1, 'days')) {
                 var dayId = m.format('dddDDMM');
@@ -203,13 +203,13 @@ app.register({
             // MOVE TIMESLOTS INTO TAB DAYS
             Object.keys(finalFormat.ts).forEach(function (key) {
                 var ts = finalFormat.ts[key];
-                var day = moment(new Date(ts.startsAt));
+                var day = moment(app.core.utils.parseApiDate(ts.startsAt));
                 var dayId = day.format('dddDDMM');
 
                 if (finalFormat.days.hasOwnProperty(dayId)) {
                     finalFormat.days[dayId].ts.push(ts);
                     finalFormat.days[dayId].ts.sort(function (a, b) {
-                        return new Date(a.startsAt) - new Date(b.startsAt);
+                        return app.core.utils.parseApiDate(a.startsAt) - app.core.utils.parseApiDate(b.startsAt);
                     });
                 }
             });
@@ -231,8 +231,8 @@ app.register({
                 return a.order - b.order;
             });
 
-            delete finalFormat.ts;
-            
+//            delete finalFormat.ts;
+
             // TEMP FOR DEV
             app.events.debug = finalFormat;
 

@@ -40,7 +40,7 @@ app.register({
                 // -----------------------------------------------------------------
 
                 Handlebars.registerHelper('formatDate', function(dateStr, format) {
-                    var date = moment(new Date(dateStr));
+                    var date = moment(dateStr);
                     return date.format(format);
                 });
 
@@ -79,6 +79,10 @@ app.register({
 
             ucfirst: function(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+            
+            parseApiDate: function(string) {
+                return moment(string).toDate();
             }
         }
     }

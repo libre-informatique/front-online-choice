@@ -47,17 +47,24 @@ html {
             z-index      : 999;
             opacity      : 1;
             position     : fixed;
-            top          : 3em;
-            left         : 50%;
-            margin-left  : -29px;
-            background   : #FFF;
-            border-radius: 50%;
-            border       : 3px solid #FFF;
-            box-shadow   : 0 0 3px #999;
-            transition   : opacity 0.5s ease;
+            top:0;
+            margin: 0;
+            background-color: $accent-color;
+            /*            top          : 3em;
+                        left         : 50%;
+                        margin-left  : -29px;
+                        background   : #FFF;
+                        border-radius: 50%;
+                        border       : 3px solid #FFF;
+                        box-shadow   : 0 0 3px #999;
+                        transition   : opacity 0.5s ease;*/
 
             &.hidden {
                 opacity: 0;
+            }
+
+            .progress.indeterminate {
+                /*background-color: $accent-color;*/
             }
         }
     }
@@ -65,7 +72,10 @@ html {
 
 #app {
     nav {
+        position:fixed;
         box-shadow:none;
+        z-index: 998;
+        height: 4.3em;
         .nav-wrapper {
             z-index: 998;
         }
@@ -78,11 +88,16 @@ html {
         }
 
         #userMenu {
+            z-index:999;
             overflow: visible;
             right   : 0;
             left    : auto !important;
+            li {
+                z-index:999;
+            }
         }
     }
+
     // Funny hack to hide UI if not logged in
     &.loggedIn {
         .showIfLoggedIn {
@@ -115,192 +130,190 @@ html {
         margin-top: 25vh;
     }
 
-    #main {
-        .col {
-            padding: 0;
-        }
-    }
+    .content {
+        padding-top:4.3em;
 
-    #sidebar {
-        right    : 0;
-        left     : inherit;
-        transform: translateX(105%);
-    }
-
-    #tabs {
-        height  : 6%;
-        /*overflow: hidden;*/
-        display: flex;
-        flex-direction: row;
-        box-shadow: none;
-
-        .tab {
-            height: 100%;
-            width:auto;
-            flex-grow: 1;
-
-            .badge {
-                color:$primary-color;
-                background-color:white;
-                border-radius: 0.2em;
-                width: 1.5em;
-                height: 1.5em;
-                min-width: auto;
-                float: none;
-                font-weight:bold;
-
-                &.empty {
-                    opacity:0.4;
-                }
+        #main {
+            .col {
+                padding: 0;
             }
-        }
 
-        .prevWeek,
-        .nextWeek {
-            max-width:30px;
-            cursor:pointer;
-            i {
-                position: relative;
-                top: 0.3em;
-                color: white;
-            }
-        }
+            #tabs {
+                height: 2.8em;
+                display: flex;
+                flex-direction: row;
+                box-shadow: none;
+                position:fixed;
+                z-index: 990;
 
-        .indicator {
-            height          : 3px;
-            background-color: $accent-color;
-        }
+                .tab {
+                    height: 100%;
+                    width:auto;
+                    flex-grow: 1;
 
-        a {
-            color: white;
+                    .badge {
+                        color:$primary-color;
+                        background-color:white;
+                        border-radius: 0.2em;
+                        width: 1.5em;
+                        height: 1.5em;
+                        min-width: auto;
+                        float: none;
+                        font-weight:bold;
 
-            &:active,
-                &:hover {
-                color: $accent-color;
-            }
-        }
-    }
-
-    .tab-content {
-        display: none;
-    }
-
-    #headers {
-        margin-top: 20px;
-    }
-
-    #periods {
-        .period {
-            .period-label {
-                color      : $primary-color;
-                font-weight: bold;
-                font-size  : 1.1em;
-            }
-        }
-    }
-
-    .events {
-        .manifestations-list {
-            .event {
-                height      : 100px;
-                margin-right: 10%;
-
-                .event-card {
-                    .label {
-                        margin-right: 20px;
-                    }
-
-                    .presence {
-                        justify-content: center;
-                        .attend {
-                            color:white;
+                        &.empty {
+                            opacity:0.4;
                         }
                     }
+                }
 
-                    .priority {
-                        /*margin: auto;*/
-                        cursor: default;
-                        opacity:0.1;
+                .prevWeek,
+                .nextWeek {
+                    max-width:30px;
+                    cursor:pointer;
+                    i {
+                        position: relative;
+                        top: 0.3em;
+                        color: white;
+                    }
+                }
 
-                        i {
-                            display: block;
+                .indicator {
+                    height          : 3px;
+                    background-color: $accent-color;
+                }
 
+                a {
+                    color: white;
 
-                            &.handle {
-                                /*margin   : -20px 0;*/
-                                /*margin   : 0;*/
-                                margin: 0 auto;
-                                font-size: 2.2em;
+                    &:active,
+                        &:hover {
+                        color: $accent-color;
+                    }
+                }
+            }
 
-                                opacity:0.4;
+            .tab-content {
+                display: none;
+                padding-top:2em;
+            }
+
+            #headers {
+                margin-top: 20px;
+            }
+
+            #periods {
+                .period {
+                    .period-label {
+                        color      : $primary-color;
+                        font-weight: bold;
+                        font-size  : 1.1em;
+                    }
+                }
+            }
+
+            .events {
+                .manifestations-list {
+                    .event {
+                        height      : 100px;
+                        margin-right: 10%;
+
+                        .event-card {
+                            .label {
+                                margin-right: 20px;
                             }
 
-                            &.priority-down,
-                            &.priority-up {
-                                font-size: 2.9em;
+                            .presence {
+                                justify-content: center;
+                                .attend {
+                                    color:white;
+                                }
+                            }
+
+                            .priority {
+                                /*margin: auto;*/
+                                cursor: default;
+                                opacity:0.1;
+
+                                i {
+                                    display: block;
+
+
+                                    &.handle {
+                                        /*margin   : -20px 0;*/
+                                        /*margin   : 0;*/
+                                        margin: 0 auto;
+                                        font-size: 2.2em;
+
+                                        opacity:0.4;
+                                    }
+
+                                    &.priority-down,
+                                    &.priority-up {
+                                        font-size: 2.9em;
+                                    }
+                                }
+
+                                &.disabled {
+                                    cursor: default;
+                                    opacity:0;
+                                    i {
+                                        display:none;
+                                    }
+                                }
+
+                                &:not(.disabled)::before {
+                                    content: '';
+                                    width:2px;
+                                    height:80%;
+                                    background:black;
+                                    opacity:0.05;
+                                    /*box-shadow:0 2px 4px #666;*/
+                                }
                             }
                         }
 
-                        &.disabled {
-                            cursor: default;
-                            opacity:0;
-                            i {
-                                display:none;
-                            }
+                        .event-time {
+                            line-height: 120px;
                         }
-
-                        &:not(.disabled)::before {
-                            content: '';
-                            width:2px;
-                            height:80%;
-                            background:black;
-                            opacity:0.05;
-                            /*box-shadow:0 2px 4px #666;*/
+                    }
+                    &.active {
+                        .event {
+                            .event-card {
+                                .priority {
+                                    opacity:1;
+                                    cursor: move;
+                                }
+                            }
                         }
                     }
                 }
-
-                .event-time {
-                    line-height: 120px;
-                }
             }
-            &.active {
-                .event {
-                    .event-card {
-                        .priority {
-                            opacity:1;
-                            cursor: move;
-                        }
+
+
+            #confirm-fab {
+                position: fixed;
+                bottom  : 50px;
+                right   : 40px;
+                width   : 56px;
+            }
+        }
+
+        .userProfileTable {
+            tr {
+                td {
+                    &:first-of-type {
+                        text-align : right;
+                        font-weight: bold;
+                    }
+
+                    .badge {
+                        float: left;
                     }
                 }
             }
         }
     }
-
-
-    #confirm-fab {
-        position: fixed;
-        bottom  : 50px;
-        right   : 40px;
-        width   : 56px;
-    }
-
-    .userProfileTable {
-        tr {
-            td {
-                &:first-of-type {
-                    text-align : right;
-                    font-weight: bold;
-                }
-
-                .badge {
-                    float: left;
-                }
-            }
-        }
-    }
-
-    .btn-toolbar {}
 }
 
 #toast-container {

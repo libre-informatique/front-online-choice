@@ -34,7 +34,7 @@
 
             <li class="period">
                 <p class="period-label center">
-                    {{timeslot.title}}
+                    {{timeslot.name}}
                 </p>
                 <div id="events{{timeslot.id}}" class="events row">
                     <ul class="manifestations-list">
@@ -55,7 +55,8 @@
                                 </div>
                                 <div class="label col s5 valign-wrapper selectable">
                                     <p class="event-label">
-                                        {{manif.event.translations.fr_FR.name}}
+                                        <!--{{manif.event.translations.fr_FR.name}}-->
+                                        {{manif.event.translations.fr.name}}
                                     </p>
                                 </div>
                                 <div class="presence valign-wrapper col s3">
