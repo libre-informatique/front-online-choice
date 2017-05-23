@@ -67,10 +67,10 @@ app.register({
                 if (!app.core.session.tokenIsSet())
                     return false;
 
-                var expireDate = new Date(app.core.session.tokenExpirationDate);
+                var expireDate = app.core.utils.parseApiDate(app.core.session.tokenExpirationDate);
 
                 if (typeof expireDate !== 'undefined') {
-                    return expireDate > new Date();
+                    return expireDate > app.core.utils.parseApiDate();
                 }
                 return true;
             },
@@ -78,7 +78,7 @@ app.register({
                 return (app.core.session.access_token !== null ? true : false);
             },
             updateTokenExpirationDate: function() {
-                var tokenExpirationDate = new Date();
+                var tokenExpirationDate = app.core.utils.parseApiDate();
                 tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.core.session.expires_in, 10));
 
                 app.core.session.tokenExpirationDate = tokenExpirationDate;

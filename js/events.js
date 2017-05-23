@@ -6,10 +6,6 @@ app.register({
         // HOLDS MANIFESTATIONS RANKS
         manifestationsOrders: [],
 
-        // USED TO CENTER TABS ON CURRENT WEEK
-        // TODO: REMOVE THIS
-        currentWeek: null,
-
         ws: {
 
             // ---------------------------------------------------------------------
@@ -18,29 +14,7 @@ app.register({
 
             getEvents: function () {
 
-                // Define min and max interval for tabs
-                var minInterval = moment(app.events.currentWeek).startOf('week');
-
-                minInterval.hours(0).minutes(0).seconds(0).milliseconds(0);
-
-                var maxInterval = moment(app.events.currentWeek).endOf('week').subtract(2, 'days');
-                maxInterval.hours(23).minutes(59).seconds(59).milliseconds(999);
-
-//                var minInterval = null;
-//                var maxInterval = null;
-
                 var defer = jQuery.Deferred();
-
-                // FOR DEV, USE EVENTS.JSON
-
-//                $.ajax({
-//                    async: true,
-//                    url: appHostname + '/data/events.json',
-//                    success: function (data) {
-//                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-//                        defer.resolve(events);
-//                    }
-//                });
 
                 // FOR PROD, USE EVENTS API
 
@@ -65,8 +39,6 @@ app.register({
                     if (maxInterval === null)
                         maxInterval = moment(minInterval).add(5, 'days').toDate();
 
-                    console.info(minInterval, maxInterval);
-
                     var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
                     defer.resolve(events);
                 });
@@ -80,12 +52,6 @@ app.register({
         // -------------------------------------------------------------------------
 
         initEvents: function () {
-
-            // TODO: DEFINE HOW CENTER THE TABS
-
-            //            app.events.currentWeek = moment().startOf('week');
-            //            app.events.currentWeek = moment('20170725').startOf('week');
-            app.events.currentWeek = moment('20170517').startOf('week');
 
             $(document)
 
@@ -125,6 +91,8 @@ app.register({
                     .removeClass('btn blue')
                     .addClass('attend btn-flat teal')
                     .html('Présent');
+
+                $(button).closest('.event').removeClass('cantSort');
             },
 
             // ---------------------------------------------------------------------
@@ -137,6 +105,38 @@ app.register({
                     .removeClass('attend btn-flat teal')
                     .addClass('btn blue')
                     .html('Participer');
+
+                $(button).closest('.event').addClass('cantSort');
+            },
+
+            sortManifestations: function (sortableGroup) {
+
+                if (typeof sortableGroup === 'undefined') {
+                    sortableGroup = $('.manifestations-list');
+                }
+
+                if (sortableGroup.length > 1) {
+                    sortableGroup.each(function () {
+                        sortItems($(this)).detach().appendTo($(this));
+                    });
+                } else {
+                    sortItems(sortableGroup).detach().appendTo(sortableGroup);
+                }
+
+                function sortItems(group) {
+                    return $(group).find('li.event').sort(function (a, b) {
+                        var ap = $(a).find('.presence-btn').hasClass('attend');
+                        var bp = $(b).find('.presence-btn').hasClass('attend');
+
+                        if (ap < bp) {
+                            return 1;
+                        } else if (ap > bp) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                }
             }
         },
 
@@ -231,10 +231,7 @@ app.register({
                 return a.order - b.order;
             });
 
-//            delete finalFormat.ts;
-
-            // TEMP FOR DEV
-            app.events.debug = finalFormat;
+            delete finalFormat.ts;
 
             return finalFormat;
         },
@@ -253,19 +250,8 @@ app.register({
             sortable.animate({
                 opacity: 0
             }, 1000, 'swing', function () {
-                sortableGroup.find('li.event').sort(function (a, b) {
-                    var ap = $(a).find('.presence-btn').hasClass('attend');
-                    var bp = $(b).find('.presence-btn').hasClass('attend');
+                app.events.ui.sortManifestations(sortableGroup);
 
-                    if (ap < bp) {
-                        return 1;
-                    } else if (ap > bp) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-
-                }).detach().appendTo(sortableGroup);
                 app.core.ui.plugins.initSortables();
 
                 sortable.not('.ghost').animate({
@@ -287,29 +273,14 @@ app.register({
                 var cartItemId = app.events.manifestations[manifId].cartItemId;
 
                 // removeFromCart
-                app.cart.ws.removeFromCart(declinaisonId, priceId).then(function () {
-
+                app.cart.ws.removeFromCart(cartItemId).then(function () {
+                    app.cart.getCart();
                 }, function () {
-
+                    
                 });
 
             }
         },
-
-        // -------------------------------------------------------------------------
-        // MOVE TO NEXT / PREV WEEK (TO BE REMOVED ?)
-        // -------------------------------------------------------------------------
-
-        changeWeek: function (next) {
-            if (typeof next === 'undefined')
-                next = false;
-
-            if (next) {
-                app.events.currentWeek.add(7, 'days').startOf('day');
-            } else {
-                app.events.currentWeek.subtract(7, 'days').startOf('day');
-            }
-        }
 
     },
     core: {
@@ -325,8 +296,11 @@ app.register({
                     var events = app.events.ws.getEvents()
                         .then(function (events) {
                             app.core.ctrl.render('mainTabs', events, true).then(function () {
-                                app.core.ui.plugins.initTabs();
-                                app.core.history.add(app.core.ctrl.states.showEvents);
+                                app.cart.applyCart().then(function () {
+                                    app.core.ui.plugins.initTabs();
+                                    app.core.ui.plugins.initSortables();
+                                    app.core.history.add(app.core.ctrl.states.showEvents);
+                                });
                             });
                         }, function (error) {});
                 }

@@ -278,7 +278,7 @@ html {
                         }
                     }
                     &.active {
-                        .event {
+                        .event:not(.cantSort) {
                             .event-card {
                                 .priority {
                                     opacity:1;

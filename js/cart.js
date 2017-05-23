@@ -1,19 +1,25 @@
 app.register({
     cart: {
         init: function () {
+            app.cart.getCart();
+        },
+
+        getCart: function () {
             app.cart.ws.getCart().then(function (res) {
                 var cart = res._embedded.items[0];
                 $.extend(app.core.session, {cart: cart});
-
-                app.cart.applyCart();
+                app.core.session.save();
             }, function () {
 
             });
         },
 
         applyCart: function () {
+            var defer = jQuery.Deferred();
+
             var items = app.core.session.cart.items;
 
+            var promises = [];
             // LOOP OVER CART ITEMS
             $.each(items, function (i, item) {
                 var declinaisonId = item.declination.id;
@@ -25,8 +31,21 @@ app.register({
 
                     // UPDATE EVENTS ON UI
                     app.events.ui.presenceButton($('li.event[data-id="' + manif.id + '"] .presence-btn'));
+                    promises.push(jQuery.Deferred().resolve());
+                } else {
+                    console.error('Cannot find manif for declinaison #' + declinaisonId);
                 }
             });
+
+            app.events.ui.sortManifestations();
+
+            $.when.apply($, promises).then(function () {
+                defer.resolve();
+            }, function (e) {
+                defer.reject();
+            });
+
+            return defer.promise();
         },
 
         private: {
@@ -73,6 +92,11 @@ app.register({
                     "quantity": 1,
                     "priceId": priceId
                 }, function (res) {
+                    var cart = res;
+
+                    app.core.session.cart = cart;
+                    app.core.session.save();
+
                     defer.resolve(res);
                 }, function (jqXHR, textStatus, errorThrown) {
                     app.core.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
