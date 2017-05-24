@@ -46,54 +46,56 @@
                         <!-- EVENT not manif -->
 
                         <li class="row event notselectable cantSort" data-id="{{manif.id}}">
-                            <div class="event-time col s4 center">
+                            <div class="event-time col s12 m4 center">
                                 <span>
-                                    {{{formatDate manif.startsAt 'HH[h]mm' }}} - {{{formatDate manif.endsAt 'HH[h]mm' }}}
+                                    {{{formatDate manif.startsAt '[<b>]HH[</b><sup>h</sup>]mm' }}}
+                                    <i class="handle material-icons tiny">settings_ethernet</i>
+                                    {{{formatDate manif.endsAt '[<b>]HH[</b><sup>h</sup>]mm' }}}
                                 </span>
                             </div>
-                            <div class="event-card card horizontal z-depth-1 col s8 row">
+                            <div class="event-card card horizontal z-depth-1 col m8 s11 row">
                                 <div class="event-image col s2 primary"
                                      {{#ifCond manif.event.imageURL 'not null'}}
-                                        style="background-image:url({{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}});background-size:cover;"
+                                     style="background-image:url({{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}});background-size:cover;"
                                      {{/ifCond}}>
-                                </div>
-                                <div class="label col s5 valign-wrapper selectable">
-                                    <p class="event-label">
-                                        {{manif.event.name}}
-                                    </p>
-                                </div>
-                                <div class="presence valign-wrapper col s3">
-                                    <a class="presence-btn btn grey waves-effect waves-light">Participer</a>
-                                </div>
-                                <div class="priority col s2 center valign-wrapper">
-                                    <i class="handle material-icons">apps</i>
-                                    <span class="priorityNumber"></span>
-                                </div>
                             </div>
-                        </li>
+                            <div class="label col s5 valign-wrapper selectable">
+                                <p class="event-label">
+                                    {{manif.event.name}}
+                                </p>
+                            </div>
+                            <div class="presence valign-wrapper col s3">
+                                <a class="presence-btn btn grey waves-effect waves-light">Participer</a>
+                            </div>
+                            <div class="priority col s2 center valign-wrapper">
+                                <i class="handle material-icons">apps</i>
+                                <span class="priorityNumber"></span>
+                            </div>
+                        </div>
+                    </li>
 
-                        {{/each}}
+                    {{/each}}
 
-                    </ul>
-                </div>
-            </li>
+                </ul>
+            </div>
+        </li>
 
-            {{/each}}
+        {{/each}}
 
-            <!-- -->
+        <!-- -->
 
-            {{#ifCond tab.manifCount '==' 0}}
+        {{#ifCond tab.manifCount '==' 0}}
 
-            <li class="center-align">
-                <div class="card-panel">
-                    <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
-                </div>
-            </li>
+        <li class="center-align">
+            <div class="card-panel">
+                <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
+            </div>
+        </li>
 
-            {{/ifCond}}
+        {{/ifCond}}
 
-        </ul>
-    </div>
+    </ul>
+</div>
 </div>
 {{/each}}
 
@@ -101,3 +103,13 @@
 <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light green lighten-1 z-depth-3">
     <i class="material-icons">check</i>
 </a>
+
+
+<!-- Tap Target Structure -->
+<div class="tap-target" data-activates="confirm-fab">
+    <div class="tap-target-content">
+        <h5>Validation de votre panier</h5>
+        <p>Une fois vos choix arrêtés, pensez à valider ceux-ci en cliquant sur ce bouton</p>
+        <button class="btn primary">J'ai compris</button>
+    </div>
+</div>

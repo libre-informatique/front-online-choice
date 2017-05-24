@@ -174,7 +174,7 @@ app.register({
                         sortRanks($(this)).detach().appendTo($(this));
 
                     $(this).find('li.event.selected').each(function (k, item) {
-                        $(item).find('.priority .priorityNumber').html(k+1);
+                        $(item).find('.priority .priorityNumber').html(k + 1);
                     });
                 });
 
@@ -222,6 +222,21 @@ app.register({
                             return 0;
                         }
                     });
+                }
+            },
+
+            displayValidateCartInfo: function (autoclose) {
+
+                if (typeof autoclose === 'undefined') {
+                    autoclose = true;
+                }
+
+                $('.tap-target').tapTarget('open');
+
+                if (autoclose) {
+                    setTimeout(function () {
+                        $('.tap-target').tapTarget('close');
+                    }, 10000);
                 }
             }
         },
@@ -398,6 +413,7 @@ app.register({
                                     app.core.ui.plugins.initSortables();
                                     app.core.ui.plugins.initPushpin();
                                     app.core.history.add(app.core.ctrl.states.showEvents);
+                                    app.events.ui.displayValidateCartInfo();
                                 });
                             });
                         }, function (error) {});

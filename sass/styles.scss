@@ -4,7 +4,7 @@ $primary-color: color('blue-grey','darken-2'); //Teal
 $accent-color: color('amber', 'lighten-2'); // Orange
 $success-color: color('green', 'lighten-1'); // green
 $danger-color: color('red', 'lighten-2'); // red lighten-2
-$info-color: color('indigo', 'lighten-2'); // indigo lighten-2
+$info-color: color('blue', 'lighten-2'); // indigo lighten-2
 $normal-color: color('blue-grey', 'base'); // blue-grey
 $body-bg: color('blue-grey','lighten-5');
 $neutral-color: color('grey','base');
@@ -103,13 +103,13 @@ html,body {
         position:fixed;
         box-shadow:none;
         z-index: 998;
-        height: 4.3em;
+        height: 4.1em;
         .nav-wrapper {
             z-index: 998;
 
             & > #nav-mobile-right > li > a,
             & > #nav-mobile-left > li > a {
-                height: 4.35em;
+                height: 4.15em;
             }
         }
 
@@ -173,7 +173,7 @@ html,body {
     }
 
     .content {
-        padding:4.3em 0 1em 0;
+        padding:4.1em 0 1em 0;
 
         #main {
             .col {
@@ -232,12 +232,12 @@ html,body {
 
             #headers {
                 margin-top: 20px;
-                border-bottom:1px solid darken($body-bg,5%);
+                /*border-bottom:3px dotted darken($body-bg,10%);*/
             }
 
             #periods {
                 .period {
-                    border-bottom:1px solid darken($body-bg,10%);
+                    border-top:6px dotted darken($body-bg,5%);
                     padding-bottom: 2em;
                     .period-label-container {
                         min-height: 108px;
@@ -294,14 +294,20 @@ html,body {
             .events {
                 .manifestations-list {
                     .event {
-                        height      : 100px;
-                        min-height  : 100px;
-                        margin-right: 10%;
+                        /*                        height      : 100px;*/
+                        /*min-height  : 100px;*/
+                        @media #{$medium-and-up} {
+                            margin-right: 10%;
+                        }
 
                         .event-card {
 
                             height      : 100px;
                             min-height  : 100px;
+
+                            @media #{$small-and-down} {
+                                margin-left:1em;
+                            }
 
                             .event-image {
                                 background-repeat: no-repeat;
@@ -345,18 +351,19 @@ html,body {
                                 position:relative;
 
                                 .priorityNumber {
-                                    color:transparentize($neutral-color,0.5);
+                                    color:transparentize($neutral-color,0.7);
                                     position: absolute;
                                     display: block;
                                     top: 0;
                                     left: 0;
                                     right: 0;
                                     bottom: 0;
-                                    font-size: 10rem;
+                                    font-size: 11rem;
                                     font-weight: bold;
                                     overflow: hidden;
-                                    line-height: 7rem;
+                                    line-height: 7.5rem;
                                     text-align: right;
+                                    text-indent: 5vw;
                                 }
 
                                 i {
@@ -399,7 +406,16 @@ html,body {
                         }
 
                         .event-time {
-                            line-height: 120px;
+                            @media #{$medium-and-up} {
+                                line-height: 120px;
+                            }
+                            span {
+                                font-size:1.1em;
+                                @media #{$medium-and-up} {
+                                    font-size:1.4em;
+                                }
+                                color:darken($body-bg,40%);
+                            }
                         }
                         &.selected {
                             .event-card {
@@ -624,4 +640,9 @@ html,body {
 [type="checkbox"]:checked + label::before {
     border-right: 2px solid $success-color;
     border-bottom: 2px solid $success-color;
+}
+
+.tap-target {
+    background-color:$info-color;
+    color: white;
 }
