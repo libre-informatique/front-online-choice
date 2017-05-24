@@ -1,7 +1,8 @@
 @import "materializecss/ghpages-materialize";
 
 /*$primary-color: #009688; //Teal*/
-$primary-color: color('blue-grey', 'base'); //Teal
+/*$primary-color: color('blue-grey', 'darken-1'); //Teal*/
+$primary-color: color('blue-grey','darken-2'); //Teal
 /*$accent-color: #ffb74d; // Orange*/
 $accent-color: color('amber', 'lighten-2'); // Orange
 /*$success-color: #e57373; //  green lighten-1*/
@@ -12,7 +13,43 @@ $danger-color: color('red', 'lighten-2'); // red lighten-2
 $info-color: color('indigo', 'lighten-2'); // indigo lighten-2
 /*$normal-color: #607d8b; // blue-grey*/
 $normal-color: color('blue-grey', 'base'); // blue-grey
-$body-bg: #FCFCFC;
+/*$body-bg: #FCFCFC;*/
+$body-bg: color('blue-grey','lighten-5');
+
+.primary {
+    background-color:$primary-color;
+}
+.primary-text {
+    color:$primary-color;
+}
+
+.accent {
+    background-color:$accent-color;
+}
+.accent-text {
+    color:$accent-color;
+}
+
+.success {
+    background-color:$success-color;
+}
+.success-text {
+    color:$success-color;
+}
+
+.danger {
+    background-color:$danger-color;
+}
+.danger-text {
+    color:$danger-color;
+}
+
+.info {
+    background-color:$info-color;
+}
+.info-text {
+    color:$info-color;
+}
 
 // MATERIAL ICONS
 /* fallback */
@@ -46,7 +83,7 @@ html {
     min-height: 100%;
 }
 
-html {
+html,body {
     /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
     /*background-size: cover;*/
     background: $body-bg;
@@ -62,10 +99,9 @@ html {
         .nav-wrapper {
             z-index: 998;
 
-            & > .brand-logo,
-            & > #nav-mobile-right > li,
-            & > #nav-mobile-left > li {
-                height: 4.3em;
+            & > #nav-mobile-right > li > a,
+            & > #nav-mobile-left > li > a {
+                height: 4.35em;
             }
         }
 
@@ -140,12 +176,12 @@ html {
                 height: 2.8em;
                 display: flex;
                 flex-direction: row;
-                box-shadow: none;
+                /*box-shadow: none;*/
                 position:fixed;
                 z-index: 990;
 
                 .tab {
-                    background-color:darken($normal-color,10%);
+                    background-color:darken($primary-color,5%);
                     height: 100%;
                     width:auto;
                     flex-grow: 1;
@@ -188,17 +224,45 @@ html {
 
             #headers {
                 margin-top: 20px;
-                border-bottom:1px solid #F0F0F0;
+                border-bottom:1px solid darken($body-bg,5%);
             }
 
             #periods {
                 .period {
-                    .period-label {
-                        color      : $primary-color;
-                        font-weight: bold;
-                        font-size  : 1.4em;
+                    border-bottom:1px solid darken($body-bg,10%);
+                    padding-bottom: 2em;
+                    .period-label-container {
+                        min-height: 108px;
+                        padding-top:2em;
+                        .period-label {
+                            color      : $primary-color;
+                            font-weight: bold;
+                            font-size  : 1.6em;
+                            text-transform: uppercase;
+                            &.pinned {
+                                /*margin-top: 4.5em;*/
+                                width:100%;
+                                text-align:center;
+                                background-color:transparentize($body-bg,0.1);
+                                z-index: 990;
+                                margin-top: 0;
+                                &::after {
+                                    content: '';
+                                    width:100%;
+                                    height:10px;
+                                    position: absolute;
+                                    left: 0;
+                                    bottom: -10px;
+                                    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.14+0,0+100 */
+                                    background: -moz-linear-gradient(top, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+                                    background: -webkit-linear-gradient(top, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+                                    background: linear-gradient(to bottom, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+                                }
+                            }
+                        }
                     }
-                    border-bottom:1px solid #F0F0F0;
+
                 }
             }
 
@@ -218,7 +282,7 @@ html {
                                 background-repeat: no-repeat;
                                 background-position: 50% 50%;
                                 background-size: contain;
-                                background-color:$primary-color;
+                                /*background-color:$primary-color;*/
                                 background-image:url('../img/default-manifestation.png');
                                 position:relative;
                                 &::after {
@@ -287,13 +351,21 @@ html {
                                     height:80%;
                                     background:black;
                                     opacity:0.05;
-                                    /*box-shadow:0 2px 4px #666;*/
                                 }
                             }
                         }
 
                         .event-time {
                             line-height: 120px;
+                        }
+                        &.selected {
+                            .event-card {
+                                .label {
+                                    .event-label {
+                                        font-weight:bold;
+                                    }
+                                }
+                            }
                         }
                     }
                     &.active {

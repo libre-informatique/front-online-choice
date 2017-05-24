@@ -40,7 +40,7 @@ if (isset($_GET['getParameters'])) {
 
 
             <nav>
-                <div class="nav-wrapper blue-grey">
+                <div class="nav-wrapper primary">
                     <a href="/" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
                     <ul id="nav-mobile-left" class="left">
                         <li class="showIfLoggedIn">
@@ -169,7 +169,7 @@ if (isset($_GET['getParameters'])) {
                             </a>
                         </div>
                         <div class="col s6">
-                            <a id="cancel-btn" class="waves-effect waves-light btn blue-grey">
+                            <a id="cancel-btn" class="waves-effect waves-light btn primary">
                                 <i class="material-icons right">cancel</i>
                                 non
                             </a>

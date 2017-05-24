@@ -20,6 +20,7 @@ app.register({
                     app.core.ui.plugins.initTooltips();
                     app.core.ui.plugins.initDropDown();
                     app.core.ui.plugins.initModal();
+                    app.core.ui.plugins.initPushpin();
                 },
                 initTabs: function () {
                     $('ul#tabs').tabs();
@@ -54,7 +55,7 @@ app.register({
                             onEnd: function (evt) {
                                 var container = $(evt.from);
 
-                                app.events.ui.sortManifestations(container,true);
+                                app.events.ui.sortManifestations(container, true);
 
                                 $(document).trigger('events.reordered', [container]);
                             }
@@ -73,6 +74,18 @@ app.register({
                 initModal: function () {
                     app.core.ui.modal = $('#confirm-modal');
                     app.core.ui.modal.modal();
+                },
+                initPushpin: function () {
+                    $('.period-label').each(function () {
+                        var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
+                        var $this = $(this);
+                        var $target = $('#' + $(this).attr('data-target'));
+                        $this.pushpin({
+                            top: $target.offset().top - contentTop + ($this.outerHeight()),
+                            bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
+                            offset: contentTop
+                        });
+                    });
                 }
             },
             initTemplates: function () {

@@ -10,5 +10,6 @@
         "apiBaseUri": "/api"
     },
     "clientSessionName": "frontOnlineChoiceSession",
-    "metaEventId": 1
+    "metaEventId": 1,
+    "lang": "fr"
 }

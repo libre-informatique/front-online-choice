@@ -95,7 +95,12 @@ app.register({
                     .addClass('attend btn-flat green lighten-1')
                     .html('Présent');
 
-                $(button).closest('.event').removeClass('cantSort');
+                $(button).closest('.event')
+                    .removeClass('cantSort')
+                    .addClass('selected')
+                    ;
+
+
             },
 
             // ---------------------------------------------------------------------
@@ -109,7 +114,10 @@ app.register({
                     .addClass('btn grey')
                     .html('Participer');
 
-                $(button).closest('.event').addClass('cantSort');
+                $(button).closest('.event')
+                    .addClass('cantSort')
+                    .removeClass('selected')
+                    ;
             },
 
             // ---------------------------------------------------------------------
@@ -227,6 +235,8 @@ app.register({
                     }
                     m = ts.manifestations[mId];
 
+                    m.event.name = m.event.translations[app.config.lang].name;
+
                     app.events.manifestations[m.id] = m;
                 });
             });
@@ -276,7 +286,7 @@ app.register({
             sortable.animate({
                 opacity: 0
             }, 1000, 'swing', function () {
-                app.events.ui.sortManifestations(sortableGroup,true);
+                app.events.ui.sortManifestations(sortableGroup, true);
 
                 app.core.ui.plugins.initSortables();
 
@@ -288,7 +298,7 @@ app.register({
                     app.cart.ws.addToCart(declinaisonId, priceId).then(function (res) {
                         // add event dom attr (rank)
 
-                        app.events.manifestations[manifId].cartItemId = res.id;                        
+                        app.events.manifestations[manifId].cartItemId = res.id;
                         sortable.attr('data-rank', res.rank);
                         $(document).trigger('events.reordered', [sortableGroup]);
                     }, function () {
@@ -334,6 +344,7 @@ app.register({
                                 app.cart.applyCart().then(function () {
                                     app.core.ui.plugins.initTabs();
                                     app.core.ui.plugins.initSortables();
+                                    app.core.ui.plugins.initPushpin();
                                     app.core.history.add(app.core.ctrl.states.showEvents);
                                 });
                             });

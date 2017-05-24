@@ -79,7 +79,7 @@ app.register({
             },
             updateTokenExpirationDate: function() {
                 var tokenExpirationDate = app.core.utils.parseApiDate();
-                tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(app.core.session.expires_in, 10));
+                tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + (parseInt(app.core.session.expires_in, 10))-60);
 
                 app.core.session.tokenExpirationDate = tokenExpirationDate;
                 app.core.session.save();
