@@ -143,10 +143,7 @@ app.register({
                     // -------------------------------------------------------------
 
                     .on('template.applyed', function () {
-
-                        // Initialize form fields when data is already set
-
-                        //                    Materialize.updateTextFields();
+                        app.core.ui.displayContentLoading(false);
                         app.core.ui.plugins.init();
                     })
 

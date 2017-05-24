@@ -54,12 +54,19 @@ html {
 
 #app {
     nav {
+        background-color:$primary-color;
         position:fixed;
         box-shadow:none;
         z-index: 998;
         height: 4.3em;
         .nav-wrapper {
             z-index: 998;
+
+            & > .brand-logo,
+            & > #nav-mobile-right > li,
+            & > #nav-mobile-left > li {
+                height: 4.3em;
+            }
         }
 
         .brand-logo {
@@ -83,7 +90,7 @@ html {
             a {
                 &:hover, 
                     &:active {
-                    background-color:color('blue-grey', 'darken-2');
+                    background-color:color('blue-grey', 'darken-1');
                 }
             }
         }
@@ -181,6 +188,7 @@ html {
 
             #headers {
                 margin-top: 20px;
+                border-bottom:1px solid #F0F0F0;
             }
 
             #periods {
@@ -188,8 +196,9 @@ html {
                     .period-label {
                         color      : $primary-color;
                         font-weight: bold;
-                        font-size  : 1.1em;
+                        font-size  : 1.4em;
                     }
+                    border-bottom:1px solid #F0F0F0;
                 }
             }
 
@@ -211,6 +220,19 @@ html {
                                 background-size: contain;
                                 background-color:$primary-color;
                                 background-image:url('../img/default-manifestation.png');
+                                position:relative;
+                                &::after {
+                                    content: '';
+                                    width:0.5em;
+                                    position: absolute;
+                                    right:0;
+                                    height:100%;
+                                    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,4b626d+100&0+0,0.65+100 */
+                                    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(75,98,109,0.65) 100%); /* FF3.6-15 */
+                                    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(75,98,109,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+                                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(75,98,109,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a64b626d',GradientType=1 ); /* IE6-9 */
+                                }
                             }
 
                             .label {
@@ -308,6 +330,12 @@ html {
                         float: left;
                     }
                 }
+            }
+            .fixed-action-btn {
+                position: fixed;
+                bottom: 50px;
+                right: 40px;
+                width: 56px;
             }
         }
     }
@@ -446,6 +474,15 @@ html {
             background-color: color('blue-grey','darken-1');
         }
     }
+}
+
+#contentLoader {
+    display:none;
+    /*display:block;*/
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    margin-top: 25%;
 }
 
 .dropdown-content {

@@ -30,6 +30,10 @@ app.register({
                             return (v1 && v2) ? options.fn(this) : options.inverse(this);
                         case '||':
                             return (v1 || v2) ? options.fn(this) : options.inverse(this);
+                        case 'null':
+                            return (v1 === null) ? v2.fn(this) : v2.inverse(this);
+                        case 'not null':
+                            return (v1 !== null) ? v2.fn(this) : v2.inverse(this);
                         default:
                             return options.inverse(this);
                     }

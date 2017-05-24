@@ -118,8 +118,10 @@ app.register({
                 if (typeof clearContent === 'undefined')
                     clearContent = false;
 
-                if (clearContent)
-                    $('#app div.content handlebar-placeholder').html('');
+                if (clearContent) {
+                    app.core.ui.clearContent();
+                    app.core.ui.displayContentLoading(true);
+                }
 
                 var compiled = Handlebars.compile(app.core.ui.templates[templateName].data);
 

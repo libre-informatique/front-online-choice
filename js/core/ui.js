@@ -129,6 +129,9 @@ app.register({
                 $('handlebar-placeholder[template="' + name + '"]').html(tpl);
                 $(document).trigger('template.applyed', [name]);
             },
+            clearContent: function () {
+                $('#app div.content handlebar-placeholder').html('');
+            },
             displayLoading: function (show) {
                 if (typeof show === 'undefined')
                     show = true;
@@ -138,6 +141,16 @@ app.register({
                     loader.removeClass('hidden');
                 else
                     loader.addClass('hidden');
+            },
+            displayContentLoading: function (show) {
+                if (typeof show === 'undefined')
+                    show = true;
+                var loader = $('#contentLoader');
+
+                if (show === true)
+                    loader.show();
+                else
+                    loader.hide();
             },
             toast: function (message, type, delay) {
                 if (typeof delay === 'undefined')

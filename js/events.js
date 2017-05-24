@@ -13,22 +13,20 @@ app.register({
 
                 var defer = jQuery.Deferred();
 
-                app.core.ws.call('GET', '/events', {
+                app.core.ws.call('GET', '/manifestations', {
                     'criteria[metaEvents.id][type]': 'equals',
                     'criteria[metaEvents.id][value]': app.config.metaEventId,
-                    'limit': 50
+                    'limit': 100
                 }, function (data) {
 
                     minInterval = null;
                     maxInterval = null;
 
-                    $.each(data._embedded.items, function (i, event) {
-                        $.each(event.manifestations, function (j, manif) {
-                            if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
-                                minInterval = app.core.utils.parseApiDate(manif.startsAt);
-                            if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
-                                maxInterval = app.core.utils.parseApiDate(manif.endsAt);
-                        });
+                    $.each(data._embedded.items, function (i, manif) {
+                        if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
+                            minInterval = app.core.utils.parseApiDate(manif.startsAt);
+                        if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
+                            maxInterval = app.core.utils.parseApiDate(manif.endsAt);
                     });
 
                     if (maxInterval === null)
@@ -93,8 +91,8 @@ app.register({
             presenceButton: function (button) {
                 $(button)
                     .prop('attend', true)
-                    .removeClass('btn blue')
-                    .addClass('attend btn-flat teal')
+                    .removeClass('btn grey')
+                    .addClass('attend btn-flat green lighten-1')
                     .html('Présent');
 
                 $(button).closest('.event').removeClass('cantSort');
@@ -107,8 +105,8 @@ app.register({
             participateButton: function (button) {
                 $(button)
                     .removeAttr('attend')
-                    .removeClass('attend btn-flat teal')
-                    .addClass('btn blue')
+                    .removeClass('attend btn-flat green lighten-1')
+                    .addClass('btn grey')
                     .html('Participer');
 
                 $(button).closest('.event').addClass('cantSort');
@@ -189,39 +187,32 @@ app.register({
             }
 
             // LOOP OVER API RESULTS
-            $.each(result, function (i, event) {
-                $.each(event.manifestations, function (j, manif) {
-                    $.each(manif.timeSlots, function (k, timeslot) {
-                        var tsId = timeslot.id;
-                        var ts = null;
+            $.each(result, function (i, manif) {
+                $.each(manif.timeSlots, function (j, timeslot) {
+                    var tsId = timeslot.id;
+                    var ts = null;
 
-                        if (!finalFormat.ts.hasOwnProperty(tsId)) {
-                            // CREATE TIMESLOT IF NOT EXISTS
-                            finalFormat.ts[tsId] = $.extend(timeslot, {
-                                manifestations: {}
-                            });
-                        }
-                        ts = finalFormat.ts[tsId];
+                    if (!finalFormat.ts.hasOwnProperty(tsId)) {
+                        // CREATE TIMESLOT IF NOT EXISTS
+                        finalFormat.ts[tsId] = $.extend(timeslot, {
+                            manifestations: {}
+                        });
+                    }
+                    ts = finalFormat.ts[tsId];
 
-                        var mId = manif.id;
-                        var m = null;
+                    var mId = manif.id;
+                    var m = null;
 
-                        if (!ts.manifestations.hasOwnProperty(mId)) {
-                            // CREATE MANIFESTATION IF NOT EXISTS
-                            ts.manifestations[mId] = $.extend(manif, {
-                                event: null,
-                                order: 0
-                            });
-                            delete manif.timeSlots; // AVOID TOO MUCH RECURSION
-                        }
-                        m = ts.manifestations[mId];
+                    if (!ts.manifestations.hasOwnProperty(mId)) {
+                        // CREATE MANIFESTATION IF NOT EXISTS
+                        ts.manifestations[mId] = $.extend(manif, {
+                            order: 0
+                        });
+                        delete manif.timeSlots; // AVOID TOO MUCH RECURSION
+                    }
+                    m = ts.manifestations[mId];
 
-                        m.event = event;
-
-                        app.events.manifestations[m.id] = m;
-
-                        delete event.manifestations; // AVOID TOO MUCH RECURSION
-                    });
+                    app.events.manifestations[m.id] = m;
                 });
             });
 
@@ -313,6 +304,8 @@ app.register({
             },
             showEvents: function (force) {
                 if (app.core.history.currentState !== app.core.ctrl.states.showEvents || force) {
+                    app.core.ui.clearContent();
+                    $('#contentLoader').show();
                     var events = app.events.ws.getEvents()
                         .then(function (events) {
                             app.core.ctrl.render('mainTabs', events, true).then(function () {
