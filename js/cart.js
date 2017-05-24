@@ -5,13 +5,16 @@ app.register({
         },
 
         getCart: function () {
+            var defer = jQuery.Deferred();
             app.cart.ws.getCart().then(function (res) {
                 var cart = res._embedded.items[0];
                 $.extend(app.core.session, {cart: cart});
                 app.core.session.save();
+                defer.resolve();
             }, function () {
-
+                defer.reject();
             });
+            return defer.promise();
         },
 
         applyCart: function () {
@@ -30,12 +33,17 @@ app.register({
                 if (manif !== null) {
                     manif.cartItemId = item.id;
                     var manifDom = $('li.event[data-id="' + manif.id + '"]');
-                    
-                    manifDom.attr('data-rank',item.rank);
+
+                    manifDom.attr('data-rank', item.rank);
 //                    manifDom.find('.event-image').html(item.rank); // DEBUG DEV ONLY
 
                     // UPDATE EVENTS ON UI
-                    app.events.ui.presenceButton(manifDom.find('.presence-btn'));
+                    if (item.hasOwnProperty('state') && item.state !== "none") {
+                        app.events.ui.requiredParticipationButton(manifDom.find('.presence-btn'));
+                        app.events.disableTimeSlot(manifDom.closest('.period'));
+                    } else {
+                        app.events.ui.presenceButton(manifDom.find('.presence-btn'));
+                    }
                     promises.push(jQuery.Deferred().resolve());
                 } else {
                     console.error('Cannot find manif for declinaison #' + declinaisonId);

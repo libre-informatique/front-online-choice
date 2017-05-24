@@ -53,11 +53,13 @@ app.register({
                             filter: ".cantSort",
                             preventOnFilter: true,
                             onEnd: function (evt) {
-                                var container = $(evt.from);
+                                if (evt.newIndex != evt.oldIndex) {
+                                    var container = $(evt.from);
 
-                                app.events.ui.sortManifestations(container, true);
+                                    app.events.ui.sortManifestations(container, true);
 
-                                $(document).trigger('events.reordered', [container]);
+                                    $(document).trigger('events.reordered', [container]);
+                                }
                             }
                         });
                     });

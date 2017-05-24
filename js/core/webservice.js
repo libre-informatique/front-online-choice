@@ -33,6 +33,8 @@ app.register({
                                 // TOKEN RECREATED, USER SESSION IS LOST
                                 app.core.session.user = null;
                                 app.core.session.rememberMe = false;
+                                
+                                app.core.history.currentCallable = app.core.ctrl.login();
                             }
 
                             $.extend(app.core.session, data);

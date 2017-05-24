@@ -1,23 +1,19 @@
 @import "materializecss/ghpages-materialize";
 
-/*$primary-color: #009688; //Teal*/
-/*$primary-color: color('blue-grey', 'darken-1'); //Teal*/
 $primary-color: color('blue-grey','darken-2'); //Teal
-/*$accent-color: #ffb74d; // Orange*/
 $accent-color: color('amber', 'lighten-2'); // Orange
-/*$success-color: #e57373; //  green lighten-1*/
 $success-color: color('green', 'lighten-1'); // green
-/*$danger-color: #e57373; // red lighten-2*/
 $danger-color: color('red', 'lighten-2'); // red lighten-2
-/*$info-color: #7986cb; // indigo lighten-2*/
 $info-color: color('indigo', 'lighten-2'); // indigo lighten-2
-/*$normal-color: #607d8b; // blue-grey*/
 $normal-color: color('blue-grey', 'base'); // blue-grey
-/*$body-bg: #FCFCFC;*/
 $body-bg: color('blue-grey','lighten-5');
+$neutral-color: color('grey','base');
 
 .primary {
     background-color:$primary-color;
+    &.btn:hover {
+        background-color:lighten($primary-color,10%);
+    }
 }
 .primary-text {
     color:$primary-color;
@@ -25,6 +21,9 @@ $body-bg: color('blue-grey','lighten-5');
 
 .accent {
     background-color:$accent-color;
+    &.btn:hover {
+        background-color:lighten($accent-color,10%);
+    }
 }
 .accent-text {
     color:$accent-color;
@@ -32,6 +31,9 @@ $body-bg: color('blue-grey','lighten-5');
 
 .success {
     background-color:$success-color;
+    &.btn:hover {
+        background-color:lighten($success-color,10%);
+    }
 }
 .success-text {
     color:$success-color;
@@ -39,6 +41,9 @@ $body-bg: color('blue-grey','lighten-5');
 
 .danger {
     background-color:$danger-color;
+    &.btn:hover {
+        background-color:lighten($danger-color,10%);
+    }
 }
 .danger-text {
     color:$danger-color;
@@ -46,6 +51,9 @@ $body-bg: color('blue-grey','lighten-5');
 
 .info {
     background-color:$info-color;
+    &.btn:hover {
+        background-color:lighten($info-color,10%);
+    }
 }
 .info-text {
     color:$info-color;
@@ -239,6 +247,11 @@ html,body {
                             font-weight: bold;
                             font-size  : 1.6em;
                             text-transform: uppercase;
+
+                            .lock {
+                                display:none;
+                            }
+
                             &.pinned {
                                 /*margin-top: 4.5em;*/
                                 width:100%;
@@ -258,6 +271,18 @@ html,body {
                                     background: -webkit-linear-gradient(top, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
                                     background: linear-gradient(to bottom, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
                                     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+                                }
+                            }
+                        }
+                    }
+
+
+
+                    &.timeSlotLocked {
+                        .period-label-container {
+                            .period-label {
+                                .lock {
+                                    display:inline-block;
                                 }
                             }
                         }
@@ -308,7 +333,7 @@ html,body {
 
                             .presence {
                                 justify-content: center;
-                                .attend {
+                                .btn, .btn-flat {
                                     color:white;
                                 }
                             }
@@ -317,6 +342,22 @@ html,body {
                                 /*margin: auto;*/
                                 cursor: default;
                                 opacity:0.1;
+                                position:relative;
+
+                                .priorityNumber {
+                                    color:transparentize($neutral-color,0.5);
+                                    position: absolute;
+                                    display: block;
+                                    top: 0;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    font-size: 10rem;
+                                    font-weight: bold;
+                                    overflow: hidden;
+                                    line-height: 7rem;
+                                    text-align: right;
+                                }
 
                                 i {
                                     display: block;
@@ -345,12 +386,14 @@ html,body {
                                     }
                                 }
 
-                                &:not(.disabled)::before {
-                                    content: '';
-                                    width:2px;
-                                    height:80%;
-                                    background:black;
-                                    opacity:0.05;
+                                &:not(.disabled) {
+                                    &::before {
+                                        content: '';
+                                        width:2px;
+                                        height:80%;
+                                        background:black;
+                                        opacity:0.05;
+                                    }
                                 }
                             }
                         }
@@ -366,6 +409,10 @@ html,body {
                                     }
                                 }
                             }
+                        }
+
+                        &.disabled {
+                            opacity:0.5;
                         }
                     }
                     &.active {
@@ -550,11 +597,16 @@ html,body {
 
 #contentLoader {
     display:none;
-    /*display:block;*/
     width: 150px;
     height: 150px;
+    /*display:block;*/
+    .preloader-wrapper {
+        width: 150px;
+        height: 150px;
+    }
     margin: 0 auto;
     margin-top: 25%;
+    background:transparent url('../img/logo-evenement-small.png') no-repeat scroll center center;
 }
 
 .dropdown-content {

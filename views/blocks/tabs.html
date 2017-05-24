@@ -35,7 +35,7 @@
             <li class="period">
                 <div class="period-label-container">
                     <p class="period-label center" data-target="events{{timeslot.id}}">
-                        {{timeslot.name}}
+                        {{timeslot.name}} <i class="material-icons lock">lock</i>
                     </p>
                 </div>
                 <div id="events{{timeslot.id}}" class="events row">
@@ -45,7 +45,7 @@
 
                         <!-- EVENT not manif -->
 
-                        <li class="row event notselectable cantSort" data-id="{{manif.id}}" data-eventOrder="{{manif.order}}">
+                        <li class="row event notselectable cantSort" data-id="{{manif.id}}">
                             <div class="event-time col s4 center">
                                 <span>
                                     {{{formatDate manif.startsAt 'HH[h]mm' }}} - {{{formatDate manif.endsAt 'HH[h]mm' }}}
@@ -67,6 +67,7 @@
                                 </div>
                                 <div class="priority col s2 center valign-wrapper">
                                     <i class="handle material-icons">apps</i>
+                                    <span class="priorityNumber"></span>
                                 </div>
                             </div>
                         </li>

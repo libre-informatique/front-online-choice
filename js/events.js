@@ -52,14 +52,26 @@ app.register({
                 // PRESENCE BUTTONS
                 // -----------------------------------------------------------------
 
-                .on('click', '.presence-btn:not(.mandatory)', function (e) {
-                    if (!$(this).hasClass('attend')) {
-                        app.events.ui.presenceButton($(this));
+                .on('click', '.presence-btn', function (e) {
+                    if ($(this).hasClass('forced')) {
+                        alert('Votre présence à cette manifestation est obligatoire');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        return true;
                     } else {
-                        app.events.ui.participateButton($(this));
+                        if (!$(this).hasClass('attend')) {
+                            app.events.ui.presenceButton($(this));
+                        } else {
+                            app.events.ui.participateButton($(this));
+                        }
                     }
                     app.events.selectManifestation($(this));
                 })
+
+                // -----------------------------------------------------------------
+                // EVENTS REORDERED (SORTABLE END)
+                // -----------------------------------------------------------------
 
                 .on('events.reordered', function (e, container) {
                     var events = container.find('li.event:not(.cantSort)');
@@ -75,7 +87,9 @@ app.register({
                     });
 
                     $.when.apply($, promises).then(function () {
-                        app.cart.getCart();
+                        app.cart.getCart().then(function () {
+                            app.cart.applyCart();
+                        });
                     });
                 })
 
@@ -99,8 +113,6 @@ app.register({
                     .removeClass('cantSort')
                     .addClass('selected')
                     ;
-
-
             },
 
             // ---------------------------------------------------------------------
@@ -117,6 +129,22 @@ app.register({
                 $(button).closest('.event')
                     .addClass('cantSort')
                     .removeClass('selected')
+                    ;
+            },
+
+            // ---------------------------------------------------------------------
+            // SWITCH BUTTON TO PARTICIPATION REQUIRED
+            // ---------------------------------------------------------------------
+
+            requiredParticipationButton: function (button) {
+                $(button)
+                    .removeAttr('attend')
+                    .removeClass('attend btn green grey lighten-1')
+                    .addClass('forced btn-flat red lighten-1')
+                    .html('Participation requise');
+
+                $(button).closest('.event')
+                    .addClass('cantSort selected forced')
                     ;
             },
 
@@ -140,17 +168,15 @@ app.register({
                     triggerCartUpdate = false;
                 }
 
-                if (sortableGroup.length > 1) {
-                    sortableGroup.each(function () {
-                        sortPresents($(this)).detach().appendTo($(this));
-                        if (!onlyPresents)
-                            sortRanks($(this)).detach().appendTo($(this));
-                    });
-                } else {
-                    sortPresents(sortableGroup).detach().appendTo(sortableGroup);
+                sortableGroup.each(function () {
+                    sortPresents($(this)).detach().appendTo($(this));
                     if (!onlyPresents)
-                        sortRanks(sortableGroup).detach().appendTo(sortableGroup);
-                }
+                        sortRanks($(this)).detach().appendTo($(this));
+
+                    $(this).find('li.event.selected').each(function (k, item) {
+                        $(item).find('.priority .priorityNumber').html(k+1);
+                    });
+                });
 
                 if (triggerCartUpdate)
                     $(document).trigger('events.reordered', [sortableGroup]);
@@ -159,6 +185,19 @@ app.register({
                     return $(group).find('li.event').sort(function (a, b) {
                         var ap = $(a).find('.presence-btn').hasClass('attend');
                         var bp = $(b).find('.presence-btn').hasClass('attend');
+
+                        var af = $(a).hasClass('forced');
+                        var bf = $(b).hasClass('forced');
+
+                        if (af || bf) {
+                            if (af < bf) {
+                                return 1;
+                            } else if (af > bf) {
+                                return -1;
+                            } else {
+                                return 0;
+                            }
+                        }
 
                         if (ap < bp) {
                             return 1;
@@ -228,9 +267,7 @@ app.register({
 
                     if (!ts.manifestations.hasOwnProperty(mId)) {
                         // CREATE MANIFESTATION IF NOT EXISTS
-                        ts.manifestations[mId] = $.extend(manif, {
-                            order: 0
-                        });
+                        ts.manifestations[mId] = manif;
                         delete manif.timeSlots; // AVOID TOO MUCH RECURSION
                     }
                     m = ts.manifestations[mId];
@@ -255,14 +292,11 @@ app.register({
                 }
             });
 
-            // COUNT MANIFESTATIONS FOR EACH DAYS AND INIT MANIFESTATIONS ORDER
-            var sortIndex = 0;
+            // COUNT MANIFESTATIONS FOR EACH DAYS
             $.each(finalFormat.days, function (i, day) {
                 $.each(day.ts, function (j, ts) {
                     $.each(ts.manifestations, function (k, manif) {
                         day.manifCount++;
-                        manif.order = sortIndex;
-                        sortIndex++;
                     });
                 });
             });
@@ -324,6 +358,24 @@ app.register({
                 }, 1000);
             });
         },
+
+        disableTimeSlot: function (tsDom) {
+            var events = tsDom.find('li.event');
+            var eventsToDisable = events.not('.forced');
+            var forcedEvent = events.filter('.forced');
+
+            // DISABLING EVENTS
+            eventsToDisable
+                .removeClass('selected')
+                .addClass('cantSort disabled')
+                .find('.btn, .btn-flat').attr('disabled', 'disabled')
+                ;
+
+            forcedEvent
+                .addClass('cantSort');
+
+            tsDom.addClass('timeSlotLocked');
+        }
 
     },
     core: {
