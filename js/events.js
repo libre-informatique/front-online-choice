@@ -116,21 +116,36 @@ app.register({
             // SORT MANIFESTATIONS ON PRESENCE AND RANK
             // ---------------------------------------------------------------------
 
-            sortManifestations: function (sortableGroup) {
+            sortManifestations: function (sortableGroup, onlyPresents) {
+                var triggerCartUpdate = true;
 
                 if (typeof sortableGroup === 'undefined') {
                     sortableGroup = $('.manifestations-list');
+                    triggerCartUpdate = false;
+                }
+
+                if (typeof onlyPresents === 'undefined') {
+                    onlyPresents = false;
+                }
+
+                if (onlyPresents) {
+                    triggerCartUpdate = false;
                 }
 
                 if (sortableGroup.length > 1) {
                     sortableGroup.each(function () {
                         sortPresents($(this)).detach().appendTo($(this));
-                        sortRanks($(this)).detach().appendTo($(this));
+                        if (!onlyPresents)
+                            sortRanks($(this)).detach().appendTo($(this));
                     });
                 } else {
                     sortPresents(sortableGroup).detach().appendTo(sortableGroup);
-                    sortRanks(sortableGroup).detach().appendTo(sortableGroup);
+                    if (!onlyPresents)
+                        sortRanks(sortableGroup).detach().appendTo(sortableGroup);
                 }
+
+                if (triggerCartUpdate)
+                    $(document).trigger('events.reordered', [sortableGroup]);
 
                 function sortPresents(group) {
                     return $(group).find('li.event').sort(function (a, b) {
@@ -153,9 +168,9 @@ app.register({
                         var bp = parseInt($(b).attr('data-rank'), 10);
 
                         if (ap < bp) {
-                            return 1;
-                        } else if (ap > bp) {
                             return -1;
+                        } else if (ap > bp) {
+                            return 1;
                         } else {
                             return 0;
                         }
@@ -261,36 +276,43 @@ app.register({
             sortable.animate({
                 opacity: 0
             }, 1000, 'swing', function () {
-                app.events.ui.sortManifestations(sortableGroup);
+                app.events.ui.sortManifestations(sortableGroup,true);
 
                 app.core.ui.plugins.initSortables();
+
+                var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
+                var priceId = app.events.manifestations[manifId].gauges[0].prices[0].id;
+
+                if (selecting) {
+                    // Add to cart
+                    app.cart.ws.addToCart(declinaisonId, priceId).then(function (res) {
+                        // add event dom attr (rank)
+
+                        app.events.manifestations[manifId].cartItemId = res.id;                        
+                        sortable.attr('data-rank', res.rank);
+                        $(document).trigger('events.reordered', [sortableGroup]);
+                    }, function () {
+
+                    });
+                } else {
+                    var cartItemId = app.events.manifestations[manifId].cartItemId;
+
+                    // removeFromCart
+                    app.cart.ws.removeFromCart(cartItemId).then(function () {
+
+                        // remove event dom attr (rank)
+                        app.cart.getCart();
+                        sortable.removeAttr('data-rank');
+                        $(document).trigger('events.reordered', [sortableGroup]);
+                    }, function () {
+
+                    });
+                }
 
                 sortable.not('.ghost').animate({
                     opacity: 1
                 }, 1000);
             });
-
-            var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
-            var priceId = app.events.manifestations[manifId].gauges[0].prices[0].id;
-
-            if (selecting) {
-                // Add to cart
-                app.cart.ws.addToCart(declinaisonId, priceId).then(function (res) {
-                    app.events.manifestations[manifId].cartItemId = res.id;
-                }, function () {
-
-                });
-            } else {
-                var cartItemId = app.events.manifestations[manifId].cartItemId;
-
-                // removeFromCart
-                app.cart.ws.removeFromCart(cartItemId).then(function () {
-                    app.cart.getCart();
-                }, function () {
-
-                });
-
-            }
         },
 
     },

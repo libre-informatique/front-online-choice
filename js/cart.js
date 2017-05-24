@@ -29,9 +29,13 @@ app.register({
                 // ASSIGN CART ITEM ID TO MANIFESTATION IN FLAT « ARRAY »
                 if (manif !== null) {
                     manif.cartItemId = item.id;
+                    var manifDom = $('li.event[data-id="' + manif.id + '"]');
+                    
+                    manifDom.attr('data-rank',item.rank);
+//                    manifDom.find('.event-image').html(item.rank); // DEBUG DEV ONLY
 
                     // UPDATE EVENTS ON UI
-                    app.events.ui.presenceButton($('li.event[data-id="' + manif.id + '"] .presence-btn'));
+                    app.events.ui.presenceButton(manifDom.find('.presence-btn'));
                     promises.push(jQuery.Deferred().resolve());
                 } else {
                     console.error('Cannot find manif for declinaison #' + declinaisonId);

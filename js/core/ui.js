@@ -54,7 +54,7 @@ app.register({
                             onEnd: function (evt) {
                                 var container = $(evt.from);
 
-                                app.events.ui.sortManifestations();
+                                app.events.ui.sortManifestations(container,true);
 
                                 $(document).trigger('events.reordered', [container]);
                             }

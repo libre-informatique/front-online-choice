@@ -150,6 +150,14 @@ app.register({
                         defer.reject();
                         return defer.promise();
                     },
+                    400: function (response, defer) {
+                        if (app.config.debug) {
+                            app.core.ui.toast('Echec de la requêteé (' + response.responseJSON.code + '): ' + response.responseJSON.message, 'warning');
+                        }
+
+                        defer.reject();
+                        return defer.promise();
+                    },
                     401: function (response, defer) {
                         if (app.config.debug) {
                             app.core.ui.toast('Accès refusé (' + response.responseJSON.code + '): ' + response.responseJSON.message, 'warning');
