@@ -107,11 +107,11 @@ app.register({
             presenceButton: function (button) {
                 $(button)
                     .prop('attend', true)
-                    .removeClass('btn grey')
-                    .addClass('attend btn-flat green lighten-1')
+                    .removeClass('forced attend btn btn-flat grey success primary')
+                    .addClass('attend btn-flat primary')
                     .html('')
-                    .append('<i class="material-icons">check_circle</i>')
-                    .append('<span>Présent</span>');
+                    .append('<i class="material-icons">history</i>')
+                    .append('<span>Sélectionné</span>');
 
                 $(button).closest('.event')
                     .removeClass('cantSort')
@@ -126,10 +126,10 @@ app.register({
             participateButton: function (button) {
                 $(button)
                     .removeAttr('attend')
-                    .removeClass('attend btn-flat green lighten-1')
+                    .removeClass('forced attend btn btn-flat grey success primary')
                     .addClass('btn grey')
                     .html('')
-                    .append('<i class="material-icons">help</i>')
+                    .append('<i class="material-icons">add_circle_outline</i>')
                     .append('<span>Participer</span>');
 
                 $(button).closest('.event')
@@ -145,11 +145,11 @@ app.register({
             requiredParticipationButton: function (button) {
                 $(button)
                     .removeAttr('attend')
-                    .removeClass('attend btn green grey lighten-1')
-                    .addClass('forced btn-flat red lighten-1')
+                    .removeClass('forced attend btn btn-flat grey success primary')
+                    .addClass('forced btn-flat success')
                     .html('')
-                    .append('<i class="material-icons">error</i>')
-                    .append('<span>Participation requise</span>');
+                    .append('<i class="material-icons">check_circle</i>')
+                    .append('<span>Présent</span>');
 
                 $(button).closest('.event')
                     .addClass('cantSort selected forced')

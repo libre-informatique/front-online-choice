@@ -221,18 +221,24 @@ if (isset($_GET['getParameters'])) {
             $(document).ready(app.init());
         </script>
 
-        <!-- TEMPLATES LOADED DIRECTLY-->
+        <!-- TEMPLATES LOADED DIRECTLY -->
 
         <script id="login-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/login.html'); ?></script>
+        <script id="mainTabs-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/tabs.html'); ?></script>
+        <script id="userProfile-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/profile.html'); ?></script>
+        <script id="editUserProfile-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editProfile.html'); ?></script>
+        <script id="editUserPassword-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editPassword.html'); ?></script>
+        <script id="settings-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/settings.html'); ?></script>
+        <script id="infos-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/infos.html'); ?></script>
 
-        <!-- TEMPLATES LOADED VIA AJAX-->
+        <!-- TEMPLATES LOADED VIA AJAX -->
 
-        <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script>
-        <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
-        <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
-        <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script>
-        <script id="settings-template" type="text/x-handlebars-template" src="views/user/settings.html"></script>
-        <script id="infos-template" type="text/x-handlebars-template" src="views/blocks/infos.html"></script>
+<!--    <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script> -->
+<!--    <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script> -->
+<!--    <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script> -->
+<!--    <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script> -->
+<!--    <script id="settings-template" type="text/x-handlebars-template" src="views/user/settings.html"></script> -->
+<!--    <script id="infos-template" type="text/x-handlebars-template" src="views/blocks/infos.html"></script>  -->
 
     </body>
 </html>

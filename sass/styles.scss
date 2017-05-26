@@ -396,6 +396,7 @@ html,body {
                                     }
                                     i {
                                         float: left;
+                                        margin-right:0.2em;
                                     }
 
                                     @media #{$small-and-down} {
@@ -404,6 +405,7 @@ html,body {
                                             height: 4em;
                                             i {
                                                 font-size:2em;
+                                                margin-right:0;
                                             }
                                         }
                                     }
