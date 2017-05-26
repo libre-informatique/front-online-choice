@@ -147,6 +147,12 @@ app.register({
                         app.core.ui.plugins.init();
                     })
 
+                    .on('template.registered', function (e, template) {
+                        if (template.id === "infos") {
+                            app.core.ui.applyTemplate(template.id, template.data);
+                        }
+                    })
+
                     ;
 
                 app.core.events.registerComponentEvents(app);

@@ -58,44 +58,44 @@
                                      {{#ifCond manif.event.imageURL 'not null'}}
                                      style="background-image:url({{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}});background-size:cover;"
                                      {{/ifCond}}>
+                                </div>
+                                <div class="label col s5 valign-wrapper selectable">
+                                    <p class="event-label">
+                                        {{manif.event.name}}
+                                    </p>
+                                </div>
+                                <div class="presence valign-wrapper col s3">
+                                    <a class="presence-btn btn grey waves-effect waves-light">Participer</a>
+                                </div>
+                                <div class="priority col s2 center valign-wrapper">
+                                    <i class="handle material-icons">apps</i>
+                                    <span class="priorityNumber"></span>
+                                </div>
                             </div>
-                            <div class="label col s5 valign-wrapper selectable">
-                                <p class="event-label">
-                                    {{manif.event.name}}
-                                </p>
-                            </div>
-                            <div class="presence valign-wrapper col s3">
-                                <a class="presence-btn btn grey waves-effect waves-light">Participer</a>
-                            </div>
-                            <div class="priority col s2 center valign-wrapper">
-                                <i class="handle material-icons">apps</i>
-                                <span class="priorityNumber"></span>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
 
-                    {{/each}}
+                        {{/each}}
 
-                </ul>
-            </div>
-        </li>
+                    </ul>
+                </div>
+            </li>
 
-        {{/each}}
+            {{/each}}
 
-        <!-- -->
+            <!-- -->
 
-        {{#ifCond tab.manifCount '==' 0}}
+            {{#ifCond tab.manifCount '==' 0}}
 
-        <li class="center-align">
-            <div class="card-panel">
-                <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
-            </div>
-        </li>
+            <li class="center-align">
+                <div class="card-panel">
+                    <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
+                </div>
+            </li>
 
-        {{/ifCond}}
+            {{/ifCond}}
 
-    </ul>
-</div>
+        </ul>
+    </div>
 </div>
 {{/each}}
 
@@ -103,13 +103,3 @@
 <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light green lighten-1 z-depth-3">
     <i class="material-icons">check</i>
 </a>
-
-
-<!-- Tap Target Structure -->
-<div class="tap-target" data-activates="confirm-fab">
-    <div class="tap-target-content">
-        <h5>Validation de votre panier</h5>
-        <p>Une fois vos choix arrêtés, pensez à valider ceux-ci en cliquant sur ce bouton</p>
-        <button class="btn primary">J'ai compris</button>
-    </div>
-</div>

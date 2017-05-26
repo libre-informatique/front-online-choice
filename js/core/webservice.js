@@ -33,7 +33,7 @@ app.register({
                                 // TOKEN RECREATED, USER SESSION IS LOST
                                 app.core.session.user = null;
                                 app.core.session.rememberMe = false;
-                                
+
                                 app.core.history.currentCallable = app.core.ctrl.login();
                             }
 
@@ -42,8 +42,10 @@ app.register({
 
                             var recall = app.core.history.currentCallable;
 
-                            // TOTAL
-                            recall();
+                            if (typeof recall === "function") {
+                                // TOTAL
+                                recall();
+                            }
 
                         }
                         defer.resolve();

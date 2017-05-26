@@ -224,21 +224,6 @@ app.register({
                     });
                 }
             },
-
-            displayValidateCartInfo: function (autoclose) {
-
-                if (typeof autoclose === 'undefined') {
-                    autoclose = true;
-                }
-
-                $('.tap-target').tapTarget('open');
-
-                if (autoclose) {
-                    setTimeout(function () {
-                        $('.tap-target').tapTarget('close');
-                    }, 10000);
-                }
-            }
         },
 
         // -------------------------------------------------------------------------
@@ -413,7 +398,8 @@ app.register({
                                     app.core.ui.plugins.initSortables();
                                     app.core.ui.plugins.initPushpin();
                                     app.core.history.add(app.core.ctrl.states.showEvents);
-                                    app.events.ui.displayValidateCartInfo();
+                                    app.core.ui.showFeatureDiscovery('info-validateCart');
+                                    app.core.ui.showFeatureDiscovery('info-profileButton');
                                 });
                             });
                         }, function (error) {});

@@ -508,8 +508,8 @@ html,body {
         }
         &.success {
             background: white;
-            color: $primary-color;
-            border-bottom-color: $primary-color;
+            color: $success-color;
+            border-bottom-color: $success-color;
         }
         &.default {
             background: white;
@@ -645,4 +645,8 @@ html,body {
 .tap-target {
     background-color:$info-color;
     color: white;
+}
+.fixed-action-btn,
+#confirm-fab{
+    z-index: 9999;
 }

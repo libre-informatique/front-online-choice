@@ -1,0 +1,41 @@
+<div class="col s12 m7">
+    <h2 class="header primary-text">
+        <i class="material-icons">settings</i> 
+        Paramètres
+    </h2>
+    <div class="card horizontal">
+        <div class="card-stacked">
+            <div class="card-content">
+                <form data-ctrl="updateSettings">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p>
+                                        <input type="hidden" name="clearAllInfosMessages" value="false"/>
+                                        <input type="checkbox" id="clearAllInfosMessages" name="clearAllInfosMessages" value="true"/>
+                                        <label for="clearAllInfosMessages">Réinitialiser les bulles d'information ?</label>
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <a href="javascript:;" data-go="showUserProfile" class="btn right primary">
+                                        Annuler
+                                        <i class="material-icons right">undo</i>
+                                    </a>
+                                    <button class="btn waves-effect waves-light left green lighten-1" type="submit" name="action">
+                                        Enregistrer
+                                        <i class="material-icons right">check_circle</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

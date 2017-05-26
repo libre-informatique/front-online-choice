@@ -13,6 +13,24 @@ app.register({
                     $('#app').removeClass('loggedIn');
                 }
             },
+            initEvents: function () {
+                $(document)
+                    .on('click', '.tap-target button.understood', function () {
+                        var tap = $(this).closest('.tap-target');
+                        app.core.ui.hideFeatureDiscovery(tap.attr('id'), true);
+                    })
+
+                    .on('click', '.tap-target', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+
+                        if (!$(e.currentTarget).is('button')) {
+                            $(e.currentTarget).tapTarget('close');
+                        }
+                    })
+                    ;
+            },
             plugins: {
                 init: function () {
                     app.core.ui.plugins.initTabs();
@@ -118,9 +136,13 @@ app.register({
 
                                 // UPDATE SCRIPT TEMPLATE HTML
                                 tpl.html(data);
+
+                                $(document).trigger('template.registered', [app.core.ui.templates[id]]);
+
+                                promises.push(this);
                             }
                         });
-                        promises.push(this);
+
                     } else {
                         // REGISTER TEMPLATE
 
@@ -130,8 +152,12 @@ app.register({
                             element: tpl
                         };
 
+                        $(document).trigger('template.registered', [app.core.ui.templates[id]]);
+
                         promises.push(this);
                     }
+
+
                 });
 
                 $.when.apply($, promises).then(function () {
@@ -192,6 +218,55 @@ app.register({
                 }
 
                 Materialize.toast(message + icon, delay, type);
+            },
+            showFeatureDiscovery: function (id) {
+
+                var elem = $('.tap-target');
+
+                if (typeof id !== 'undefined') {
+                    elem = elem.filter('#' + id);
+                }
+
+
+                elem.each(function () {
+                    var id = $(this).attr('id');
+
+                    if (!app.core.ui.__getInfosStorage().hasOwnProperty(id))
+                        elem.tapTarget('open');
+                });
+
+            },
+            hideFeatureDiscovery: function (id, dontshowagain) {
+                var elem = null;
+                if (typeof id === 'undefined') {
+                    elem = $('.tap-target');
+                } else {
+                    elem = $('#' + id);
+                }
+
+                if (typeof dontshowagain !== 'undefined' && dontshowagain) {
+                    app.core.ui.__setInfosStorage(id);
+                }
+
+                elem.tapTarget('close');
+            },
+            __getInfosStorage: function () {
+                var infos = localStorage.getItem(app.config.clientSessionName + '_infos');
+
+                if (infos === null)
+                    infos = '{}';
+
+                return JSON.parse(infos);
+            },
+            __setInfosStorage: function (id) {
+                var infos = app.core.ui.__getInfosStorage();
+
+                infos[id] = id;
+
+                localStorage.setItem(app.config.clientSessionName + '_infos', JSON.stringify(infos));
+            },
+            __resetInfosStorage: function () {
+                localStorage.setItem(app.config.clientSessionName + '_infos', '{}');
             }
         }
     }

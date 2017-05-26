@@ -46,7 +46,7 @@ if (isset($_GET['getParameters'])) {
                         <li class="showIfLoggedIn">
                             <a href='#' data-go="showEvents">
                                 <i class="material-icons left">event_note</i>
-                                <span class="button-label hide-on-med-and-down">Évènements</span>
+                                <span class="button-label hide-on-med-and-down" id="showEventsButton">Évènements</span>
                             </a>
                         </li>
                     </ul>
@@ -59,7 +59,7 @@ if (isset($_GET['getParameters'])) {
                                data-belowOrigin="true"
                                >
                                 <i class="material-icons right">person_outline</i>
-                                <span class="button-label hide-on-med-and-down">Mon compte</span>
+                                <span id="showProfileButton" class="button-label hide-on-med-and-down">Mon compte</span>
                             </a>
 
                             <!-- Dropdown Structure -->
@@ -68,6 +68,12 @@ if (isset($_GET['getParameters'])) {
                                     <a href="javascript:;" data-go="showUserProfile">
                                         <i class="material-icons">featured_play_list</i>
                                         Voir mon profil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" data-go="showSettings">
+                                        <i class="material-icons">settings</i>
+                                        Paramètres
                                     </a>
                                 </li>
                                 <li class="divider"></li>
@@ -155,8 +161,11 @@ if (isset($_GET['getParameters'])) {
                 <handlebar-placeholder template="userProfile"></handlebar-placeholder>
                 <handlebar-placeholder template="editUserProfile"></handlebar-placeholder>
                 <handlebar-placeholder template="editUserPassword"></handlebar-placeholder>
+                <handlebar-placeholder template="settings"></handlebar-placeholder>
 
             </div>
+
+            <handlebar-placeholder template="infos"></handlebar-placeholder>
 
             <!-- CONFIRM MODAL -->
 
@@ -230,6 +239,8 @@ if (isset($_GET['getParameters'])) {
         <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script>
         <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script>
         <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script>
+        <script id="settings-template" type="text/x-handlebars-template" src="views/user/settings.html"></script>
+        <script id="infos-template" type="text/x-handlebars-template" src="views/blocks/infos.html"></script>
 
     </body>
 </html>

@@ -17,6 +17,10 @@ app.register({
                 editUserPassword: {
                     path: "password/edit",
                     title: "Modifier mon mot de passe"
+                },
+                settings: {
+                    path: "settings",
+                    title: "Paramètres"
                 }
             },
 
@@ -24,31 +28,33 @@ app.register({
             // ACTIONS
             // ---------------------------------------------------------------------
 
-            login: function() {
+            login: function () {
                 app.core.history.currentCallable = app.core.ctrl.login;
-                app.core.ctrl.go('login', {}).then(function() {
+                app.core.ctrl.go('login', {}).then(function () {
                     app.core.history.add(app.core.ctrl.states.login);
                 });
             },
 
-            logout: function() {
+            logout: function () {
                 app.core.history.currentCallable = app.core.ctrl.logout;
                 $('#app').removeClass('loggedIn');
 
-                app.core.ws.userLogout().always(function() {
+                app.core.ws.userLogout().always(function () {
                     $(document).trigger('user.logged.out');
                     app.core.ctrl.login();
                 });
             },
 
-            showUserProfile: function() {
+            showUserProfile: function () {
                 if (app.core.session.user) {
                     app.core.history.currentCallable = app.core.ctrl.showUserProfile;
-                    app.core.ws.getUser(app.core.session.user.id).then(function() {
+                    app.core.ws.getUser(app.core.session.user.id).then(function () {
                         app.core.ctrl.go('userProfile', {
                             user: app.core.session.user
-                        }).then(function() {
+                        }).then(function () {
                             app.core.history.add(app.core.ctrl.states.showUserProfile);
+                            app.core.ui.showFeatureDiscovery('info-eventButton');
+                            app.core.ui.showFeatureDiscovery('info-profileActionsButton');
                         });
                     });
                 } else {
@@ -56,13 +62,13 @@ app.register({
                 }
             },
 
-            editUserProfile: function() {
+            editUserProfile: function () {
                 if (app.core.session.user) {
                     app.core.history.currentCallable = app.core.ctrl.editUserProfile;
-                    app.core.ws.getUser(app.core.session.user.id).then(function() {
+                    app.core.ws.getUser(app.core.session.user.id).then(function () {
                         app.core.ctrl.go('editUserProfile', {
                             user: app.core.session.user
-                        }).then(function() {
+                        }).then(function () {
                             app.core.history.add(app.core.ctrl.states.editUserProfile);
                             Materialize.updateTextFields();
                         });
@@ -72,13 +78,13 @@ app.register({
                 }
             },
 
-            editUserPassword: function() {
+            editUserPassword: function () {
                 if (app.core.session.user) {
                     app.core.history.currentCallable = app.core.ctrl.editUserPassword;
-                    app.core.ws.getUser(app.core.session.user.id).then(function() {
+                    app.core.ws.getUser(app.core.session.user.id).then(function () {
                         app.core.ctrl.go('editUserPassword', {
                             user: app.core.session.user
-                        }).then(function() {
+                        }).then(function () {
                             Materialize.updateTextFields();
                             app.core.history.add(app.core.ctrl.states.editUserPassword);
                         });
@@ -88,7 +94,7 @@ app.register({
                 }
             },
 
-            updatePassword: function(form) {
+            updatePassword: function (form) {
                 if (app.core.session.user) {
                     var formData = app.core.utils.formToObject(form.serializeArray());
 
@@ -102,15 +108,43 @@ app.register({
                 }
             },
 
+            showSettings: function () {
+                if (app.core.session.user) {
+                    app.core.history.currentCallable = app.core.ctrl.showSettings;
+                    app.core.ws.getUser(app.core.session.user.id).then(function () {
+                        app.core.ctrl.go('settings').then(function () {
+                            Materialize.updateTextFields();
+                            app.core.history.add(app.core.ctrl.states.settings);
+                        });
+                    });
+                } else {
+                    app.core.ctrl.login();
+                }
+            },
+
+            updateSettings: function (form) {
+                if (app.core.session.user) {
+                    var formData = app.core.utils.formToObject(form.serializeArray());
+
+                    if (formData.clearAllInfosMessages === true) {
+                        app.core.ui.__resetInfosStorage();
+                    }
+                    app.core.ctrl.showEvents();
+                    app.core.ui.toast("Paramètres enregistrés", "success");
+                } else {
+                    app.core.ctrl.login();
+                }
+            },
+
             // ---------------------------------------------------------------------
             // INTERNAL METHODS
             // ---------------------------------------------------------------------
 
-            go: function(templateName, data) {
+            go: function (templateName, data) {
                 return app.core.ctrl.render(templateName, data, true);
             },
 
-            render: function(templateName, data, clearContent) {
+            render: function (templateName, data, clearContent) {
                 var defer = $.Deferred();
 
                 if (typeof data === 'undefined')
@@ -121,6 +155,7 @@ app.register({
                 if (clearContent) {
                     app.core.ui.clearContent();
                     app.core.ui.displayContentLoading(true);
+                    app.core.ui.hideFeatureDiscovery();
                 }
 
                 var compiled = Handlebars.compile(app.core.ui.templates[templateName].data);
