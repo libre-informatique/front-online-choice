@@ -56,12 +56,10 @@ if (isset($_GET['getParameters'])) {
                                data-alignment="right"
                                data-constrainWidth="false"
                                data-belowOrigin="true"
-
-                               >
-                                <span class="button-label hide-on-med-and-down">Mon compte</span>
+                               ><span class="button-label hide-on-med-and-down">Mon compte</span>
                                 <i class="material-icons" id="showProfileButton">person_outline</i>
                             </a>
-
+                            
                             <!-- Dropdown Structure -->
                             <ul id='userMenu' class='dropdown-content'>
                                 <li>

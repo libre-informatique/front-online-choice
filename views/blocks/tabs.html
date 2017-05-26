@@ -13,6 +13,15 @@
 
 {{#each days as |tab|}}
 <div id="tab{{this.id}}" class="tab-content col s12">
+    <div class="cart-status-message cart-new">
+        Votre liste de choix est en cours de validation. Vous ne pouvez plus modifier votre liste
+    </div>
+    <div class="cart-status-message cart-fullfilled">
+        Votre liste de choix est validée. Vous ne pouvez pas modifier votre liste
+    </div>
+    <div class="cart-status-message cart-cancelled">
+        Votre liste de choix est annulée. Vous ne pouvez plus modifier votre liste
+    </div>
     <div id="headers" class="row center">
         <div id="time-header" class="col s4 header">
             <i class="material-icons primary-text small">access_time</i>
@@ -58,47 +67,47 @@
                                      {{#ifCond manif.event.imageURL 'not null'}}
                                      style="background-image:url({{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}});background-size:cover;"
                                      {{/ifCond}}>
-                                </div>
-                                <div class="label col s5 valign-wrapper selectable">
-                                    <p class="event-label">
-                                        {{manif.event.name}}
-                                    </p>
-                                </div>
-                                <div class="presence valign-wrapper col s3">
-                                    <a class="presence-btn btn grey waves-effect waves-light flow-text">
-                                        <i class="material-icons">help</i>
-                                        <span>Participer</span>
-                                    </a>
-                                </div>
-                                <div class="priority col s2 center valign-wrapper">
-                                    <i class="handle material-icons">apps</i>
-                                    <span class="priorityNumber"></span>
-                                </div>
                             </div>
-                        </li>
+                            <div class="label col s5 valign-wrapper selectable">
+                                <p class="event-label">
+                                    {{manif.event.name}}
+                                </p>
+                            </div>
+                            <div class="presence valign-wrapper col s3">
+                                <a class="presence-btn btn grey waves-effect waves-light flow-text">
+                                    <i class="material-icons">help</i>
+                                    <span>Participer</span>
+                                </a>
+                            </div>
+                            <div class="priority col s2 center valign-wrapper">
+                                <i class="handle material-icons">apps</i>
+                                <span class="priorityNumber"></span>
+                            </div>
+                        </div>
+                    </li>
 
-                        {{/each}}
+                    {{/each}}
 
-                    </ul>
-                </div>
-            </li>
+                </ul>
+            </div>
+        </li>
 
-            {{/each}}
+        {{/each}}
 
-            <!-- -->
+        <!-- -->
 
-            {{#ifCond tab.manifCount '==' 0}}
+        {{#ifCond tab.manifCount '==' 0}}
 
-            <li class="center-align">
-                <div class="card-panel">
-                    <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
-                </div>
-            </li>
+        <li class="center-align">
+            <div class="card-panel">
+                <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
+            </div>
+        </li>
 
-            {{/ifCond}}
+        {{/ifCond}}
 
-        </ul>
-    </div>
+    </ul>
+</div>
 </div>
 {{/each}}
 

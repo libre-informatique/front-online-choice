@@ -47,40 +47,48 @@ app.register({
                 },
                 initSortables: function () {
                     $('.period').each(function () {
+
                         var manifs = $(this).find('.manifestations-list');
-                        var enabled = false;
 
-                        if (manifs.find('.presence .attend').length > 1) {
-                            manifs.addClass('active');
-                            enabled = true;
-                        } else {
-                            manifs.removeClass('active');
-                            enabled = false;
-                        }
+                        if (!$(this).hasClass('timeSlotLocked')) {
 
-                        if (manifs.data().hasOwnProperty('sortable'))
-                            manifs.sortable("destroy");
+                            var enabled = false;
 
-                        manifs.sortable({
-                            animation: 100,
-                            handle: '.priority',
-                            scroll: true,
-                            ghostClass: "ghost",
-                            forceFallback: true,
-                            disabled: !enabled,
-                            filter: ".cantSort",
-                            preventOnFilter: true,
-                            onEnd: function (evt) {
-                                if (evt.newIndex != evt.oldIndex) {
-                                    var container = $(evt.from);
-
-                                    app.events.ui.sortManifestations(container, true);
-
-                                    $(document).trigger('events.reordered', [container]);
-                                }
+                            if (manifs.find('.presence .attend').length > 1) {
+                                manifs.addClass('active');
+                                enabled = true;
+                            } else {
+                                manifs.removeClass('active');
+                                enabled = false;
                             }
-                        });
+
+                            if (manifs.data().hasOwnProperty('sortable'))
+                                manifs.sortable("destroy");
+
+                            manifs.sortable({
+                                animation: 100,
+                                handle: '.priority',
+                                scroll: true,
+                                ghostClass: "ghost",
+                                forceFallback: true,
+                                disabled: !enabled,
+                                filter: ".cantSort",
+                                preventOnFilter: true,
+                                onEnd: function (evt) {
+                                    if (evt.newIndex != evt.oldIndex) {
+                                        var container = $(evt.from);
+
+                                        app.events.ui.sortManifestations(container, true);
+
+                                        $(document).trigger('events.reordered', [container]);
+                                    }
+                                }
+                            });
+                        } else {
+                            manifs.sortable("destroy");
+                        }
                     });
+
                 },
                 initTooltips: function () {
                     $('.material-tooltip').remove();

@@ -120,6 +120,14 @@ html,body {
                     } 
                 } 
             }
+            @media #{$medium-and-up} {
+                & > #nav-mobile-right > li > a > span {
+                    margin-right: 0.5em;
+                    margin-bottom:0.5em;
+                    position: relative;
+                    top: -0.4em;
+                }
+            }
         }
 
         .brand-logo {
@@ -236,7 +244,21 @@ html,body {
 
             .tab-content {
                 display: none;
-                padding-top:2em;
+                padding-top:2.8em;
+
+                .cart-status-message {
+                    display:none;
+                    text-align:center;
+                    font-weight:bold;
+                    padding:0.8em;
+                    color:white;
+                    background-color:$error-color;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    z-index:9999;
+                }
             }
 
             #headers {
@@ -296,6 +318,14 @@ html,body {
                             .period-label {
                                 .lock {
                                     display:inline-block;
+                                }
+                            }
+                        }
+                        .event {
+                            .event-card {
+                                .priority {
+                                    opacity:0.1;
+                                    cursor: default;
                                 }
                             }
                         }

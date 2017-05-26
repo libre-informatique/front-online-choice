@@ -53,20 +53,22 @@ app.register({
                 // -----------------------------------------------------------------
 
                 .on('click', '.presence-btn', function (e) {
-                    if ($(this).hasClass('forced')) {
-                        alert('Votre présence à cette manifestation est obligatoire');
-                        e.preventDefault();
-                        e.stopPropagation();
-                        e.stopImmediatePropagation();
-                        return true;
-                    } else {
-                        if (!$(this).hasClass('attend')) {
-                            app.events.ui.presenceButton($(this));
+                    if (app.core.session.cart.checkoutState === "cart") {
+                        if ($(this).hasClass('forced')) {
+                            alert('Votre présence à cette manifestation est obligatoire');
+                            e.preventDefault();
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            return true;
                         } else {
-                            app.events.ui.participateButton($(this));
+                            if (!$(this).hasClass('attend')) {
+                                app.events.ui.presenceButton($(this));
+                            } else {
+                                app.events.ui.participateButton($(this));
+                            }
                         }
+                        app.events.selectManifestation($(this));
                     }
-                    app.events.selectManifestation($(this));
                 })
 
                 // -----------------------------------------------------------------
@@ -184,7 +186,7 @@ app.register({
                     });
                 });
 
-                if (triggerCartUpdate)
+                if (triggerCartUpdate && app.core.session.cart.checkoutState === "cart")
                     $(document).trigger('events.reordered', [sortableGroup]);
 
                 function sortPresents(group) {
@@ -368,21 +370,35 @@ app.register({
         },
 
         disableTimeSlot: function (tsDom) {
-            var events = tsDom.find('li.event');
-            var eventsToDisable = events.not('.forced');
-            var forcedEvent = events.filter('.forced');
+            var excludes = '.forced';
+            if (typeof tsDom === 'undefined') {
+                tsDom = $('.period');
+                excludes += ',.selected';
+            }
 
-            // DISABLING EVENTS
-            eventsToDisable
-                .removeClass('selected')
-                .addClass('cantSort disabled')
-                .find('.btn, .btn-flat').attr('disabled', 'disabled')
-                ;
+            tsDom.each(function () {
 
-            forcedEvent
-                .addClass('cantSort');
+                var events = $(this).find('li.event');
+                var eventsToDisable = events.not(excludes);
+                var forcedEvent = events.filter('.forced');
 
-            tsDom.addClass('timeSlotLocked');
+                // DISABLING EVENTS
+                eventsToDisable
+                    .addClass('cantSort disabled')
+                    .find('.btn, .btn-flat').attr('disabled', 'disabled')
+                    ;
+
+                forcedEvent
+                    .addClass('cantSort');
+
+                $(this).addClass('timeSlotLocked');
+
+            });
+        },
+
+        disableCartValidationButton: function () {
+            $('#confirm-fab').remove();
+            $('.cart-status-message.cart-' + app.core.session.cart.checkoutState).show();
         }
 
     },

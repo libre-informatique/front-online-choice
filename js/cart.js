@@ -3,7 +3,7 @@ app.register({
         init: function () {
             app.cart.getCart().then(function () {
 
-            },function() {
+            }, function () {
                 app.core.ctrl.login();
             });
         },
@@ -20,7 +20,6 @@ app.register({
                     app.core.session.destroy();
                     defer.reject();
                 }
-
             }, function () {
                 defer.reject();
             });
@@ -61,7 +60,15 @@ app.register({
 
             app.events.ui.sortManifestations();
 
+
+
             $.when.apply($, promises).then(function () {
+                if (app.core.session.cart.checkoutState !== "cart") {
+                    app.events.disableTimeSlot();
+                    app.core.ui.plugins.initSortables();
+                    app.events.disableCartValidationButton();
+                }
+
                 defer.resolve();
             }, function (e) {
                 defer.reject();
