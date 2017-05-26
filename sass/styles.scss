@@ -205,6 +205,10 @@ html,body {
                 position:fixed;
                 z-index: 990;
 
+                @media #{$medium-and-up} {
+                    overflow:hidden;
+                }
+
                 .tab {
                     background-color:darken($primary-color,5%);
                     height: 100%;
