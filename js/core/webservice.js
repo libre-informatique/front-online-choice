@@ -46,6 +46,9 @@ app.register({
                                 // TOTAL
                                 recall();
                             }
+                            if (data.lifecycle === "create") {
+                                defer.reject();
+                            }
 
                         }
                         defer.resolve();

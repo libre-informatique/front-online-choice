@@ -56,25 +56,28 @@
         </div>
     </div>
 
-    <div>
-        <div class="fixed-action-btn vertical click-to-toggle">
-            <span id="profileActionsButton">
-            <a class="btn-floating btn-large green lighten-1">
-                <i class="material-icons">mode_edit</i>
-            </a>
-            </span>
-            <ul>
-                <li>
-                    <a class="btn-floating primary" href="javascript:;" data-go="editUserProfile" data-tooltip="Modifier le profil" data-position="left">
-                        <i class="material-icons">person_pin</i>
-                    </a>
-                </li>
-                <li>
-                    <a class="btn-floating red" href="javascript:;" data-go="editUserPassword" data-tooltip="Modifier le mot de passe" data-position="left">
-                        <i class="material-icons">vpn_key</i>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="fixed-action-btn vertical click-to-toggle">
+        <a class="btn-floating btn-large success" id="profileActionsButton">
+            <i class="material-icons">mode_edit</i>
+        </a>
+        <ul>
+            <li>
+                <a class="btn-floating primary" href="javascript:;" data-go="showSettings" data-tooltip="Paramètres" data-position="left">
+                    <i class="material-icons">settings</i>
+                </a>
+            </li>
+
+            <li>
+                <a class="btn-floating success" href="javascript:;" data-go="editUserProfile" data-tooltip="Modifier le profil" data-position="left">
+                    <i class="material-icons">person_pin</i>
+                </a>
+            </li>
+
+            <li>
+                <a class="btn-floating red" href="javascript:;" data-go="editUserPassword" data-tooltip="Modifier le mot de passe" data-position="left">
+                    <i class="material-icons">vpn_key</i>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>

@@ -70,12 +70,6 @@ if (isset($_GET['getParameters'])) {
                                         Voir mon profil
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="javascript:;" data-go="showSettings">
-                                        <i class="material-icons">settings</i>
-                                        Paramètres
-                                    </a>
-                                </li>
                                 <li class="divider"></li>
                                 <li id="btn-logout">
                                     <a href="javascript:;" data-go="logout">
