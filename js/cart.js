@@ -67,6 +67,15 @@ app.register({
                     app.events.disableTimeSlot();
                     app.core.ui.plugins.initSortables();
                     app.events.disableCartValidationButton();
+                    if (app.core.session.cart.checkoutState === "fulfilled") {
+                        $('.event.disabled').remove();
+                        $('.period').each(function () {
+                            var items = $(this).find('.event');
+                            if (items.length == 0) {
+                                $(this).remove();
+                            }
+                        });
+                    }
                 }
 
                 defer.resolve();
