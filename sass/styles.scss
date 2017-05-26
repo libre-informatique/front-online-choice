@@ -1,3 +1,6 @@
+$small-screen-up: 801px !default;
+$small-screen: 800px !default;
+
 @import "materializecss/ghpages-materialize";
 
 $primary-color: color('blue-grey','darken-2'); //Teal
@@ -110,6 +113,12 @@ html,body {
             & > #nav-mobile-right > li > a,
             & > #nav-mobile-left > li > a {
                 height: 4.15em;
+
+                @media #{$medium-and-up} {
+                    & > i.material-icons {
+                        display:inline-block;
+                    } 
+                } 
             }
         }
 
@@ -248,6 +257,10 @@ html,body {
                             font-size  : 1.6em;
                             text-transform: uppercase;
 
+                            @media #{$small-and-down} {
+                                font-size  : 1.2em;
+                            }
+
                             .lock {
                                 display:none;
                             }
@@ -341,6 +354,29 @@ html,body {
                                 justify-content: center;
                                 .btn, .btn-flat {
                                     color:white;
+                                    padding: 0 0.4em;
+                                    span {
+                                        font-size:0.9vw;
+                                        font-weight:bold;
+                                        @media #{$small-and-down} {
+                                            & {
+                                                display:none;
+                                            }
+                                        }
+                                    }
+                                    i {
+                                        float: left;
+                                    }
+
+                                    @media #{$small-and-down} {
+                                        & {
+                                            padding: 0.75em 1.5em;
+                                            height: 4em;
+                                            i {
+                                                font-size:2em;
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
@@ -363,7 +399,14 @@ html,body {
                                     overflow: hidden;
                                     line-height: 7.5rem;
                                     text-align: right;
-                                    text-indent: 5vw;
+
+                                    text-indent: 4vw;
+
+                                    @media #{$small-and-down} {
+                                        & {
+                                            text-indent: 2vw;
+                                        }
+                                    }
                                 }
 
                                 i {
@@ -649,4 +692,12 @@ html,body {
 .fixed-action-btn,
 #confirm-fab{
     z-index: 9999;
+}
+@media #{$small-and-down} {
+    form {
+        .btn {
+            width:100%;
+            margin: 1em 0;
+        }
+    }
 }

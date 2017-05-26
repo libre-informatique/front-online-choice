@@ -107,7 +107,9 @@ app.register({
                     .prop('attend', true)
                     .removeClass('btn grey')
                     .addClass('attend btn-flat green lighten-1')
-                    .html('Présent');
+                    .html('')
+                    .append('<i class="material-icons">check_circle</i>')
+                    .append('<span>Présent</span>');
 
                 $(button).closest('.event')
                     .removeClass('cantSort')
@@ -124,7 +126,9 @@ app.register({
                     .removeAttr('attend')
                     .removeClass('attend btn-flat green lighten-1')
                     .addClass('btn grey')
-                    .html('Participer');
+                    .html('')
+                    .append('<i class="material-icons">help</i>')
+                    .append('<span>Participer</span>');
 
                 $(button).closest('.event')
                     .addClass('cantSort')
@@ -141,7 +145,9 @@ app.register({
                     .removeAttr('attend')
                     .removeClass('attend btn green grey lighten-1')
                     .addClass('forced btn-flat red lighten-1')
-                    .html('Participation requise');
+                    .html('')
+                    .append('<i class="material-icons">error</i>')
+                    .append('<span>Participation requise</span>');
 
                 $(button).closest('.event')
                     .addClass('cantSort selected forced')
@@ -345,9 +351,11 @@ app.register({
                     app.cart.ws.removeFromCart(cartItemId).then(function () {
 
                         // remove event dom attr (rank)
-                        app.cart.getCart();
-                        sortable.removeAttr('data-rank');
-                        $(document).trigger('events.reordered', [sortableGroup]);
+                        app.cart.getCart().then(function () {
+                            sortable.removeAttr('data-rank');
+                            $(document).trigger('events.reordered', [sortableGroup]);
+                        });
+
                     }, function () {
 
                     });
@@ -393,13 +401,15 @@ app.register({
                     var events = app.events.ws.getEvents()
                         .then(function (events) {
                             app.core.ctrl.render('mainTabs', events, true).then(function () {
-                                app.cart.applyCart().then(function () {
-                                    app.core.ui.plugins.initTabs();
-                                    app.core.ui.plugins.initSortables();
-                                    app.core.ui.plugins.initPushpin();
-                                    app.core.history.add(app.core.ctrl.states.showEvents);
-                                    app.core.ui.showFeatureDiscovery('info-validateCart');
-                                    app.core.ui.showFeatureDiscovery('info-profileButton');
+                                app.cart.getCart().then(function () {
+                                    app.cart.applyCart().then(function () {
+                                        app.core.ui.plugins.initTabs();
+                                        app.core.ui.plugins.initSortables();
+                                        app.core.ui.plugins.initPushpin();
+                                        app.core.history.add(app.core.ctrl.states.showEvents);
+                                        app.core.ui.showFeatureDiscovery('info-validateCart');
+                                        app.core.ui.showFeatureDiscovery('info-profileButton');
+                                    });
                                 });
                             });
                         }, function (error) {});

@@ -22,22 +22,21 @@ if (isset($_GET['getParameters'])) {
     <head>
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <!--<link rel="stylesheet" href="css/materialize.min.css">-->
+        
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title><?php echo $parameters->applicationName; ?></title>
 
         <meta http-equiv="Access-Control-Allow-Origin" content="*">
+        <meta name="theme-color" content="#455a64">
     </head>
     <body>
         <div id="app">
 
             <!-- NAVBAR -->
 
-
             <div id="mainLoader" class="progress">
                 <div class="indeterminate"></div>
             </div>
-
 
             <nav>
                 <div class="nav-wrapper primary">
@@ -45,8 +44,8 @@ if (isset($_GET['getParameters'])) {
                     <ul id="nav-mobile-left" class="left">
                         <li class="showIfLoggedIn">
                             <a href='#' data-go="showEvents">
-                                <i class="material-icons left">event_note</i>
-                                <span class="button-label hide-on-med-and-down" id="showEventsButton">Évènements</span>
+                                <i class="material-icons left" id="showEventsButton">event_note</i>
+                                <span class="button-label hide-on-med-and-down">Évènements</span>
                             </a>
                         </li>
                     </ul>
@@ -57,9 +56,10 @@ if (isset($_GET['getParameters'])) {
                                data-alignment="right"
                                data-constrainWidth="false"
                                data-belowOrigin="true"
+
                                >
-                                <i class="material-icons right">person_outline</i>
-                                <span id="showProfileButton" class="button-label hide-on-med-and-down">Mon compte</span>
+                                <span class="button-label hide-on-med-and-down">Mon compte</span>
+                                <i class="material-icons" id="showProfileButton">person_outline</i>
                             </a>
 
                             <!-- Dropdown Structure -->
@@ -202,19 +202,19 @@ if (isset($_GET['getParameters'])) {
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
 
-        <script type="text/javascript" src="js/app.js"></script>
-        <script type="text/javascript" src="js/core/utils.js"></script>
-        <script type="text/javascript" src="js/core/ui.js"></script>
-        <script type="text/javascript" src="js/core/controller.js"></script>
-        <script type="text/javascript" src="js/core/events.js"></script>
-        <script type="text/javascript" src="js/core/session.js"></script>
-        <script type="text/javascript" src="js/core/webservice.js"></script>
-        <script type="text/javascript" src="js/core/history.js"></script>
+        <script type="text/javascript" src="js/app.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/utils.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/ui.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/controller.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/events.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/session.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/webservice.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/core/history.js?v=<?php echo time(); ?>"></script>
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="js/events.js"></script>
-        <script type="text/javascript" src="js/cart.js"></script>
+        <script type="text/javascript" src="js/events.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/cart.js?v=<?php echo time(); ?>"></script>
 
         <!-- APP STARTER -->
 

@@ -2,6 +2,7 @@
 
 class App
 {
+
     /**
      * getApiToken.
      *
@@ -59,7 +60,9 @@ class App
 
     public function getParameters()
     {
-        return json_decode(file_get_contents('./data/parameters.json'));
+        $params = json_decode(file_get_contents('./data/parameters.json'));
+        $params->appHostname = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'];
+        return $params;
     }
 
     public function getApiTokenAction($token, $refreshToken = null)
@@ -88,4 +91,5 @@ class App
         echo json_encode($params, JSON_FORCE_OBJECT);
         die();
     }
+
 }

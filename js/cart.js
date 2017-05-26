@@ -1,16 +1,26 @@
 app.register({
     cart: {
         init: function () {
-            app.cart.getCart();
+            app.cart.getCart().then(function () {
+
+            },function() {
+                app.core.ctrl.login();
+            });
         },
 
         getCart: function () {
             var defer = jQuery.Deferred();
             app.cart.ws.getCart().then(function (res) {
                 var cart = res._embedded.items[0];
-                $.extend(app.core.session, {cart: cart});
-                app.core.session.save();
-                defer.resolve();
+                if (typeof cart !== 'undefined') {
+                    $.extend(app.core.session, {cart: cart});
+                    app.core.session.save();
+                    defer.resolve();
+                } else {
+                    app.core.session.destroy();
+                    defer.reject();
+                }
+
             }, function () {
                 defer.reject();
             });
@@ -35,7 +45,6 @@ app.register({
                     var manifDom = $('li.event[data-id="' + manif.id + '"]');
 
                     manifDom.attr('data-rank', item.rank);
-//                    manifDom.find('.event-image').html(item.rank); // DEBUG DEV ONLY
 
                     // UPDATE EVENTS ON UI
                     if (item.hasOwnProperty('state') && item.state !== "none") {

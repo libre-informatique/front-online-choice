@@ -11,12 +11,12 @@ app.register({
 
             user: null,
 
-            initEvents: function() {
+            initEvents: function () {
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
             },
 
-            start: function() {
+            start: function () {
                 if (localStorage.getItem(app.config.clientSessionName))
                     app.core.session.enableRememberMe();
                 else
@@ -32,19 +32,25 @@ app.register({
                 $(document).trigger('session.started');
             },
 
-            save: function() {
+            save: function () {
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
                 app.core.sessionStorage.set(app.config.clientSessionName, JSON.stringify(app.core.session));
             },
 
-            destroy: function() {
-                app.core.sessionStorage.remove(app.config.clientSessionName);
+            destroy: function () {
+                app.core.session.loggedIn = false;
+                app.core.session.user = null;
+                app.core.session.cart = null;
+
+                app.core.sessionStorage.set(app.config.clientSessionName, JSON.stringify(app.core.session));
             },
 
-            reload: function() {
+            reload: function () {
+
                 if (app.core.sessionStorage.engine === null)
                     app.core.session.start();
+
                 var currentSession = app.core.sessionStorage.get(app.config.clientSessionName);
 
                 if (currentSession !== null) {
@@ -53,17 +59,17 @@ app.register({
 
                 $.extend(app.core.session, currentSession);
             },
-            enableRememberMe: function() {
+            enableRememberMe: function () {
                 app.core.sessionStorage.engine = localStorage;
                 sessionStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = true;
             },
-            disableRememberMe: function() {
+            disableRememberMe: function () {
                 app.core.sessionStorage.engine = sessionStorage;
                 localStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = false;
             },
-            tokenIsValid: function() {
+            tokenIsValid: function () {
                 if (!app.core.session.tokenIsSet())
                     return false;
 
@@ -74,12 +80,12 @@ app.register({
                 }
                 return true;
             },
-            tokenIsSet: function() {
+            tokenIsSet: function () {
                 return (app.core.session.access_token !== null ? true : false);
             },
-            updateTokenExpirationDate: function() {
+            updateTokenExpirationDate: function () {
                 var tokenExpirationDate = app.core.utils.parseApiDate();
-                tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + (parseInt(app.core.session.expires_in, 10))-60);
+                tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + (parseInt(app.core.session.expires_in, 10)) - 60);
 
                 app.core.session.tokenExpirationDate = tokenExpirationDate;
                 app.core.session.save();
@@ -87,15 +93,15 @@ app.register({
         },
         sessionStorage: {
             engine: null,
-            get: function(key) {
+            get: function (key) {
                 return app.core.sessionStorage.engine.getItem(key);
             },
-            set: function(key, val) {
+            set: function (key, val) {
                 var r = app.core.sessionStorage.engine.setItem(key, val);
                 app.core.session.reload();
                 return r;
             },
-            remove: function(key) {
+            remove: function (key) {
                 return app.core.sessionStorage.engine.removeItem(key);
             }
         }
