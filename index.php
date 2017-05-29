@@ -211,8 +211,10 @@ if (isset($_GET['getParameters'])) {
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="js/events.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/cart.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/modules/featureDiscovery.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/modules/user.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/modules/events.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/modules/cart.js?v=<?php echo time(); ?>"></script>
 
         <!-- APP STARTER -->
 
@@ -232,13 +234,6 @@ if (isset($_GET['getParameters'])) {
         <script id="infos-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/infos.html'); ?></script>
 
         <!-- TEMPLATES LOADED VIA AJAX -->
-
-<!--    <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script> -->
-<!--    <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script> -->
-<!--    <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script> -->
-<!--    <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script> -->
-<!--    <script id="settings-template" type="text/x-handlebars-template" src="views/user/settings.html"></script> -->
-<!--    <script id="infos-template" type="text/x-handlebars-template" src="views/blocks/infos.html"></script>  -->
 
     </body>
 </html>

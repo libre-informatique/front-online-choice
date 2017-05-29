@@ -10,33 +10,29 @@ var app = {
     // INIT APPLICATION AT LOAD TIME
     // -------------------------------------------------------------------------
 
-    init: function() {
+    init: function () {
 
         // GET APP PARAMETERS
 
-        $.get(appHostname + '/?getParameters=1', function(params) {
+        $.get(appHostname + '/?getParameters=1', function (params) {
             moment.locale('fr');
             app.config = params;
             app.core.utils.init();
             app.core.events.init();
-            //app.core.session.start();
 
-            app.core.history.add({
-                path: "",
-                title: app.config.applicationName
-            });
+            app.core.history.add(app.ctrl.states.main);
         });
 
         // SESSION STARTED
 
-        $(document).on('session.started', function() {
+        $(document).on('session.started', function () {
             app.core.ws.apiAuth();
             app.core.ui.initTemplates();
         });
 
         // ALL TEMPLATES LOADED
 
-        $(document).on('templates.registered', function() {
+        $(document).on('templates.registered', function () {
             app.core.ui.plugins.init();
             app.core.ui.displayLoading(false);
             app.core.ui.init();
@@ -47,7 +43,7 @@ var app = {
     // REGISTER APPLICATION MODULE
     // -------------------------------------------------------------------------
 
-    register: function(component) {
+    register: function (component) {
         $.extend(true, app, component);
         return app;
     }

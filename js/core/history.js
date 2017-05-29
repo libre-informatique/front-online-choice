@@ -7,7 +7,7 @@ app.register({
 
             // HOLDS CURRENT VIEW CALLABLE (USED FOR RECALL)
             currentCallable: function() {
-                app.core.ctrl.login();
+                app.ctrl.login();
             },
 
             // WRAPPER BROWSER HISTORY

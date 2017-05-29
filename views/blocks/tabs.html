@@ -23,7 +23,7 @@
     <div class="cart-status-message cart-cancelled">
         Votre liste de choix est annulée. Vous ne pouvez plus modifier votre liste
     </div>
-    <div id="headers" class="row center">
+<!--    <div id="headers" class="row center">
         <div id="time-header" class="col s4 header">
             <i class="material-icons primary-text small">access_time</i>
             <p>Horaire</p>
@@ -36,7 +36,7 @@
             <i class="material-icons primary-text small">sort</i>
             <p>Priorité</p>
         </div>
-    </div>
+    </div>-->
     <div id="periods">
         <ul id="period-list">
 
@@ -68,47 +68,47 @@
                                      {{#ifCond manif.event.imageURL 'not null'}}
                                      style="background-image:url({{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}});background-size:cover;"
                                      {{/ifCond}}>
+                                </div>
+                                <div class="label col s5 valign-wrapper selectable">
+                                    <p class="event-label">
+                                        {{manif.event.name}}
+                                    </p>
+                                </div>
+                                <div class="presence valign-wrapper col s3">
+                                    <a class="presence-btn btn grey waves-effect waves-light flow-text">
+                                        <i class="material-icons">add_circle_outline</i>
+                                        <span>Participer</span>
+                                    </a>
+                                </div>
+                                <div class="priority col s2 center valign-wrapper">
+                                    <i class="handle material-icons">apps</i>
+                                    <span class="priorityNumber"></span>
+                                </div>
                             </div>
-                            <div class="label col s5 valign-wrapper selectable">
-                                <p class="event-label">
-                                    {{manif.event.name}}
-                                </p>
-                            </div>
-                            <div class="presence valign-wrapper col s3">
-                                <a class="presence-btn btn grey waves-effect waves-light flow-text">
-                                    <i class="material-icons">add_circle_outline</i>
-                                    <span>Participer</span>
-                                </a>
-                            </div>
-                            <div class="priority col s2 center valign-wrapper">
-                                <i class="handle material-icons">apps</i>
-                                <span class="priorityNumber"></span>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
 
-                    {{/each}}
+                        {{/each}}
 
-                </ul>
-            </div>
-        </li>
+                    </ul>
+                </div>
+            </li>
 
-        {{/each}}
+            {{/each}}
 
-        <!-- -->
+            <!-- -->
 
-        {{#ifCond tab.manifCount '==' 0}}
+            {{#ifCond tab.manifCount '==' 0}}
 
-        <li class="center-align">
-            <div class="card-panel">
-                <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
-            </div>
-        </li>
+            <li class="center-align">
+                <div class="card-panel noEvents">
+                    <i class="material-icons left">info_outline</i> Aucuns évènements pour ce jour
+                </div>
+            </li>
 
-        {{/ifCond}}
+            {{/ifCond}}
 
-    </ul>
-</div>
+        </ul>
+    </div>
 </div>
 {{/each}}
 
@@ -117,7 +117,7 @@
     <i class="material-icons">check</i>
 </a>
 {{else}}
-<div class="card-panel">
+<div class="card-panel noEvents">
     <i class="material-icons left">info_outline</i> Aucuns évènements
 </div>
 {{/ifCond}}

@@ -1,141 +1,105 @@
 app.register({
     core: {
         ui: {
+
+            // HANDLE APPLICATION TEMPLATES
             templates: {},
-            sortables: [],
+
+            // HANDLE APPLICATION MODALE
             modal: null,
+
+            // HANDLE APPLICATION MODALE
             init: function () {
-                if (app.core.session.user) {
-                    $('#app').addClass('loggedIn');
-                    app.core.ctrl.showEvents();
-                } else {
-                    app.core.ctrl.login();
-                    $('#app').removeClass('loggedIn');
-                }
+                $(document).trigger('ui.init');
             },
+
+            // -------------------------------------------------------------------------
+            // UI GLOBAL EVENTS
+            // -------------------------------------------------------------------------
+
             initEvents: function () {
-                $(document)
-                    .on('click', '.tap-target button.understood', function () {
-                        var tap = $(this).closest('.tap-target');
-                        app.core.ui.hideFeatureDiscovery(tap.attr('id'), true);
-                    })
-
-                    .on('click', '.tap-target', function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        e.stopImmediatePropagation();
-
-                        if (!$(e.currentTarget).is('button')) {
-                            $(e.currentTarget).tapTarget('close');
-                        }
-                    })
-                    ;
+                
             },
+
+            // -------------------------------------------------------------------------
+            // UI PLUGINS (THIRD PARTY JS PLUGINS)
+            // -------------------------------------------------------------------------
+
             plugins: {
                 init: function () {
                     app.core.ui.plugins.initTabs();
-                    app.core.ui.plugins.initSortables();
                     app.core.ui.plugins.initTooltips();
                     app.core.ui.plugins.initDropDown();
                     app.core.ui.plugins.initModal();
-                    app.core.ui.plugins.initPushpin();
+                    app.core.ui.plugins.registerComponentPlugins(app);
                 },
+
+                // ---------------------------------------------------------------------
+                // MATERIALIZECSS TABS
+                // ---------------------------------------------------------------------
+
                 initTabs: function () {
                     $('ul#tabs').tabs();
                     var tabsId = $('div.tab-content:first-of-type').attr('id');
                     $('ul#tabs').tabs('select_tab', tabsId);
                 },
-                initSortables: function () {
-                    $('.period').each(function () {
-
-                        var manifs = $(this).find('.manifestations-list');
-
-                        if (!$(this).hasClass('timeSlotLocked')) {
-
-                            var enabled = false;
-
-                            if (manifs.find('.presence .attend').length > 1) {
-                                manifs.addClass('active');
-                                enabled = true;
-                            } else {
-                                manifs.removeClass('active');
-                            }
-
-                            if (manifs.data().hasOwnProperty('sortable'))
-                                manifs.sortable("destroy");
-
-                            manifs.sortable({
-                                animation: 0,
-                                handle: '.priority',
-                                scroll: true,
-                                disabled: !enabled,
-                                placeholder: 'test',
-                                forcePlaceholderSize: true,
-                                items: "li:not(.cantSort)",
-                                stop: function (evt, ui) {
-
-                                    var container = $(ui.item[0].closest('.manifestations-list'));
-                                    var previousOrder = manifs.data('startOrder');
-                                    var positionChanged = false;
-
-                                    var i = 0;
-                                    container.find('li:not(.cantSort)').each(function () {
-                                        if ($(this).is(ui.item) && previousOrder !== i)
-                                            positionChanged = true;
-                                        i++;
-                                    });
-
-                                    if (positionChanged) {
-                                        app.events.ui.sortManifestations(container, true);
-
-                                        $(document).trigger('events.reordered', [container]);
-                                    }
-                                },
-                                start: function (evt, ui) {
-                                    var container = $(ui.item[0].closest('.manifestations-list'));
-
-                                    var i = 0;
-                                    container.find('li:not(.cantSort)').each(function () {
-                                        if ($(this).is(ui.item))
-                                            manifs.data('startOrder', i);
-                                        i++;
-                                    });
-                                },
-                            });
-                        } else {
-                            manifs.sortable("destroy");
-                        }
-                    });
-
-                },
+                
+                // ---------------------------------------------------------------------
+                // MATERIALIZECSS TOOLTIPS
+                // ---------------------------------------------------------------------
+                
                 initTooltips: function () {
                     $('.material-tooltip').remove();
                     $('*[data-tooltip]').tooltip({
                         delay: 50
                     });
                 },
+                
+                // ---------------------------------------------------------------------
+                // MATERIALIZECSS DROPDOWN
+                // ---------------------------------------------------------------------
+                
                 initDropDown: function () {
                     $('.dropdown-button').dropdown();
                 },
+                
+                // ---------------------------------------------------------------------
+                // MATERIALIZECSS MODAL
+                // ---------------------------------------------------------------------
+                
                 initModal: function () {
                     app.core.ui.modal = $('#confirm-modal');
                     app.core.ui.modal.modal();
                 },
-                initPushpin: function () {
-                    $('.period-label').each(function () {
-                        var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
-                        var $this = $(this);
-                        var $target = $('#' + $(this).attr('data-target'));
-                        $this.pushpin({
-                            top: $target.offset().top - contentTop + ($this.outerHeight()),
-                            bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
-                            offset: contentTop
-                        });
+
+                // ---------------------------------------------------------------------
+                // INITIALIZE COMPONENTS PLUGINS
+                // ---------------------------------------------------------------------
+
+                registerComponentPlugins: function (component, deep) {
+                    if (!isDefined(deep))
+                        deep = 0;
+
+                    if (deep > 3) // LIMIT INIT SEARCH RECURSION TO 4 LEVEL
+                        return;
+
+                    // RECURSION OVER APPLICATION COMPONENTS
+                    Object.keys(component).forEach(function (key) {
+                        var c = component[key];
+                        if (c.hasOwnProperty('initPlugins')) {
+                            c.initPlugins();
+                        } else if (typeof c === "object") {
+                            app.core.ui.plugins.registerComponentPlugins(c, ++deep);
+                        }
                     });
                 }
             },
+            
+            // -------------------------------------------------------------------------
+            // LOOP LOADING HANDLEBARS TEMPLATES
+            // -------------------------------------------------------------------------
+            
             initTemplates: function () {
-
                 var promises = [];
 
                 // FETCH REMOTE TEMPLATES
@@ -168,7 +132,6 @@ app.register({
                                 promises.push(this);
                             }
                         });
-
                     } else {
                         // REGISTER TEMPLATE
 
@@ -182,8 +145,6 @@ app.register({
 
                         promises.push(this);
                     }
-
-
                 });
 
                 $.when.apply($, promises).then(function () {
@@ -192,13 +153,28 @@ app.register({
                     $(document).trigger('app.failed');
                 });
             },
+            
+            // -------------------------------------------------------------------------
+            // APPLY COMPILED TEMPLATE
+            // -------------------------------------------------------------------------
+            
             applyTemplate: function (name, tpl) {
                 $('handlebar-placeholder[template="' + name + '"]').html(tpl);
                 $(document).trigger('template.applyed', [name]);
             },
+            
+            // -------------------------------------------------------------------------
+            // CLEAR .CONTENT PLACEHOLDERS
+            // -------------------------------------------------------------------------
+            
             clearContent: function () {
                 $('#app div.content handlebar-placeholder').html('');
             },
+            
+            // -------------------------------------------------------------------------
+            // SHOW LOADER IN TOP OF NAVBAR
+            // -------------------------------------------------------------------------
+            
             displayLoading: function (show) {
                 if (!isDefined(show))
                     show = true;
@@ -209,6 +185,11 @@ app.register({
                 else
                     loader.addClass('hidden');
             },
+            
+            // -------------------------------------------------------------------------
+            // SHOW BIG LOADER IN CONTENT
+            // -------------------------------------------------------------------------
+            
             displayContentLoading: function (show) {
                 if (!isDefined(show))
                     show = true;
@@ -219,6 +200,11 @@ app.register({
                 else
                     loader.hide();
             },
+            
+            // -------------------------------------------------------------------------
+            // SHOW TOAST (FLASH MESSAGE)
+            // -------------------------------------------------------------------------
+            
             toast: function (message, type, delay) {
                 if (!isDefined(delay))
                     delay = 5000;
@@ -244,55 +230,6 @@ app.register({
                 }
 
                 Materialize.toast(message + icon, delay, type);
-            },
-            showFeatureDiscovery: function (id) {
-
-                var elem = $('.tap-target');
-
-                if (isDefined(id)) {
-                    elem = elem.filter('#' + id);
-                }
-
-
-                elem.each(function () {
-                    var id = $(this).attr('id');
-
-                    if (!app.core.ui.__getInfosStorage().hasOwnProperty(id))
-                        elem.tapTarget('open');
-                });
-
-            },
-            hideFeatureDiscovery: function (id, dontshowagain) {
-                var elem = null;
-                if (!isDefined(id)) {
-                    elem = $('.tap-target');
-                } else {
-                    elem = $('#' + id);
-                }
-
-                if (isDefined(dontshowagain) && dontshowagain) {
-                    app.core.ui.__setInfosStorage(id);
-                }
-
-                elem.tapTarget('close');
-            },
-            __getInfosStorage: function () {
-                var infos = localStorage.getItem(app.config.clientSessionName + '_infos');
-
-                if (infos === null)
-                    infos = '{}';
-
-                return JSON.parse(infos);
-            },
-            __setInfosStorage: function (id) {
-                var infos = app.core.ui.__getInfosStorage();
-
-                infos[id] = id;
-
-                localStorage.setItem(app.config.clientSessionName + '_infos', JSON.stringify(infos));
-            },
-            __resetInfosStorage: function () {
-                localStorage.setItem(app.config.clientSessionName + '_infos', '{}');
             }
         }
     }

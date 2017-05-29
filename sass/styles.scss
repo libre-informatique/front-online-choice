@@ -266,17 +266,22 @@ html,body {
                     left: 0;
                     right: 0;
                     z-index:9999;
+
+                    &.cart-fulfilled {
+                        background-color:$success-color;
+                    }
                 }
             }
 
             #headers {
                 margin-top: 20px;
-                /*border-bottom:3px dotted darken($body-bg,10%);*/
             }
 
             #periods {
                 .period {
-                    border-top:6px dotted darken($body-bg,5%);
+                    &:not(:first-of-type) {
+                        border-top:6px dotted darken($body-bg,5%);
+                    }
                     padding-bottom: 2em;
                     .period-label-container {
                         min-height: 108px;
@@ -339,6 +344,9 @@ html,body {
                         }
                     }
 
+                }
+                .noEvents {
+                    margin-top:3em;
                 }
             }
 
@@ -657,6 +665,29 @@ html,body {
     width:100%;
 }
 
+
+.btn:focus, 
+.btn-large:focus, 
+.btn-floating:focus {
+    &.primary {
+        background-color: lighten($primary-color,15%);
+    }
+    &.accent{
+        background-color: lighten($accent-color,15%);
+    }
+    &.success{
+        background-color: lighten($success-color,15%);
+    }
+    &.danger{
+        background-color: lighten($danger-color,15%);
+    }
+    &.info{
+        background-color: lighten($info-color,15%);
+    }
+    &.normal{
+        background-color: lighten($normal-color,15%);
+    }
+}
 
 /* label color */
 .input-field label {
