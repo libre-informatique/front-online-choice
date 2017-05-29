@@ -3,49 +3,6 @@ app.register({
         // HOLDS MANIFESTATIONS IN FLAT OBJECT
         manifestations: {},
 
-        ws: {
-
-            // ---------------------------------------------------------------------
-            // GET EVENTS DATAS
-            // ---------------------------------------------------------------------
-
-            getEvents: function () {
-
-                var defer = jQuery.Deferred();
-
-                app.core.ws.call('GET', '/manifestations', {
-                    'criteria[metaEvents.id][type]': 'equals',
-                    'criteria[metaEvents.id][value]': app.config.metaEventId,
-                    'limit': 100
-                }, function (data) {
-
-                    if (data._embedded.items.length === 0) {
-                        app.core.ui.toast('Aucunes manifestations visibles', 'warning');
-                        defer.resolve({days: {}, daysCount: 0});
-                    } else {
-
-                        minInterval = null;
-                        maxInterval = null;
-
-                        $.each(data._embedded.items, function (i, manif) {
-                            if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
-                                minInterval = app.core.utils.parseApiDate(manif.startsAt);
-                            if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
-                                maxInterval = app.core.utils.parseApiDate(manif.endsAt);
-                        });
-
-                        if (maxInterval === null)
-                            maxInterval = moment(minInterval).add(5, 'days').toDate();
-
-                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                        defer.resolve(events);
-                    }
-                });
-
-                return defer.promise();
-            }
-        },
-
         // -------------------------------------------------------------------------
         // ADD UI EVENTS (PRESENCE BUTTONS)
         // -------------------------------------------------------------------------
@@ -59,7 +16,6 @@ app.register({
                 // -----------------------------------------------------------------
 
                 .on('click', '.presence-btn', function (e) {
-                    console.info('CLK PRESENCE');
                     e.preventDefault();
                     e.stopPropagation();
                     e.stopImmediatePropagation();
@@ -90,9 +46,8 @@ app.register({
 
                     var i = 1;
                     events.each(function () {
-                        console.info("EVENT", $(this));
                         var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
-                        promises.push(app.cart.ws.updateCartItem(cartItemId, {'rank': i}));
+                        promises.push(app.ws.updateCartItem(cartItemId, {'rank': i}));
                         i++;
                     });
 
@@ -107,6 +62,10 @@ app.register({
         },
 
         ui: {
+            initPlugins: function () {
+                app.events.ui.initSortables();
+                app.events.ui.initPushpin();
+            },
 
             // ---------------------------------------------------------------------
             // SWITCH BUTTON TO PRESENCE
@@ -240,6 +199,83 @@ app.register({
                     });
                 }
             },
+
+            initSortables: function () {
+                $('.period').each(function () {
+
+                    var manifs = $(this).find('.manifestations-list');
+
+                    if (!$(this).hasClass('timeSlotLocked')) {
+
+                        var enabled = false;
+
+                        if (manifs.find('.presence .attend').length > 1) {
+                            manifs.addClass('active');
+                            enabled = true;
+                        } else {
+                            manifs.removeClass('active');
+                        }
+
+                        if (manifs.data().hasOwnProperty('sortable'))
+                            manifs.sortable("destroy");
+
+                        manifs.sortable({
+                            animation: 0,
+                            handle: '.priority',
+                            scroll: true,
+                            disabled: !enabled,
+                            placeholder: 'test',
+                            forcePlaceholderSize: true,
+                            items: "li:not(.cantSort)",
+                            stop: function (evt, ui) {
+
+                                var container = $(ui.item[0].closest('.manifestations-list'));
+                                var previousOrder = manifs.data('startOrder');
+                                var positionChanged = false;
+
+                                var i = 0;
+                                container.find('li:not(.cantSort)').each(function () {
+                                    if ($(this).is(ui.item) && previousOrder !== i)
+                                        positionChanged = true;
+                                    i++;
+                                });
+
+                                if (positionChanged) {
+                                    app.events.ui.sortManifestations(container, true);
+
+                                    $(document).trigger('events.reordered', [container]);
+                                }
+                            },
+                            start: function (evt, ui) {
+                                var container = $(ui.item[0].closest('.manifestations-list'));
+
+                                var i = 0;
+                                container.find('li:not(.cantSort)').each(function () {
+                                    if ($(this).is(ui.item))
+                                        manifs.data('startOrder', i);
+                                    i++;
+                                });
+                            }
+                        });
+                    } else {
+                        if (manifs.data().hasOwnProperty('sortable'))
+                            manifs.sortable("destroy");
+                    }
+                });
+            },
+
+            initPushpin: function () {
+                $('.period-label').each(function () {
+                    var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
+                    var $this = $(this);
+                    var $target = $('#' + $(this).attr('data-target'));
+                    $this.pushpin({
+                        top: $target.offset().top - contentTop + ($this.outerHeight()),
+                        bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
+                        offset: contentTop
+                    });
+                });
+            },
         },
 
         // -------------------------------------------------------------------------
@@ -339,14 +375,14 @@ app.register({
             }, 1000, 'swing', function () {
                 app.events.ui.sortManifestations(sortableGroup, true);
 
-                app.core.ui.plugins.initSortables();
+                app.events.ui.initSortables();
 
                 var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
                 var priceId = app.events.manifestations[manifId].gauges[0].prices[0].id;
 
                 if (selecting) {
                     // Add to cart
-                    app.cart.ws.addToCart(declinaisonId, priceId).then(function (res) {
+                    app.ws.addToCart(declinaisonId, priceId).then(function (res) {
                         // add event dom attr (rank)
 
                         app.events.manifestations[manifId].cartItemId = res.id;
@@ -359,7 +395,7 @@ app.register({
                     var cartItemId = app.events.manifestations[manifId].cartItemId;
 
                     // removeFromCart
-                    app.cart.ws.removeFromCart(cartItemId).then(function () {
+                    app.ws.removeFromCart(cartItemId).then(function () {
 
                         // remove event dom attr (rank)
                         app.cart.getCart().then(function () {
@@ -411,35 +447,75 @@ app.register({
         }
 
     },
-    core: {
-        ctrl: {
-            states: {
-                showEvents: {
-                    path: "events",
-                    title: "Évènements"
+    ws: {
+
+        // ---------------------------------------------------------------------
+        // GET EVENTS DATAS
+        // ---------------------------------------------------------------------
+
+        getEvents: function () {
+
+            var defer = jQuery.Deferred();
+
+            app.core.ws.call('GET', '/manifestations', {
+                'criteria[metaEvents.id][type]': 'equals',
+                'criteria[metaEvents.id][value]': app.config.metaEventId,
+                'limit': 100
+            }, function (data) {
+
+                if (data._embedded.items.length === 0) {
+                    app.core.ui.toast('Aucunes manifestations visibles', 'warning');
+                    defer.resolve({days: {}, daysCount: 0});
+                } else {
+
+                    minInterval = null;
+                    maxInterval = null;
+
+                    $.each(data._embedded.items, function (i, manif) {
+                        if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
+                            minInterval = app.core.utils.parseApiDate(manif.startsAt);
+                        if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
+                            maxInterval = app.core.utils.parseApiDate(manif.endsAt);
+                    });
+
+                    if (maxInterval === null)
+                        maxInterval = moment(minInterval).add(5, 'days').toDate();
+
+                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                    defer.resolve(events);
                 }
-            },
-            showEvents: function (force) {
-                if (app.core.history.currentState !== app.core.ctrl.states.showEvents || force) {
-                    app.core.ui.clearContent();
-                    $('#contentLoader').show();
-                    var events = app.events.ws.getEvents()
-                        .then(function (events) {
-                            app.core.ctrl.render('mainTabs', events, true).then(function () {
-                                app.cart.getCart().then(function () {
-                                    app.cart.applyCart().then(function () {
-                                        app.core.ui.plugins.initTabs();
-                                        app.core.ui.plugins.initSortables();
-                                        app.core.ui.plugins.initPushpin();
-                                        app.core.history.add(app.core.ctrl.states.showEvents);
-                                        app.core.ui.showFeatureDiscovery('info-validateCart');
-                                        app.core.ui.showFeatureDiscovery('info-profileButton');
-                                    });
+            });
+
+            return defer.promise();
+        }
+    },
+    ctrl: {
+        states: {
+            showEvents: {
+                path: "events",
+                title: "Évènements"
+            }
+        },
+        showEvents: function (force) {
+            if (app.core.history.currentState !== app.ctrl.states.showEvents || force) {
+                app.core.ui.clearContent();
+                $('#contentLoader').show();
+                var events = app.ws.getEvents()
+                    .then(function (events) {
+                        app.core.ctrl.render('mainTabs', events, true).then(function () {
+                            app.cart.getCart().then(function () {
+                                app.cart.applyCart().then(function () {
+                                    app.core.ui.plugins.initTabs();
+                                    app.events.ui.initSortables();
+                                    app.events.ui.initPushpin();
+                                    app.core.history.add(app.ctrl.states.showEvents);
+                                    app.featureDiscovery.showFeatureDiscovery('info-validateCart');
+                                    app.featureDiscovery.showFeatureDiscovery('info-profileButton');
                                 });
                             });
-                        }, function (error) {});
-                }
+                        });
+                    }, function (error) {});
             }
         }
-    }
+    },
 });

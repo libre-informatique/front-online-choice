@@ -138,6 +138,10 @@ app.register({
     }
 });
 
+// ---------------------------------------------------------------------
+// HELPER FUNCTION TO AVOID « typeof var !== 'undefined' » EVERY WHERE
+// ---------------------------------------------------------------------
+
 function isDefined(variable) {
     return typeof variable !== 'undefined';
 }

@@ -211,8 +211,10 @@ if (isset($_GET['getParameters'])) {
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="js/events.js"></script>
-        <script type="text/javascript" src="js/cart.js"></script>
+        <script type="text/javascript" src="js/modules/featureDiscovery.js"></script>
+        <script type="text/javascript" src="js/modules/user.js"></script>
+        <script type="text/javascript" src="js/modules/events.js"></script>
+        <script type="text/javascript" src="js/modules/cart.js"></script>
 
         <!-- APP STARTER -->
 
