@@ -227,9 +227,6 @@ app.register({
                         if (!isDefined(data))
                             data = {};
 
-                        if (!isDefined(ignoreBaseUrl))
-                            ignoreBaseUrl = false;
-
                         var baseUrl =
                             app.config.webservice.protocol +
                             "://" +
