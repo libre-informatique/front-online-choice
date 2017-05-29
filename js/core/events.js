@@ -22,6 +22,9 @@ app.register({
 
                     .on('click', '#save-btn', function (e) {
                         // TODO: Validate cart
+                        app.cart.validateCart();
+                        //app.cart.submitCart();
+                        alert("Votre panier a été validé");
                         app.core.ui.modal.modal('close');
                     })
 
