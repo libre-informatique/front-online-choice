@@ -2,7 +2,7 @@
 
 WORK IN PROGRESS
 
-## Install DEV env:
+## Install DEV env
 
 -   cp data/parameters.json.dist data/parameters.json
 -   edit data/parameters.json with your environments configuration
@@ -11,7 +11,7 @@ WORK IN PROGRESS
 -   open localhost:8000
 -   The window will refresh automatically and sass will be compiled every time you save a file in the project
 
-## Install PROD env:
+## Install PROD env
 
 -   cp data/parameters.json.dist data/parameters.json
 -   edit data/parameters.json with your environments configuration
@@ -21,7 +21,7 @@ WORK IN PROGRESS
 
 ## For developpers
 
-### Add new view :
+### Add new view
 
 Create your view template in views/myView.html directory.
 
@@ -47,7 +47,7 @@ With loading in index view :
 <script id="myView-template" type="text/x-handlebars-template"><?php echo file_get_contents("./views/myView.html"); ?></script>
 ```
 
-Add action to js/core/controller.js (You should use a custom module instead of editing core's files,  see [Declare a custom module](#Declare-a-custom-module) )
+Add action to js/core/controller.js (You should use a custom module instead of editing core's files,  see [Declare a custom module](#declare-a-custom-module) )
 
 ```js
 app.register({
@@ -83,7 +83,7 @@ Add a link / button to call your newlly created view
 </a>
 ```
 
-### Declare a custom module :
+### Declare a custom module
 
 create your module file : js/myModule.js
 
@@ -124,7 +124,7 @@ Your module is now available through app.myModule. Example of usage :
 console.info(app.myModule.aMethod());
 ```
 
-### Custom module events :
+### Custom module events
 
 Modules can register their own events by declaring initEvents method :
 
@@ -141,7 +141,7 @@ app.register({
 });
 ```
 
-### Custom module events :
+### Custom module events
 
 Modules can override any part of methods / properties / module :
 
