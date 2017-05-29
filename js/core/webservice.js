@@ -114,16 +114,22 @@ app.register({
             // ---------------------------------------------------------------------
 
             getUser: function (userId) {
-                return app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
+                var defer = $.Deferred();
+                
+                app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
                     console.info(res.id);
                     if (typeof res.id !== 'undefined') {
                         app.core.session.user = res;
                         app.core.session.userId = res.id;
                         app.core.session.save();
+                        defer.resolve(res);
                     } else {
-                        app.core.ctrl.login();
+                        defer.reject(res);
+                        app.core.ctrl.logout();
                     }
                 });
+                
+                return defer.promise();
             },
 
             // ---------------------------------------------------------------------

@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 var connect = require('gulp-connect');
 
 gulp.task('connect', function(){
@@ -14,6 +15,8 @@ gulp.task('connect', function(){
 gulp.task('sass', function () {
   return gulp.src('./sass/*.scss')
       .pipe(sass({ errLogToConsole: true }))
+      .pipe(sourcemaps.init())
+      .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./css'));
 });
 
@@ -28,3 +31,5 @@ gulp.task('watch', function () {
 });
 
 gulp.task('default', ['connect', 'sass', 'watch']);
+
+gulp.task('prod', ['sass']);

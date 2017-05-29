@@ -2,13 +2,22 @@
 
 WORK IN PROGRESS
 
-## Install dev env:
+## Install DEV env:
 
 -   cp data/parameters.json.dist data/parameters.json
+-   edit data/parameters.json with your environments configuration
 -   npm install
 -   gulp
 -   open localhost:8000
 -   The window will refresh automatically and sass will be compiled every time you save a file in the project
+
+## Install PROD env:
+
+-   cp data/parameters.json.dist data/parameters.json
+-   edit data/parameters.json with your environments configuration
+-   npm install
+-   gulp prod
+
 
 ## For developpers
 
@@ -24,24 +33,30 @@ Create your view template in views/myView.html directory.
 
 Append to index.php the script tag that holds your view template :
 
+With AJAX template loading :
+
 ```html
 <script id="myView-template" type="text/x-handlebars-template" src="views/myView.html"></script>
+```
+
+OR
+
+With loading in index view :
+
+```php
+<script id="myView-template" type="text/x-handlebars-template"><?php echo file_get_contents("./views/myView.html"); ?></script>
 ```
 
 Add action to js/core/controller.js
 
 ```js
-$.extend(app.core, {
-    ctrl: {
-
-        // [...]
-
-        myView: function () {
-            app.core.ctrl.render('myView', {myData: 'myData'}, true);
-        },
-
-        // [...]
-
+app.register({
+    core: {
+        ctrl: {
+            myView: function () {
+                app.core.ctrl.render('myView', {myData: 'myData'}, true);
+            },
+        }
     }
 });
 ```
@@ -63,7 +78,89 @@ Put the view placeholder in index.php
 Add a link / button to call your newlly created view
 
 ```html
-<a href='#' data-go="myView">
+<a href='javascript:;' data-go="myView">
     Go to my new view !
 </a>
+```
+
+### Declare a custom module :
+
+create your module file : js/myModule.js
+
+```js
+app.register({
+    myModule: {
+        aProperty: null,
+        aMethod: function() {
+            alert('myModule myMethod !');
+        },
+    }
+});
+```
+
+Include it in index.php between business modules and app starter
+
+```php
+<!-- BUSINESS COMPONENTS -->
+
+<script type="text/javascript" src="js/events.js?v=<?php echo time(); ?>"></script>
+<script type="text/javascript" src="js/cart.js?v=<?php echo time(); ?>"></script>
+
+<!-- MY CUSTOM MODULES -->
+
+<script type="text/javascript" src="js/myModule.js"></script>
+
+<!-- APP STARTER -->
+
+<script type="text/javascript">
+    // START APP
+    $(document).ready(app.init());
+</script>
+```
+
+Your module is now available through app.myModule. Example of usage :
+
+```js
+console.info(app.myModule.aMethod());
+```
+
+### Custom module events :
+
+Modules can register their own events by declaring initEvents method :
+
+```js
+app.register({
+    myModule: {
+        initEvents: function() {
+            $(document)
+                .on('click','a',function() {
+                    app.myModule.aMethod();
+                });
+        }
+    }
+});
+```
+
+### Custom module events :
+
+Modules can override any part of methods / properties / module :
+
+```js
+app.register({
+    myModule: {
+
+    },
+    core: {
+        ctrl: {
+            myAction: function() {
+                // Append new method to app.core.ctrl
+                alert('Action called with app.ctrl.myAction()');
+            },
+            login : function() {
+                // Override app.core.ctrl.login() action
+                alert('Login Action overriden');
+            }
+        }
+    }
+});
 ```
