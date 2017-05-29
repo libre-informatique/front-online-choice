@@ -200,19 +200,19 @@ if (isset($_GET['getParameters'])) {
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
 
-        <script type="text/javascript" src="js/app.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/utils.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/ui.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/controller.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/events.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/session.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/webservice.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/core/history.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/core/utils.js"></script>
+        <script type="text/javascript" src="js/core/ui.js"></script>
+        <script type="text/javascript" src="js/core/controller.js"></script>
+        <script type="text/javascript" src="js/core/events.js"></script>
+        <script type="text/javascript" src="js/core/session.js"></script>
+        <script type="text/javascript" src="js/core/webservice.js"></script>
+        <script type="text/javascript" src="js/core/history.js"></script>
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="js/events.js?v=<?php echo time(); ?>"></script>
-        <script type="text/javascript" src="js/cart.js?v=<?php echo time(); ?>"></script>
+        <script type="text/javascript" src="js/events.js"></script>
+        <script type="text/javascript" src="js/cart.js"></script>
 
         <!-- APP STARTER -->
 
@@ -232,13 +232,6 @@ if (isset($_GET['getParameters'])) {
         <script id="infos-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/infos.html'); ?></script>
 
         <!-- TEMPLATES LOADED VIA AJAX -->
-
-<!--    <script id="mainTabs-template" type="text/x-handlebars-template" src="views/blocks/tabs.html"></script> -->
-<!--    <script id="userProfile-template" type="text/x-handlebars-template" src="views/user/profile.html"></script> -->
-<!--    <script id="editUserProfile-template" type="text/x-handlebars-template" src="views/user/editProfile.html"></script> -->
-<!--    <script id="editUserPassword-template" type="text/x-handlebars-template" src="views/user/editPassword.html"></script> -->
-<!--    <script id="settings-template" type="text/x-handlebars-template" src="views/user/settings.html"></script> -->
-<!--    <script id="infos-template" type="text/x-handlebars-template" src="views/blocks/infos.html"></script>  -->
 
     </body>
 </html>
