@@ -141,7 +141,7 @@ app.register({
 });
 ```
 
-### Custom module events
+### Module and application override
 
 Modules can override any part of methods / properties / module :
 
