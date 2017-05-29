@@ -139,6 +139,7 @@ app.register({
 
                     .on('click', '[href="#"]', function (e) {
                         e.preventDefault();
+                        return false;
                     })
 
                     // -------------------------------------------------------------

@@ -21,7 +21,7 @@ app.register({
 
                     if (data._embedded.items.length === 0) {
                         app.core.ui.toast('Aucunes manifestations visibles', 'warning');
-                        defer.resolve({days: {},daysCount: 0});
+                        defer.resolve({days: {}, daysCount: 0});
                     } else {
 
                         minInterval = null;
@@ -59,12 +59,13 @@ app.register({
                 // -----------------------------------------------------------------
 
                 .on('click', '.presence-btn', function (e) {
+                    console.info('CLK PRESENCE');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
                     if (app.core.session.cart.checkoutState === "cart") {
                         if ($(this).hasClass('forced')) {
                             alert('Votre présence à cette manifestation est obligatoire');
-                            e.preventDefault();
-                            e.stopPropagation();
-                            e.stopImmediatePropagation();
                             return true;
                         } else {
                             if (!$(this).hasClass('attend')) {
@@ -74,6 +75,7 @@ app.register({
                             }
                         }
                         app.events.selectManifestation($(this));
+                        return true;
                     }
                 })
 

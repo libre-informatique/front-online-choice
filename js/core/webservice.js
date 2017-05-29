@@ -43,8 +43,6 @@ app.register({
                             $.extend(app.core.session, data);
                             app.core.session.updateTokenExpirationDate();
 
-                            alert(data.code);
-
                             if (data.lifecycle === "create" || data.code === 401) {
                                 defer.reject();
                             }

@@ -59,30 +59,48 @@ app.register({
                                 enabled = true;
                             } else {
                                 manifs.removeClass('active');
-                                enabled = false;
                             }
 
                             if (manifs.data().hasOwnProperty('sortable'))
                                 manifs.sortable("destroy");
 
                             manifs.sortable({
-                                animation: 100,
+                                animation: 0,
                                 handle: '.priority',
                                 scroll: true,
-                                ghostClass: "ghost",
-                                forceFallback: true,
                                 disabled: !enabled,
-                                filter: ".cantSort",
-                                preventOnFilter: true,
-                                onEnd: function (evt) {
-                                    if (evt.newIndex != evt.oldIndex) {
-                                        var container = $(evt.from);
+                                placeholder: 'test',
+                                forcePlaceholderSize: true,
+                                items: "li:not(.cantSort)",
+                                stop: function (evt, ui) {
 
+                                    var container = $(ui.item[0].closest('.manifestations-list'));
+                                    var previousOrder = manifs.data('startOrder');
+                                    var positionChanged = false;
+
+                                    var i = 0;
+                                    container.find('li:not(.cantSort)').each(function () {
+                                        if ($(this).is(ui.item) && previousOrder !== i)
+                                            positionChanged = true;
+                                        i++;
+                                    });
+
+                                    if (positionChanged) {
                                         app.events.ui.sortManifestations(container, true);
 
                                         $(document).trigger('events.reordered', [container]);
                                     }
-                                }
+                                },
+                                start: function (evt, ui) {
+                                    var container = $(ui.item[0].closest('.manifestations-list'));
+
+                                    var i = 0;
+                                    container.find('li:not(.cantSort)').each(function () {
+                                        if ($(this).is(ui.item))
+                                            manifs.data('startOrder', i);
+                                        i++;
+                                    });
+                                },
                             });
                         } else {
                             manifs.sortable("destroy");

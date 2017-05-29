@@ -186,10 +186,10 @@ if (isset($_GET['getParameters'])) {
         <!-- LIBS -->
 
         <script src="js/libs/jquery-3.2.1.min.js"></script>
+        <script src="js/libs/jquery-ui.min.js"></script>
+        <script src="js/libs/jquery.ui.touch-punch.min.js"></script>
         <script src="js/libs/handlebars-v4.0.5.js"></script>
         <script src="js/libs/materialize.min.js"></script>
-        <script src="js/libs/Sortable.min.js"></script>
-        <script src="js/libs/jquery.fn.sortable.min.js"></script>
         <script src="js/libs/moment-with-locales.min.js"></script>
         <!-- UNCOMMENT IF YOU WANT TO SUPPORT LEGACY BROWSER -->
         <!--<script src="js/libs/jquery.history.js"></script>-->

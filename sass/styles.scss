@@ -751,3 +751,7 @@ html,body {
         }
     }
 }
+
+.test {
+    border: 4px dashed darken($body-bg,5%);
+}
