@@ -128,7 +128,7 @@ app.register({
                     var src = tpl.attr('src');
                     var tplCb = tpl.attr('data-callback');
 
-                    if (typeof src !== 'undefined') {
+                    if (isDefined(src)) {
                         $.ajax({
                             async: true,
                             url: src,
@@ -182,7 +182,7 @@ app.register({
                 $('#app div.content handlebar-placeholder').html('');
             },
             displayLoading: function (show) {
-                if (typeof show === 'undefined')
+                if (!isDefined(show))
                     show = true;
                 var loader = $('#mainLoader');
 
@@ -192,7 +192,7 @@ app.register({
                     loader.addClass('hidden');
             },
             displayContentLoading: function (show) {
-                if (typeof show === 'undefined')
+                if (!isDefined(show))
                     show = true;
                 var loader = $('#contentLoader');
 
@@ -202,9 +202,9 @@ app.register({
                     loader.hide();
             },
             toast: function (message, type, delay) {
-                if (typeof delay === 'undefined')
+                if (!isDefined(delay))
                     delay = 5000;
-                if (typeof type === 'undefined')
+                if (!isDefined(type))
                     type = 'default';
 
                 switch (type) {
@@ -231,7 +231,7 @@ app.register({
 
                 var elem = $('.tap-target');
 
-                if (typeof id !== 'undefined') {
+                if (isDefined(id)) {
                     elem = elem.filter('#' + id);
                 }
 
@@ -246,13 +246,13 @@ app.register({
             },
             hideFeatureDiscovery: function (id, dontshowagain) {
                 var elem = null;
-                if (typeof id === 'undefined') {
+                if (!isDefined(id)) {
                     elem = $('.tap-target');
                 } else {
                     elem = $('#' + id);
                 }
 
-                if (typeof dontshowagain !== 'undefined' && dontshowagain) {
+                if (isDefined(dontshowagain) && dontshowagain) {
                     app.core.ui.__setInfosStorage(id);
                 }
 

@@ -75,7 +75,7 @@ app.register({
 
                 var expireDate = app.core.utils.parseApiDate(app.core.session.tokenExpirationDate);
 
-                if (typeof expireDate !== 'undefined') {
+                if (isDefined(expireDate)) {
                     return expireDate > app.core.utils.parseApiDate();
                 }
                 return true;

@@ -12,7 +12,7 @@ app.register({
             var defer = jQuery.Deferred();
             app.cart.ws.getCart().then(function (res) {
                 var cart = res._embedded.items[0];
-                if (typeof cart !== 'undefined') {
+                if (isDefined(cart)) {
                     $.extend(app.core.session, {cart: cart});
                     app.core.session.save();
                     defer.resolve();

@@ -166,7 +166,7 @@ app.register({
             // ---------------------------------------------------------------------
 
             registerComponentEvents: function (component, deep) {
-                if (typeof deep === 'undefined')
+                if (!isDefined(deep))
                     deep = 0;
 
                 if (deep > 3) // LIMIT INIT SEARCH RECURSION TO 4 LEVEL

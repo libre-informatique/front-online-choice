@@ -115,9 +115,14 @@ app.register({
 
             getUser: function (userId) {
                 return app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
-                    app.core.session.user = res;
-                    app.core.session.userId = res.id;
-                    app.core.session.save();
+                    console.info(res.id);
+                    if (typeof res.id !== 'undefined') {
+                        app.core.session.user = res;
+                        app.core.session.userId = res.id;
+                        app.core.session.save();
+                    } else {
+                        app.core.ctrl.login();
+                    }
                 });
             },
 
@@ -208,21 +213,21 @@ app.register({
 
                 app.core.ws.apiAuth()
                     .then(function () {
-                        if (typeof callback === 'undefined')
+                        if (!isDefined(callback))
                             callback = function (res, textStatus, jqXHR) {};
 
-                        if (typeof errorCallback === 'undefined')
+                        if (!isDefined(errorCallback))
                             errorCallback = function (jqXHR, textStatus, errorThrown) {
 
                             };
 
-                        if (typeof method === 'undefined')
+                        if (!isDefined(method))
                             method = 'GET';
 
-                        if (typeof data === 'undefined')
+                        if (!isDefined(data))
                             data = {};
 
-                        if (typeof ignoreBaseUrl === 'undefined')
+                        if (!isDefined(ignoreBaseUrl))
                             ignoreBaseUrl = false;
 
                         var baseUrl =

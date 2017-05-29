@@ -169,12 +169,12 @@ app.register({
             sortManifestations: function (sortableGroup, onlyPresents) {
                 var triggerCartUpdate = true;
 
-                if (typeof sortableGroup === 'undefined') {
+                if (!isDefined(sortableGroup)) {
                     sortableGroup = $('.manifestations-list');
                     triggerCartUpdate = false;
                 }
 
-                if (typeof onlyPresents === 'undefined') {
+                if (!isDefined(onlyPresents)) {
                     onlyPresents = false;
                 }
 
@@ -378,7 +378,7 @@ app.register({
 
         disableTimeSlot: function (tsDom) {
             var excludes = '.forced';
-            if (typeof tsDom === 'undefined') {
+            if (!isDefined(tsDom)) {
                 tsDom = $('.period');
                 excludes += ',.selected';
             }

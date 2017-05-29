@@ -137,3 +137,7 @@ app.register({
         }
     }
 });
+
+function isDefined(variable) {
+    return typeof variable !== 'undefined';
+}

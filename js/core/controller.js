@@ -147,9 +147,9 @@ app.register({
             render: function (templateName, data, clearContent) {
                 var defer = $.Deferred();
 
-                if (typeof data === 'undefined')
+                if (!isDefined(data))
                     data = {};
-                if (typeof clearContent === 'undefined')
+                if (!isDefined(clearContent))
                     clearContent = false;
 
                 if (clearContent) {

@@ -326,7 +326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (_utils.toString.call(name) === objectType) {
 	      _utils.extend(this.partials, name);
 	    } else {
-	      if (typeof partial === 'undefined') {
+	      if (!isDefined(partial)) {
 	        throw new _exception2['default']('Attempting to register a partial called "' + name + '" as undefined');
 	      }
 	      this.partials[name] = partial;
