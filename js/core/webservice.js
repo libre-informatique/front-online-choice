@@ -28,6 +28,9 @@ app.register({
                     success: function (data) {
                         if (data.hasOwnProperty('code') && data.hasOwnProperty('message')) {
                             app.core.ui.toast('API indisponible, veuillez rééssayer', 'error');
+                            app.core.session.refresh_token = null;
+                            app.core.session.save();
+                            defer.reject();
                         } else {
                             if (data.lifecycle === "create") {
                                 // TOKEN RECREATED, USER SESSION IS LOST
@@ -40,16 +43,18 @@ app.register({
                             $.extend(app.core.session, data);
                             app.core.session.updateTokenExpirationDate();
 
+                            alert(data.code);
+
+                            if (data.lifecycle === "create" || data.code === 401) {
+                                defer.reject();
+                            }
+
                             var recall = app.core.history.currentCallable;
 
                             if (typeof recall === "function") {
                                 // TOTAL
                                 recall();
                             }
-                            if (data.lifecycle === "create") {
-                                defer.reject();
-                            }
-
                         }
                         defer.resolve();
                     },

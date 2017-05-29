@@ -1,3 +1,4 @@
+{{#ifCond daysCount '!=' 0}}
 <ul id="tabs" class="tabs primary z-depth-2">
     {{#each days as |tab|}}
 
@@ -115,3 +116,8 @@
 <a id="confirm-fab" class="btn-floating btn-large waves-effect waves-light green lighten-1 z-depth-3">
     <i class="material-icons">check</i>
 </a>
+{{else}}
+<div class="card-panel">
+    <i class="material-icons left">info_outline</i> Aucuns évènements
+</div>
+{{/ifCond}}

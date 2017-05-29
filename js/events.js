@@ -19,21 +19,27 @@ app.register({
                     'limit': 100
                 }, function (data) {
 
-                    minInterval = null;
-                    maxInterval = null;
+                    if (data._embedded.items.length === 0) {
+                        app.core.ui.toast('Aucunes manifestations visibles', 'warning');
+                        defer.resolve({days: {},daysCount: 0});
+                    } else {
 
-                    $.each(data._embedded.items, function (i, manif) {
-                        if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
-                            minInterval = app.core.utils.parseApiDate(manif.startsAt);
-                        if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
-                            maxInterval = app.core.utils.parseApiDate(manif.endsAt);
-                    });
+                        minInterval = null;
+                        maxInterval = null;
 
-                    if (maxInterval === null)
-                        maxInterval = moment(minInterval).add(5, 'days').toDate();
+                        $.each(data._embedded.items, function (i, manif) {
+                            if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
+                                minInterval = app.core.utils.parseApiDate(manif.startsAt);
+                            if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
+                                maxInterval = app.core.utils.parseApiDate(manif.endsAt);
+                        });
 
-                    var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
-                    defer.resolve(events);
+                        if (maxInterval === null)
+                            maxInterval = moment(minInterval).add(5, 'days').toDate();
+
+                        var events = app.events.manageApiResult(data._embedded.items, minInterval, maxInterval);
+                        defer.resolve(events);
+                    }
                 });
 
                 return defer.promise();
@@ -254,6 +260,7 @@ app.register({
                     ts: [],
                     manifCount: 0
                 };
+                finalFormat.daysCount++;
             }
 
             // LOOP OVER API RESULTS
