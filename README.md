@@ -47,7 +47,7 @@ With loading in index view :
 <script id="myView-template" type="text/x-handlebars-template"><?php echo file_get_contents("./views/myView.html"); ?></script>
 ```
 
-Add action to js/core/controller.js
+Add action to js/core/controller.js (You should use a custom module instead of editing core's files,  see [Declare a custom module](#Declare-a-custom-module) )
 
 ```js
 app.register({
