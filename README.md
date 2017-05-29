@@ -51,12 +51,10 @@ Add action to js/core/controller.js (You should use a custom module instead of e
 
 ```js
 app.register({
-    core: {
-        ctrl: {
-            myView: function () {
-                app.core.ctrl.render('myView', {myData: 'myData'}, true);
-            },
-        }
+    ctrl: {
+        myView: function () {
+            app.core.ctrl.render('myView', {myData: 'myData'}, true);
+        },
     }
 });
 ```
@@ -103,8 +101,8 @@ Include it in index.php between business modules and app starter
 ```php
 <!-- BUSINESS COMPONENTS -->
 
-<script type="text/javascript" src="js/events.js?v=<?php echo time(); ?>"></script>
-<script type="text/javascript" src="js/cart.js?v=<?php echo time(); ?>"></script>
+<script type="text/javascript" src="js/events.js"></script>
+<script type="text/javascript" src="js/cart.js"></script>
 
 <!-- MY CUSTOM MODULES -->
 
@@ -150,16 +148,15 @@ app.register({
     myModule: {
 
     },
-    core: {
-        ctrl: {
-            myAction: function() {
-                // Append new method to app.core.ctrl
-                alert('Action called with app.ctrl.myAction()');
-            },
-            login : function() {
-                // Override app.core.ctrl.login() action
-                alert('Login Action overriden');
-            }
+
+    ctrl: {
+        myAction: function() {
+            // Append new method to app.core.ctrl
+            alert('Action called with app.ctrl.myAction()');
+        },
+        login : function() {
+            // Override app.ctrl.login() action
+            alert('Login Action overriden');
         }
     }
 });

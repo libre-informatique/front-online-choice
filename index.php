@@ -208,6 +208,7 @@ if (isset($_GET['getParameters'])) {
         <script type="text/javascript" src="js/core/session.js"></script>
         <script type="text/javascript" src="js/core/webservice.js"></script>
         <script type="text/javascript" src="js/core/history.js"></script>
+        <script type="text/javascript" src="js/core/settings.js"></script>
 
         <!-- BUSINESS COMPONENTS -->
 
