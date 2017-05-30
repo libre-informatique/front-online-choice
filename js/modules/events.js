@@ -1,3 +1,5 @@
+/* global app */
+
 app.register({
     events: {
         // HOLDS MANIFESTATIONS IN FLAT OBJECT
@@ -63,6 +65,7 @@ app.register({
 
         ui: {
             initPlugins: function () {
+                app.events.ui.initTabs();
                 app.events.ui.initSortables();
                 app.events.ui.initPushpin();
             },
@@ -266,15 +269,38 @@ app.register({
 
             initPushpin: function () {
                 $('.period-label').each(function () {
-                    var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
                     var $this = $(this);
-                    var $target = $('#' + $(this).attr('data-target'));
-                    $this.pushpin({
-                        top: $target.offset().top - contentTop + ($this.outerHeight()),
-                        bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
-                        offset: contentTop
-                    });
+
+                    if ($this.is(':visible')) {
+                        var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
+                        var $target = $('#' + $this.attr('data-target'));
+                        $this.pushpin({
+                            top: $target.offset().top - contentTop + ($this.outerHeight()),
+                            bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
+                            offset: contentTop
+                        });
+                        $this.attr('data-pushpin', true);
+                    } else {
+                        if ($this.attr('data-pushpin')) {
+                            $this.pushpin('remove');
+                        }
+                        $this.attr('data-pushpin', false);
+                    }
                 });
+            },
+
+            // ---------------------------------------------------------------------
+            // MATERIALIZECSS TABS
+            // ---------------------------------------------------------------------
+
+            initTabs: function () {
+                $('ul#tabs').tabs();
+                var tabsId = $('div.tab-content:first-of-type').attr('id');
+                $('ul#tabs').tabs({
+                    'onShow': function (tab) {
+                        app.events.ui.initPushpin();
+                    },
+                }).tabs('select_tab', tabsId);
             },
         },
 
@@ -505,7 +531,7 @@ app.register({
                         app.core.ctrl.render('mainTabs', events, true).then(function () {
                             app.cart.getCart().then(function () {
                                 app.cart.applyCart().then(function () {
-                                    app.core.ui.plugins.initTabs();
+                                    app.events.ui.initTabs();
                                     app.events.ui.initSortables();
                                     app.events.ui.initPushpin();
                                     app.core.history.add(app.ctrl.states.showEvents);

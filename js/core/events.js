@@ -1,3 +1,5 @@
+/* global app */
+
 app.register({
     core: {
         events: {

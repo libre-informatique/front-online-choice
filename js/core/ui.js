@@ -1,3 +1,5 @@
+/* global app */
+
 app.register({
     core: {
         ui: {
@@ -27,21 +29,10 @@ app.register({
 
             plugins: {
                 init: function () {
-                    app.core.ui.plugins.initTabs();
                     app.core.ui.plugins.initTooltips();
                     app.core.ui.plugins.initDropDown();
                     app.core.ui.plugins.initModal();
                     app.core.ui.plugins.registerComponentPlugins(app);
-                },
-
-                // ---------------------------------------------------------------------
-                // MATERIALIZECSS TABS
-                // ---------------------------------------------------------------------
-
-                initTabs: function () {
-                    $('ul#tabs').tabs();
-                    var tabsId = $('div.tab-content:first-of-type').attr('id');
-                    $('ul#tabs').tabs('select_tab', tabsId);
                 },
                 
                 // ---------------------------------------------------------------------
