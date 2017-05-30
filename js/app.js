@@ -36,7 +36,12 @@ var app = {
             app.core.ui.plugins.init();
             app.core.ui.displayLoading(false);
             app.core.ui.init();
+            app.ready();
         });
+    },
+
+    ready: function () {
+        $(document).trigger('app.ready');
     },
 
     // -------------------------------------------------------------------------

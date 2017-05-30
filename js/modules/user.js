@@ -4,7 +4,7 @@ app.register({
     user: {
         initEvents: function () {
             $(document)
-                .on('ui.init', function () {
+                .on('app.ready', function () {
                     if (app.core.session.user) {
                         $('#app').addClass('loggedIn');
                         app.user.ui.updateProfileName();

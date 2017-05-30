@@ -7991,7 +7991,7 @@ html, body {
 
 .fixed-action-btn,
 #confirm-fab {
-  z-index: 9999; }
+  z-index: 1000; }
 
 @media only screen and (max-width: 800px) {
   form .btn, form .btn-large {
