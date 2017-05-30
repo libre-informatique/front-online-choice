@@ -150,6 +150,8 @@ app.register({
                     sortPresents($(this)).detach().appendTo($(this));
                     if (!onlyPresents)
                         sortRanks($(this)).detach().appendTo($(this));
+                    
+                    $(this).find('li.event .priority .priorityNumber').html('');
 
                     $(this).find('li.event.selected').each(function (k, item) {
                         $(item).find('.priority .priorityNumber').html(k + 1);
