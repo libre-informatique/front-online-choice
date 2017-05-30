@@ -135,17 +135,21 @@ app.register({
                 $.extend(app.core.session.user, app.core.utils.formToObject(form.serializeArray()));
 
             if (formData.hasOwnProperty('password_1')) {
-                formData.contact = {};
-                formData.contact.password = formData.password_1;
+                formData.password = formData.password_1;
                 delete formData.password_1;
                 delete formData.password_2;
             }
 
-            return app.core.ws.call('POST', '/customers/' + app.core.session.user.id,
-                formData).then(function () {
-                app.ctrl.showUserProfile();
-                $(document).trigger('user.logged.in');
-            });
+            return app.core.ws.call('POST', '/customers/' + app.core.session.user.id, formData)
+                .then(function () {
+                    app.ctrl.showUserProfile();
+                    if (formData.hasOwnProperty('password')) {
+                        app.core.ui.toast('Votre mot de passe à été mis à jour', 'success');
+                    } else {
+                        app.core.ui.toast('Les informations du profil ont bien été mises à jour', 'success');
+                    }
+                    $(document).trigger('user.logged.in');
+                });
         },
     },
 

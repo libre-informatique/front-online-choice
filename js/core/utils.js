@@ -53,7 +53,7 @@ app.register({
                 // -----------------------------------------------------------------
 
                 Handlebars.registerHelper('ouiNon', function (boolean) {
-                    return (boolean ? '<span class="teal badge white-text">Oui</span>' : '<span class="red badge">Non</span>');
+                    return (boolean ? '<span class="success badge white-text">Oui</span>' : '<span class="danger badge white-text">Non</span>');
                 });
 
                 // -----------------------------------------------------------------
