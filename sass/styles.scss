@@ -723,14 +723,14 @@ html,body {
     position     : fixed;
     top:0;
     margin: 0;
-    background-color: color('blue-grey','lighten-2'); 
+    background-color: $accent-color; 
 
     &.hidden {
         opacity: 0;
     }
     &.progress {
         .indeterminate {
-            background-color: color('blue-grey','darken-1');
+            background-color: darken($primary-color,5%);
         }
     }
 }

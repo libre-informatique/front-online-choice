@@ -130,7 +130,7 @@ app.register({
     ws: {
 
         // ---------------------------------------------------------------------
-        // CREATE CART
+        // RETREIVE CART
         // ---------------------------------------------------------------------
 
         getCart: function () {
@@ -192,6 +192,19 @@ app.register({
                 defer.resolve(res);
             }, function (jqXHR, textStatus, errorThrown) {
                 app.core.ui.toast('Impossible de mettre à jour un élément du panier', 'error');
+                defer.reject();
+            });
+
+            return defer.promise();
+        },
+
+        updateRanks: function (ranks) {
+            var defer = jQuery.Deferred();
+
+            app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/reorder', ranks, function (res) {
+                defer.resolve(res);
+            }, function (jqXHR, textStatus, errorThrown) {
+                app.core.ui.toast('Impossible de mettre à jour les priorités', 'error');
                 defer.reject();
             });
 

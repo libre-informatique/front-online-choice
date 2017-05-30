@@ -47,14 +47,20 @@ app.register({
                     var promises = [];
 
                     var i = 1;
+                    var ranks = [];
                     events.each(function () {
                         var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
-                        promises.push(app.ws.updateCartItem(cartItemId, {'rank': i}));
+                        ranks.push({
+                            rank: i,
+                            cartItemId: cartItemId
+                        });
+                        promises.push($.Deferred().resolve());
                         i++;
                     });
 
                     $.when.apply($, promises).then(function () {
-                        app.cart.getCart().then(function () {
+                        app.ws.updateRanks(ranks).then(function () {
+                            // TODO : update cart items rank in session
                             app.cart.applyCart();
                         });
                     });
@@ -150,7 +156,7 @@ app.register({
                     sortPresents($(this)).detach().appendTo($(this));
                     if (!onlyPresents)
                         sortRanks($(this)).detach().appendTo($(this));
-                    
+
                     $(this).find('li.event .priority .priorityNumber').html('');
 
                     $(this).find('li.event.selected').each(function (k, item) {
@@ -292,11 +298,11 @@ app.register({
                 $('ul#tabs').tabs();
                 var tabsId = $('div.tab-content:first-of-type').attr('id');
                 $('ul#tabs').tabs({
-                    'onShow': function (tab) {                        
+                    'onShow': function (tab) {
                         window.scrollTo(0, 0);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             app.events.ui.initPushpin();
-                        },500);
+                        }, 500);
                     },
                 }).tabs('select_tab', tabsId);
             },
@@ -408,7 +414,9 @@ app.register({
                     // Add to cart
                     app.ws.addToCart(declinaisonId, priceId).then(function (res) {
                         // add event dom attr (rank)
-
+                        if (!$.isArray(app.core.session.cart.items))
+                            app.core.session.cart.items = [];
+                        app.core.session.cart.items.push(res);
                         app.events.manifestations[manifId].cartItemId = res.id;
                         sortable.attr('data-rank', res.rank);
                         $(document).trigger('events.reordered', [sortableGroup]);
@@ -421,11 +429,14 @@ app.register({
                     // removeFromCart
                     app.ws.removeFromCart(cartItemId).then(function () {
 
-                        // remove event dom attr (rank)
-                        app.cart.getCart().then(function () {
-                            sortable.removeAttr('data-rank');
-                            $(document).trigger('events.reordered', [sortableGroup]);
+                        $.each(app.core.session.cart.items, function (index, item) {
+                            if (item.id === cartItemId) {
+                                delete app.core.session.cart.items[index];
+                            }
                         });
+
+                        sortable.removeAttr('data-rank');
+                        $(document).trigger('events.reordered', [sortableGroup]);
 
                     }, function () {
 
