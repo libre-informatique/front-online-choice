@@ -268,24 +268,17 @@ app.register({
             },
 
             initPushpin: function () {
-                $('.period-label').each(function () {
+                $('.period-label:visible').each(function () {
                     var $this = $(this);
+                    var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
+                    var $target = $('#' + $this.attr('data-target'));
+                    $this.pushpin('remove');
 
-                    if ($this.is(':visible')) {
-                        var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
-                        var $target = $('#' + $this.attr('data-target'));
-                        $this.pushpin({
-                            top: $target.offset().top - contentTop + ($this.outerHeight()),
-                            bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
-                            offset: contentTop
-                        });
-                        $this.attr('data-pushpin', true);
-                    } else {
-                        if ($this.attr('data-pushpin')) {
-                            $this.pushpin('remove');
-                        }
-                        $this.attr('data-pushpin', false);
-                    }
+                    $this.pushpin({
+                        top: $target.offset().top - contentTop + ($this.outerHeight()),
+                        bottom: ($target.offset().top + $target.outerHeight() - $this.height()) + contentTop - ($this.outerHeight()),
+                        offset: contentTop
+                    });
                 });
             },
 
@@ -297,8 +290,11 @@ app.register({
                 $('ul#tabs').tabs();
                 var tabsId = $('div.tab-content:first-of-type').attr('id');
                 $('ul#tabs').tabs({
-                    'onShow': function (tab) {
-                        app.events.ui.initPushpin();
+                    'onShow': function (tab) {                        
+                        window.scrollTo(0, 0);
+                        setTimeout(function() {
+                            app.events.ui.initPushpin();
+                        },500);
                     },
                 }).tabs('select_tab', tabsId);
             },
