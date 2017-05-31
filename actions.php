@@ -49,7 +49,7 @@ class App
 
         $json = json_decode($res);
         if (!$json) {
-            $json = new stdClass();
+            http_response_code(500);die('Erreur de connexion à l\'API de jetons');
         }
 
         if (!isset($json->lifecycle) && $refreshToken) {
