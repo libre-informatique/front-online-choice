@@ -72,14 +72,16 @@ app.register({
 
                     $.when.apply($, promises).then(function () {
                         app.ws.updateRanks(ranks).then(function () {
-                            $.each(app.core.session.cart.items, function (i, item) {
-                                $.each(ranks, function (j, r) {
-                                    if (item.id === r.cartItemId) {
-                                        app.core.session.cart.items[i].rank = r.rank;
-                                    }
-                                });
+                            $.each(app.core.session.cart.items, function (i) {
+                                var item = app.core.session.cart.items[i];
+                                if (isDefined(item) && item !== null) {
+                                    $.each(ranks, function (j, r) {
+                                        if (item.id === r.cartItemId) {
+                                            app.core.session.cart.items[i].rank = r.rank;
+                                        }
+                                    });
+                                }
                             });
-                            app.core.session.save();
                             app.cart.applyCart();
                         }, function () {
                             events.each(function () {
@@ -451,16 +453,8 @@ app.register({
 
                     // removeFromCart
                     app.ws.removeFromCart(cartItemId).then(function () {
-
-                        $.each(app.core.session.cart.items, function (index, item) {
-                            if (item.id === cartItemId) {
-                                delete app.core.session.cart.items[index];
-                            }
-                        });
-
                         sortable.removeAttr('data-rank');
                         $(document).trigger('events.reordered', [sortableGroup]);
-
                     }, function () {
 
                     });

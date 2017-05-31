@@ -54,28 +54,29 @@ app.register({
 
             // LOOP OVER CART ITEMS
             $.each(items, function (i, item) {
-                var declinaisonId = item.declination.id;
-                var manif = app.cart.private.findManifestationWithDeclinaison(declinaisonId);
+                if (isDefined(item) && item !== null) {
+                    var declinaisonId = item.declination.id;
+                    var manif = app.cart.private.findManifestationWithDeclinaison(declinaisonId);
 
-                // ASSIGN CART ITEM ID TO MANIFESTATION IN FLAT « ARRAY »
-                if (manif !== null) {
-                    manif.cartItemId = item.id;
-                    var manifDom = $('li.event[data-id="' + manif.id + '"]');
+                    // ASSIGN CART ITEM ID TO MANIFESTATION IN FLAT « ARRAY »
+                    if (manif !== null) {
+                        manif.cartItemId = item.id;
+                        var manifDom = $('li.event[data-id="' + manif.id + '"]');
 
-                    manifDom.attr('data-rank', item.rank);
+                        manifDom.attr('data-rank', item.rank);
 
-                    // UPDATE EVENTS ON UI
-                    if (item.hasOwnProperty('state') && item.state !== "none") {
-                        app.events.ui.requiredParticipationButton(manifDom.find('.presence-btn'));
-                        app.events.disableTimeSlot(manifDom.closest('.period'));
+                        // UPDATE EVENTS ON UI
+                        if (item.hasOwnProperty('state') && item.state !== "none") {
+                            app.events.ui.requiredParticipationButton(manifDom.find('.presence-btn'));
+                            app.events.disableTimeSlot(manifDom.closest('.period'));
+                        } else {
+                            app.events.ui.presenceButton(manifDom.find('.presence-btn'));
+                        }
+                        promises.push(jQuery.Deferred().resolve());
                     } else {
-                        app.events.ui.presenceButton(manifDom.find('.presence-btn'));
+                        promises.push(jQuery.Deferred().reject());
                     }
-                    promises.push(jQuery.Deferred().resolve());
-                } else {
-                    promises.push(jQuery.Deferred().reject());
                 }
-
             });
 
             app.events.ui.sortManifestations();
@@ -176,6 +177,11 @@ app.register({
             var defer = jQuery.Deferred();
 
             app.core.ws.call('DELETE', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, null, function (res) {
+                $.each(app.core.session.cart.items, function (i, item) {
+                    if (item.id === cartItemId) {
+                        delete app.core.session.cart.items[i];
+                    }
+                });
                 defer.resolve(res);
             }, function (jqXHR, textStatus, errorThrown) {
                 app.core.ui.toast('Impossible de supprimer un élément du panier', 'error');
