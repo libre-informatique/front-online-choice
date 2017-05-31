@@ -4,6 +4,7 @@
     "user":   "TEST",
     "secret": "TESTSECRET",
     "appHostname": "http://yourlocalhostname.local",
+    "appUriPrefix": "?/",
     "webservice": {
         "hostname": "your-domain.tld",
         "protocol": "https",
@@ -11,5 +12,6 @@
     },
     "clientSessionName": "frontOnlineChoiceSession",
     "metaEventId": 1,
-    "lang": "fr"
+    "lang": "fr",
+    "maximumEventsSelectedPerTimeslots": 3
 }

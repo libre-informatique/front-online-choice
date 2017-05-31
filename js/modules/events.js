@@ -23,14 +23,20 @@ app.register({
                     e.stopImmediatePropagation();
                     if (app.core.session.cart.checkoutState === "cart") {
                         if ($(this).hasClass('forced')) {
-                            alert('Votre présence à cette manifestation est obligatoire');
+                            app.core.ui.toast('Votre présence à cette manifestation est obligatoire', 'info');
                             return true;
                         } else {
-                            if (!$(this).hasClass('attend')) {
+                            var selectedEventsInTs = $(this).closest('.period').find('.event.selected').length;
+
+                            if (selectedEventsInTs >= app.config.maximumEventsSelectedPerTimeslots && !$(this).hasClass('attend')) {
+                                app.core.ui.toast('Vous ne pouvez choisir que ' + app.config.maximumEventsSelectedPerTimeslots + ' éléments maximum par créneau horraire', 'info');
+                                return true;
+                            } else if (!$(this).hasClass('attend')) {
                                 app.events.ui.presenceButton($(this));
                             } else {
                                 app.events.ui.participateButton($(this));
                             }
+
                         }
                         app.events.selectManifestation($(this));
                         return true;
@@ -48,20 +54,37 @@ app.register({
 
                     var i = 1;
                     var ranks = [];
+                    var oldRanks = {};
                     events.each(function () {
                         var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
                         ranks.push({
                             rank: i,
                             cartItemId: cartItemId
                         });
+
+                        oldRanks[$(this).attr('data-id')] = $(this).attr('data-rank');
+
+                        $(this).attr('data-rank', i);
+
                         promises.push($.Deferred().resolve());
                         i++;
                     });
 
                     $.when.apply($, promises).then(function () {
                         app.ws.updateRanks(ranks).then(function () {
-                            // TODO : update cart items rank in session
+                            $.each(app.core.session.cart.items, function (i, item) {
+                                $.each(ranks, function (j, r) {
+                                    if (item.id === r.cartItemId) {
+                                        app.core.session.cart.items[i].rank = r.rank;
+                                    }
+                                });
+                            });
+                            app.core.session.save();
                             app.cart.applyCart();
+                        }, function () {
+                            events.each(function () {
+                                $(this).attr('data-rank', oldRanks[$(this).attr('data-id')]);
+                            });
                         });
                     });
                 })

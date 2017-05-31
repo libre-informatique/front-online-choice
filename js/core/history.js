@@ -33,7 +33,7 @@ app.register({
                     app.core.history.provider.pushState({
                         content: content,
                         state: state
-                    }, state.title, "?/" + state.path);
+                    }, state.title, app.config.appUriPrefix + state.path);
 
                     app.core.history.currentState = state;
                 }
