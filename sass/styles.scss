@@ -1,8 +1,6 @@
 $small-screen-up: 801px !default;
 $small-screen: 800px !default;
-
 @import "materializecss/ghpages-materialize";
-
 $primary-color: color('blue-grey','darken-2'); //Teal
 $accent-color: color('amber', 'lighten-2'); // Orange
 $success-color: color('green', 'lighten-1'); // green
@@ -13,55 +11,64 @@ $body-bg: color('blue-grey','lighten-5');
 $neutral-color: color('grey','base');
 
 .primary {
-    background-color:$primary-color;
+    background-color: $primary-color;
+
     &.btn:hover {
-        background-color:lighten($primary-color,10%);
+        background-color: lighten($primary-color,10%);
     }
 }
+
 .primary-text {
-    color:$primary-color;
+    color: $primary-color;
 }
 
 .accent {
-    background-color:$accent-color;
+    background-color: $accent-color;
+
     &.btn:hover {
-        background-color:lighten($accent-color,10%);
+        background-color: lighten($accent-color,10%);
     }
 }
+
 .accent-text {
-    color:$accent-color;
+    color: $accent-color;
 }
 
 .success {
-    background-color:$success-color;
+    background-color: $success-color;
+
     &.btn:hover {
-        background-color:lighten($success-color,10%);
+        background-color: lighten($success-color,10%);
     }
 }
+
 .success-text {
-    color:$success-color;
+    color: $success-color;
 }
 
 .danger {
-    background-color:$danger-color;
+    background-color: $danger-color;
+
     &.btn:hover {
-        background-color:lighten($danger-color,10%);
+        background-color: lighten($danger-color,10%);
     }
 }
+
 .danger-text {
-    color:$danger-color;
+    color: $danger-color;
 }
 
 .info {
-    background-color:$info-color;
+    background-color: $info-color;
+
     &.btn:hover {
-        background-color:lighten($info-color,10%);
+        background-color: lighten($info-color,10%);
     }
 }
-.info-text {
-    color:$info-color;
-}
 
+.info-text {
+    color: $info-color;
+}
 // MATERIAL ICONS
 /* fallback */
 @font-face {
@@ -86,78 +93,76 @@ $neutral-color: color('grey','base');
     -moz-font-feature-settings: 'liga';
     -moz-osx-font-smoothing   : grayscale;
 }
-
 // APP
-
 body,
 html {
     min-height: 100%;
 }
 
-html,body {
+body,
+html {
     background: $body-bg;
 }
 
 #app {
     nav {
-        background-color:$primary-color;
-        position:fixed;
-        z-index: 998;
-        height: 4.1em;
+        background-color: $primary-color;
+        position        : fixed;
+        z-index         : 998;
+        height          : 4.1em;
+
         .nav-wrapper {
             z-index: 998;
 
-            & > #nav-mobile-right > li > a,
-            & > #nav-mobile-left > li > a {
+            & > #nav-mobile-left > li > a,
+            & > #nav-mobile-right > li > a {
                 height: 4.15em;
-
                 @media #{$medium-and-up} {
                     & > i.material-icons {
-                        display:inline-block;
-                    } 
-                } 
+                        display: inline-block;
+                    }
+                }
             }
             @media #{$medium-and-up} {
                 & > #nav-mobile-right > li > a > span {
-                    margin-right: 0.5em;
-                    margin-bottom:0.5em;
-                    position: relative;
-                    top: -0.4em;
+                    margin-right : 0.5em;
+                    margin-bottom: 0.5em;
+                    position     : relative;
+                    top          : -0.4em;
                 }
             }
         }
 
         .brand-logo {
-            padding-left: 0.5em;
-            left: 50%;
+            padding-left     : 0.5em;
+            left             : 50%;
             -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-
+            transform        : translateX(-50%);
             @media #{$small-and-down} {
-                font-size:3.5vw;
+                font-size: 3.5vw;
             }
         }
 
         #userMenu {
-            z-index:999;
+            z-index : 999;
             overflow: visible;
             right   : 0;
             left    : auto !important;
+
             li {
-                z-index:999;
+                z-index: 999;
             }
         }
 
         li {
             a {
-                &:hover, 
-                    &:active {
-                    background-color:color('blue-grey', 'darken-1');
+                &:active,
+                &:hover {
+                    background-color: color('blue-grey', 'darken-1');
                 }
             }
         }
     }
-
     // Funny hack to hide UI if not logged in
     &.loggedIn {
         .showIfLoggedIn {
@@ -185,13 +190,14 @@ html,body {
             display: block;
         }
     }
+
     .loginForm {
         max-width : 500px;
         margin-top: 25vh;
     }
 
     .content {
-        padding:4.1em 0 1em 0;
+        padding: 4.1em 0 1em;
 
         #main {
             .col {
@@ -199,35 +205,33 @@ html,body {
             }
 
             #tabs {
-                height: 2.8em;
-                display: flex;
+                height        : 2.8em;
+                display       : flex;
                 flex-direction: row;
-                /*box-shadow: none;*/
-                position:fixed;
-                z-index: 990;
-
+                position      : fixed;
+                z-index       : 990;
                 @media #{$medium-and-up} {
-                    overflow:hidden;
+                    overflow: hidden;
                 }
 
                 .tab {
-                    background-color:darken($primary-color,5%);
-                    height: 100%;
-                    width:auto;
-                    flex-grow: 1;
+                    background-color: darken($primary-color,5%);
+                    height          : 100%;
+                    width           : auto;
+                    flex-grow       : 1;
 
                     .badge {
-                        color:$primary-color;
-                        background-color:white;
-                        border-radius: 0.2em;
-                        width: 1.5em;
-                        height: 1.5em;
-                        min-width: auto;
-                        float: none;
-                        font-weight:bold;
+                        color           : $primary-color;
+                        background-color: white;
+                        border-radius   : 0.2em;
+                        width           : 1.5em;
+                        height          : 1.5em;
+                        min-width       : auto;
+                        float           : none;
+                        font-weight     : bold;
 
                         &.empty {
-                            opacity:0.4;
+                            opacity: 0.4;
                         }
                     }
                 }
@@ -241,31 +245,31 @@ html,body {
                     color: white;
 
                     &:active,
-                        &:hover {
+                    &:hover {
                         color: $accent-color;
                     }
                 }
             }
 
             .tab-content {
-                display: none;
-                padding-top:2.8em;
+                display    : none;
+                padding-top: 2.8em;
 
                 .cart-status-message {
-                    display:none;
-                    text-align:center;
-                    font-weight:bold;
-                    padding:0.8em;
-                    color:white;
-                    background-color:$error-color;
-                    position: fixed;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    z-index:1050;
+                    display         : none;
+                    text-align      : center;
+                    font-weight     : bold;
+                    padding         : 0.8em;
+                    color           : white;
+                    background-color: $error-color;
+                    position        : fixed;
+                    bottom          : 0;
+                    left            : 0;
+                    right           : 0;
+                    z-index         : 1050;
 
                     &.cart-fulfilled {
-                        background-color:$success-color;
+                        background-color: $success-color;
                     }
                 }
             }
@@ -277,73 +281,78 @@ html,body {
             #periods {
                 .period {
                     &:not(:first-of-type) {
-                        border-top:6px dotted darken($body-bg,5%);
+                        border-top: 6px dotted darken($body-bg,5%);
                     }
                     padding-bottom: 2em;
-                    .period-label-container {
-                        min-height: 108px;
-                        padding-top:2em;
-                        .period-label {
-                            color      : $primary-color;
-                            font-weight: bold;
-                            font-size  : 1.6em;
-                            text-transform: uppercase;
 
+                    .period-label-container {
+                        min-height : 108px;
+                        padding-top: 2em;
+
+                        .period-label {
+                            color         : $primary-color;
+                            font-weight   : bold;
+                            font-size     : 1.6em;
+                            text-transform: uppercase;
                             @media #{$small-and-down} {
-                                font-size  : 1.2em;
+                                font-size: 1.2em;
                             }
 
                             .lock {
-                                display:none;
+                                display: none;
                             }
 
                             &.pinned {
                                 /*margin-top: 4.5em;*/
-                                width:100%;
-                                text-align:center;
-                                background-color:transparentize($body-bg,0.1);
-                                z-index: 990;
-                                margin-top: 0;
+                                width           : 100%;
+                                text-align      : center;
+                                background-color: transparentize($body-bg,0.1);
+                                z-index         : 990;
+                                margin-top      : 0;
+
                                 &::after {
-                                    content: '';
-                                    width:100%;
-                                    height:10px;
-                                    position: absolute;
-                                    left: 0;
-                                    bottom: -10px;
+                                    content   : '';
+                                    width     : 100%;
+                                    height    : 10px;
+                                    position  : absolute;
+                                    left      : 0;
+                                    bottom    : -10px;
                                     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.14+0,0+100 */
-                                    background: -moz-linear-gradient(top, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
-                                    background: -webkit-linear-gradient(top, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-                                    background: linear-gradient(to bottom, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-                                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+                                    background: -moz-linear-gradient(top, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0) 100%);
+                                    /* FF3.6-15 */
+                                    background: -webkit-linear-gradient(top, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%);
+                                    /* Chrome10-25,Safari5.1-6 */
+                                    background: linear-gradient(to bottom, rgba(0,0,0,0.14) 0%,rgba(0,0,0,0) 100%);
+                                    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#24000000', endColorstr='#00000000',GradientType=0 );
+                                    /* IE6-9 */
                                 }
                             }
                         }
                     }
-
-
 
                     &.timeSlotLocked {
                         .period-label-container {
                             .period-label {
                                 .lock {
-                                    display:inline-block;
+                                    display: inline-block;
                                 }
                             }
                         }
+
                         .event {
                             .event-card {
                                 .priority {
-                                    opacity:0.1;
-                                    cursor: default;
+                                    opacity: 0.1;
+                                    cursor : default;
                                 }
                             }
                         }
                     }
-
                 }
+
                 .noEvents {
-                    margin-top:3em;
+                    margin-top: 3em;
                 }
             }
 
@@ -357,81 +366,87 @@ html,body {
                         }
 
                         .event-card {
-
-                            height      : 100px;
-                            min-height  : 100px;
-
+                            height    : 100px;
+                            min-height: 100px;
                             @media #{$small-and-down} {
-                                margin-left:1em;
+                                margin-left: 1em;
                             }
 
                             .event-image {
-                                background-repeat: no-repeat;
+                                background-repeat  : no-repeat;
                                 background-position: 50% 50%;
-                                background-size: contain;
+                                background-size    : contain;
                                 /*background-color:$primary-color;*/
-                                background-image:url('../img/default-manifestation.png');
-                                position:relative;
+                                background-image   : url('../img/default-manifestation.png');
+                                position           : relative;
+
                                 &::after {
-                                    content: '';
-                                    width:0.5em;
-                                    position: absolute;
-                                    right:0;
-                                    height:100%;
+                                    content   : '';
+                                    width     : 0.5em;
+                                    position  : absolute;
+                                    right     : 0;
+                                    height    : 100%;
                                     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,4b626d+100&0+0,0.65+100 */
-                                    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(75,98,109,0.65) 100%); /* FF3.6-15 */
-                                    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(75,98,109,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-                                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(75,98,109,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-                                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a64b626d',GradientType=1 ); /* IE6-9 */
+                                    background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(75,98,109,0.65) 100%);
+                                    /* FF3.6-15 */
+                                    background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(75,98,109,0.65) 100%);
+                                    /* Chrome10-25,Safari5.1-6 */
+                                    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(75,98,109,0.65) 100%);
+                                    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                                    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#00000000', endColorstr='#a64b626d',GradientType=1 );
+                                    /* IE6-9 */
                                 }
                             }
 
                             .label {
                                 margin-right: 20px;
+
                                 .event-label {
-                                    padding-left:1em;
+                                    padding-left: 1em;
                                     // Hack for long manifestation titles
                                     @media only screen and (min-width: 400px) and (max-width: 600px) {
                                         & {
                                             font-size: 2.5vw;
-                                        } 
+                                        }
                                     }
-                                    
                                     @media only screen and (max-width: 399px) {
                                         & {
                                             font-size: 3vw;
-                                        } 
+                                        }
                                     }
-
                                 }
                             }
 
                             .presence {
                                 justify-content: center;
-                                .btn, .btn-flat {
-                                    color:white;
+
+                                .btn,
+                                .btn-flat {
+                                    color  : white;
                                     padding: 0 0.4em;
+
                                     span {
-                                        font-size:0.9vw;
-                                        font-weight:bold;
+                                        font-size  : 0.9vw;
+                                        font-weight: bold;
                                         @media #{$small-and-down} {
                                             & {
-                                                display:none;
+                                                display: none;
                                             }
                                         }
                                     }
-                                    i {
-                                        float: left;
-                                        margin-right:0.2em;
-                                    }
 
+                                    i {
+                                        float       : left;
+                                        margin-right: 0.2em;
+                                    }
                                     @media #{$small-and-down} {
                                         & {
                                             padding: 0.75em 1.5em;
-                                            height: 4em;
+                                            height : 4em;
+
                                             i {
-                                                font-size:2em;
-                                                margin-right:0;
+                                                font-size   : 2em;
+                                                margin-right: 0;
                                             }
                                         }
                                     }
@@ -440,26 +455,24 @@ html,body {
 
                             .priority {
                                 /*margin: auto;*/
-                                cursor: default;
-                                opacity:0.1;
-                                position:relative;
+                                cursor  : default;
+                                opacity : 0.1;
+                                position: relative;
 
                                 .priorityNumber {
-                                    color:transparentize($neutral-color,0.7);
-                                    position: absolute;
-                                    display: block;
-                                    top: 0;
-                                    left: 0;
-                                    right: 0;
-                                    bottom: 0;
-                                    font-size: 11rem;
+                                    color      : transparentize($neutral-color,0.7);
+                                    position   : absolute;
+                                    display    : block;
+                                    top        : 0;
+                                    left       : 0;
+                                    right      : 0;
+                                    bottom     : 0;
+                                    font-size  : 11rem;
                                     font-weight: bold;
-                                    overflow: hidden;
+                                    overflow   : hidden;
                                     line-height: 7.5rem;
-                                    text-align: right;
-
+                                    text-align : right;
                                     text-indent: 4vw;
-
                                     @media #{$small-and-down} {
                                         & {
                                             text-indent: 2vw;
@@ -470,14 +483,12 @@ html,body {
                                 i {
                                     display: block;
 
-
                                     &.handle {
                                         /*margin   : -20px 0;*/
                                         /*margin   : 0;*/
-                                        margin: 0 auto;
+                                        margin   : 0 auto;
                                         font-size: 2.2em;
-
-                                        opacity:0.4;
+                                        opacity  : 0.4;
                                     }
 
                                     &.priority-down,
@@ -487,20 +498,21 @@ html,body {
                                 }
 
                                 &.disabled {
-                                    cursor: default;
-                                    opacity:0;
+                                    cursor : default;
+                                    opacity: 0;
+
                                     i {
-                                        display:none;
+                                        display: none;
                                     }
                                 }
 
                                 &:not(.disabled) {
                                     &::before {
-                                        content: '';
-                                        width:2px;
-                                        height:80%;
-                                        background:black;
-                                        opacity:0.05;
+                                        content   : '';
+                                        width     : 2px;
+                                        height    : 80%;
+                                        background: black;
+                                        opacity   : 0.05;
                                     }
                                 }
                             }
@@ -510,41 +522,43 @@ html,body {
                             @media #{$medium-and-up} {
                                 line-height: 120px;
                             }
+
                             span {
-                                font-size:1.1em;
+                                font-size: 1.1em;
                                 @media #{$medium-and-up} {
-                                    font-size:1.4em;
+                                    font-size: 1.4em;
                                 }
-                                color:darken($body-bg,40%);
+                                color    : darken($body-bg,40%);
                             }
                         }
+
                         &.selected {
                             .event-card {
                                 .label {
                                     .event-label {
-                                        font-weight:bold;
+                                        font-weight: bold;
                                     }
                                 }
                             }
                         }
 
                         &.disabled {
-                            opacity:0.5;
+                            opacity: 0.5;
                         }
                     }
+
                     &.active {
                         .event:not(.cantSort) {
                             .event-card {
                                 .priority {
-                                    opacity:1;
-                                    cursor: move;
+                                    opacity: 1;
+                                    cursor : move;
                                 }
                             }
                         }
                     }
                 }
             }
-
 
             #confirm-fab {
                 position: fixed;
@@ -567,65 +581,69 @@ html,body {
                     }
                 }
             }
+
             .fixed-action-btn {
                 position: fixed;
-                bottom: 50px;
-                right: 40px;
-                width: 56px;
+                bottom  : 50px;
+                right   : 40px;
+                width   : 56px;
             }
         }
     }
 }
 
 #toast-container {
-    top: 0;
-    left: 25%;
-    right: 25%;
-    top:3em;
-    height: 0;
+    top        : 0;
+    left       : 25%;
+    right      : 25%;
+    top        : 3em;
+    height     : 0;
     padding-top: 0;
-
     @media #{$small-and-down} {
-        left: 1em;
-        right: 1em;
-        min-width:initial;
-        height: 0;
+        left       : 1em;
+        right      : 1em;
+        min-width  : initial;
+        height     : 0;
         padding-top: 0;
-        top:3em;
+        top        : 3em;
     }
 
     .toast {
-        margin:0.5em auto;
-        float: none;
-        text-align: center;
-        font-weight:bold;
-        border-bottom-width:3px;
+        margin             : 0.5em auto;
+        float              : none;
+        text-align         : center;
+        font-weight        : bold;
+        border-bottom-width: 3px;
         border-bottom-style: solid;
 
         &.info {
-            background: white;
-            color: $info-color;
+            background         : white;
+            color              : $info-color;
             border-bottom-color: $info-color;
         }
+
         &.warning {
-            background: white;
-            color: $accent-color;
-            border-bottom-color:$accent-color ;
+            background         : white;
+            color              : $accent-color;
+            border-bottom-color: $accent-color;
         }
+
         &.error {
-            background: white;
-            color: $danger-color;
-            border-bottom-color:$danger-color ;
+            background         : white;
+            color              : $danger-color;
+            border-bottom-color: $danger-color;
         }
+
         &.success {
-            background: white;
-            color: $success-color;
+            background         : white;
+            color              : $success-color;
             border-bottom-color: $success-color;
         }
+
         &.default {
-            background: white;
-            color: $normal-color;
-            border-bottom-color:$normal-color ;
+            background         : white;
+            color              : $normal-color;
+            border-bottom-color: $normal-color;
         }
     }
 }
@@ -639,66 +657,72 @@ html,body {
 }
 
 ::selection {
-    background: $accent-color; /* WebKit/Blink Browsers */
+    background: $accent-color;
+    /* WebKit/Blink Browsers */
 }
+
 ::-moz-selection {
-    background: $accent-color; /* Gecko Browsers */
+    background: $accent-color;
+    /* Gecko Browsers */
 }
 
 .notselectable {
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-user-select  : none;
+    -khtml-user-select   : none;
+    -moz-user-select     : none;
+    -ms-user-select      : none;
+    user-select          : none;
 }
 
 .selectable {
     -webkit-touch-callout: text;
-    -webkit-user-select: text;
-    -khtml-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+    -webkit-user-select  : text;
+    -khtml-user-select   : text;
+    -moz-user-select     : text;
+    -ms-user-select      : text;
+    user-select          : text;
 }
 
 .ghost {
-    opacity:0 !important;
+    opacity: 0 !important;
 }
 
 .badge.red {
-    color:white;
+    color: white;
 }
 
 .btn-fullwidth {
-    width:100%;
+    width: 100%;
 }
 
-
-.btn:focus, 
-.btn-large:focus, 
-.btn-floating:focus {
+.btn-floating:focus,
+.btn-large:focus,
+.btn:focus {
     &.primary {
         background-color: lighten($primary-color,15%);
     }
-    &.accent{
+
+    &.accent {
         background-color: lighten($accent-color,15%);
     }
-    &.success{
+
+    &.success {
         background-color: lighten($success-color,15%);
     }
-    &.danger{
+
+    &.danger {
         background-color: lighten($danger-color,15%);
     }
-    &.info{
+
+    &.info {
         background-color: lighten($info-color,15%);
     }
-    &.normal{
+
+    &.normal {
         background-color: lighten($normal-color,15%);
     }
 }
-
 /* label color */
 .input-field label {
     color: $primary-color;
@@ -710,17 +734,17 @@ html,body {
 /* label underline focus color */
 .input-field input[type=text]:focus {
     border-bottom: 1px solid $primary-color;
-    box-shadow: 0 1px 0 0 $primary-color;
+    box-shadow   : 0 1px 0 0 $primary-color;
 }
 /* valid color */
 .input-field input[type=text].valid {
     border-bottom: 1px solid $success-color;
-    box-shadow: 0 1px 0 0 $success-color;
+    box-shadow   : 0 1px 0 0 $success-color;
 }
 /* invalid color */
 .input-field input[type=text].invalid {
     border-bottom: 1px solid $danger-color;
-    box-shadow: 0 1px 0 0 $danger-color;
+    box-shadow   : 0 1px 0 0 $danger-color;
 }
 /* icon prefix focus color */
 .input-field .prefix.active {
@@ -728,16 +752,17 @@ html,body {
 }
 
 #mainLoader {
-    z-index      : 999;
-    opacity      : 1;
-    position     : fixed;
-    top:0;
-    margin: 0;
-    background-color: $accent-color; 
+    z-index         : 999;
+    opacity         : 1;
+    position        : fixed;
+    top             : 0;
+    margin          : 0;
+    background-color: $accent-color;
 
     &.hidden {
         opacity: 0;
     }
+
     &.progress {
         .indeterminate {
             background-color: darken($primary-color,5%);
@@ -746,22 +771,21 @@ html,body {
 }
 
 #contentLoader {
-    display:none;
-    width: 150px;
-    height: 150px;
+    display   : none;
+    width     : 150px;
+    height    : 150px;
     /*display:block;*/
     .preloader-wrapper {
-        width: 150px;
+        width : 150px;
         height: 150px;
     }
-    margin: 0 auto;
-    margin-top: 25%;
-    background:transparent url('../img/logo-evenement-small.png') no-repeat scroll center center;
+    margin    : 25% auto 0;
+    background: transparent url('../img/logo-evenement-small.png') no-repeat scroll center center;
 }
 
 .dropdown-content {
     li {
-        &> a{
+        & > a {
             color: $primary-color;
 
             &:hover {
@@ -772,22 +796,23 @@ html,body {
 }
 
 [type="checkbox"]:checked + label::before {
-    border-right: 2px solid $success-color;
+    border-right : 2px solid $success-color;
     border-bottom: 2px solid $success-color;
 }
 
 .tap-target {
-    background-color:$info-color;
-    color: white;
+    background-color: $info-color;
+    color           : white;
 }
-.fixed-action-btn,
-#confirm-fab{
+
+#confirm-fab,
+.fixed-action-btn {
     z-index: 1001;
 }
 @media #{$small-and-down} {
     form {
         .btn {
-            width:100%;
+            width : 100%;
             margin: 1em 0;
         }
     }

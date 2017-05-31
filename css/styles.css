@@ -7513,7 +7513,8 @@ body,
 html {
   min-height: 100%; }
 
-html, body {
+body,
+html {
   background: #eceff1; }
 
 #app nav {
@@ -7523,12 +7524,12 @@ html, body {
   height: 4.1em; }
   #app nav .nav-wrapper {
     z-index: 998; }
-    #app nav .nav-wrapper > #nav-mobile-right > li > a,
-    #app nav .nav-wrapper > #nav-mobile-left > li > a {
+    #app nav .nav-wrapper > #nav-mobile-left > li > a,
+    #app nav .nav-wrapper > #nav-mobile-right > li > a {
       height: 4.15em; }
       @media only screen and (min-width: 801px) {
-        #app nav .nav-wrapper > #nav-mobile-right > li > a > i.material-icons,
-        #app nav .nav-wrapper > #nav-mobile-left > li > a > i.material-icons {
+        #app nav .nav-wrapper > #nav-mobile-left > li > a > i.material-icons,
+        #app nav .nav-wrapper > #nav-mobile-right > li > a > i.material-icons {
           display: inline-block; } }
     @media only screen and (min-width: 801px) {
       #app nav .nav-wrapper > #nav-mobile-right > li > a > span {
@@ -7551,7 +7552,7 @@ html, body {
     left: auto !important; }
     #app nav #userMenu li {
       z-index: 999; }
-  #app nav li a:hover, #app nav li a:active {
+  #app nav li a:active, #app nav li a:hover {
     background-color: #546e7a; }
 
 #app.loggedIn .showIfLoggedIn {
@@ -7574,14 +7575,13 @@ html, body {
   margin-top: 25vh; }
 
 #app .content {
-  padding: 4.1em 0 1em 0; }
+  padding: 4.1em 0 1em; }
   #app .content #main .col {
     padding: 0; }
   #app .content #main #tabs {
     height: 2.8em;
     display: flex;
     flex-direction: row;
-    /*box-shadow: none;*/
     position: fixed;
     z-index: 990; }
     @media only screen and (min-width: 801px) {
@@ -7667,7 +7667,7 @@ html, body {
             /* Chrome10-25,Safari5.1-6 */
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0%, transparent 100%);
             /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24000000', endColorstr='#00000000',GradientType=0 );
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#24000000', endColorstr='#00000000',GradientType=0 );
             /* IE6-9 */ }
     #app .content #main #periods .period.timeSlotLocked .period-label-container .period-label .lock {
       display: inline-block; }
@@ -7708,7 +7708,7 @@ html, body {
           /* Chrome10-25,Safari5.1-6 */
           background: linear-gradient(to right, transparent 0%, rgba(75, 98, 109, 0.65) 100%);
           /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a64b626d',GradientType=1 );
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= '#00000000', endColorstr='#a64b626d',GradientType=1 );
           /* IE6-9 */ }
       #app .content #main .events .manifestations-list .event .event-card .label {
         margin-right: 20px; }
@@ -7722,23 +7722,29 @@ html, body {
               font-size: 3vw; } }
       #app .content #main .events .manifestations-list .event .event-card .presence {
         justify-content: center; }
-        #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {
+        #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large,
+        #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {
           color: white;
           padding: 0 0.4em; }
-          #app .content #main .events .manifestations-list .event .event-card .presence .btn span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat span {
+          #app .content #main .events .manifestations-list .event .event-card .presence .btn span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large span,
+          #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat span {
             font-size: 0.9vw;
             font-weight: bold; }
             @media only screen and (max-width: 800px) {
-              #app .content #main .events .manifestations-list .event .event-card .presence .btn span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat span {
+              #app .content #main .events .manifestations-list .event .event-card .presence .btn span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large span,
+              #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat span {
                 display: none; } }
-          #app .content #main .events .manifestations-list .event .event-card .presence .btn i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat i {
+          #app .content #main .events .manifestations-list .event .event-card .presence .btn i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large i,
+          #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat i {
             float: left;
             margin-right: 0.2em; }
           @media only screen and (max-width: 800px) {
-            #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {
+            #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large,
+            #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {
               padding: 0.75em 1.5em;
               height: 4em; }
-              #app .content #main .events .manifestations-list .event .event-card .presence .btn i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat i {
+              #app .content #main .events .manifestations-list .event .event-card .presence .btn i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large i,
+              #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat i {
                 font-size: 2em;
                 margin-right: 0; } }
       #app .content #main .events .manifestations-list .event .event-card .priority {
@@ -7898,34 +7904,40 @@ html, body {
 .btn-fullwidth {
   width: 100%; }
 
-.btn:focus.primary, .btn-large:focus.primary,
+.btn-floating:focus.primary,
 .btn-large:focus.primary,
-.btn-floating:focus.primary {
+.btn:focus.primary,
+.btn-large:focus.primary {
   background-color: #648391; }
 
-.btn:focus.accent, .btn-large:focus.accent,
+.btn-floating:focus.accent,
 .btn-large:focus.accent,
-.btn-floating:focus.accent {
+.btn:focus.accent,
+.btn-large:focus.accent {
   background-color: #ffe79c; }
 
-.btn:focus.success, .btn-large:focus.success,
+.btn-floating:focus.success,
 .btn-large:focus.success,
-.btn-floating:focus.success {
+.btn:focus.success,
+.btn-large:focus.success {
   background-color: #9bd39e; }
 
-.btn:focus.danger, .btn-large:focus.danger,
+.btn-floating:focus.danger,
 .btn-large:focus.danger,
-.btn-floating:focus.danger {
+.btn:focus.danger,
+.btn-large:focus.danger {
   background-color: #f1b4b4; }
 
-.btn:focus.info, .btn-large:focus.info,
+.btn-floating:focus.info,
 .btn-large:focus.info,
-.btn-floating:focus.info {
+.btn:focus.info,
+.btn-large:focus.info {
   background-color: #acd8fa; }
 
-.btn:focus.normal, .btn-large:focus.normal,
+.btn-floating:focus.normal,
 .btn-large:focus.normal,
-.btn-floating:focus.normal {
+.btn:focus.normal,
+.btn-large:focus.normal {
   background-color: #8aa2ae; }
 
 /* label color */
@@ -7972,8 +7984,7 @@ html, body {
   width: 150px;
   height: 150px;
   /*display:block;*/
-  margin: 0 auto;
-  margin-top: 25%;
+  margin: 25% auto 0;
   background: transparent url("../img/logo-evenement-small.png") no-repeat scroll center center; }
   #contentLoader .preloader-wrapper {
     width: 150px;
@@ -7992,8 +8003,8 @@ html, body {
   background-color: #64B5F6;
   color: white; }
 
-.fixed-action-btn,
-#confirm-fab {
+#confirm-fab,
+.fixed-action-btn {
   z-index: 1001; }
 
 @media only screen and (max-width: 800px) {
