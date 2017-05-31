@@ -95,8 +95,6 @@ html {
 }
 
 html,body {
-    /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
-    /*background-size: cover;*/
     background: $body-bg;
 }
 
@@ -104,7 +102,6 @@ html,body {
     nav {
         background-color:$primary-color;
         position:fixed;
-        box-shadow:none;
         z-index: 998;
         height: 4.1em;
         .nav-wrapper {

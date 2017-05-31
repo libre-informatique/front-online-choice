@@ -7514,14 +7514,11 @@ html {
   min-height: 100%; }
 
 html, body {
-  /*background: transparent url("/img/bg.jpg") no-repeat scroll center center;*/
-  /*background-size: cover;*/
   background: #eceff1; }
 
 #app nav {
   background-color: #455a64;
   position: fixed;
-  box-shadow: none;
   z-index: 998;
   height: 4.1em; }
   #app nav .nav-wrapper {
