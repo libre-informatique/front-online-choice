@@ -178,7 +178,7 @@ app.register({
 
             app.core.ws.call('DELETE', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, null, function (res) {
                 $.each(app.core.session.cart.items, function (i, item) {
-                    if (item.id === cartItemId) {
+                    if (isDefined(item) && item !== null && item.id === cartItemId) {
                         delete app.core.session.cart.items[i];
                     }
                 });
