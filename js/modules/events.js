@@ -28,7 +28,7 @@ app.register({
                         } else {
                             var selectedEventsInTs = $(this).closest('.period').find('.event.selected').length;
 
-                            if (selectedEventsInTs >= app.config.maximumEventsSelectedPerTimeslots && !$(this).hasClass('attend')) {
+                            if (app.config.maximumEventsSelectedPerTimeslots !== -1 && selectedEventsInTs >= app.config.maximumEventsSelectedPerTimeslots && !$(this).hasClass('attend')) {
                                 app.core.ui.toast('Vous ne pouvez choisir que ' + app.config.maximumEventsSelectedPerTimeslots + ' éléments maximum par créneau horraire', 'info');
                                 return true;
                             } else if (!$(this).hasClass('attend')) {
