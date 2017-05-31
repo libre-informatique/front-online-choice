@@ -7714,6 +7714,12 @@ html, body {
         margin-right: 20px; }
         #app .content #main .events .manifestations-list .event .event-card .label .event-label {
           padding-left: 1em; }
+          @media only screen and (min-width: 400px) and (max-width: 600px) {
+            #app .content #main .events .manifestations-list .event .event-card .label .event-label {
+              font-size: 2.5vw; } }
+          @media only screen and (max-width: 399px) {
+            #app .content #main .events .manifestations-list .event .event-card .label .event-label {
+              font-size: 3vw; } }
       #app .content #main .events .manifestations-list .event .event-card .presence {
         justify-content: center; }
         #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large, #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {

@@ -390,6 +390,19 @@ html,body {
                                 margin-right: 20px;
                                 .event-label {
                                     padding-left:1em;
+                                    // Hack for long manifestation titles
+                                    @media only screen and (min-width: 400px) and (max-width: 600px) {
+                                        & {
+                                            font-size: 2.5vw;
+                                        } 
+                                    }
+                                    
+                                    @media only screen and (max-width: 399px) {
+                                        & {
+                                            font-size: 3vw;
+                                        } 
+                                    }
+
                                 }
                             }
 
