@@ -48,47 +48,7 @@ app.register({
                 // -----------------------------------------------------------------
 
                 .on('events.reordered', function (e, container) {
-                    var events = container.find('li.event:not(.cantSort)');
-
-                    var promises = [];
-
-                    var i = 1;
-                    var ranks = [];
-                    var oldRanks = {};
-                    events.each(function () {
-                        var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
-                        ranks.push({
-                            rank: i,
-                            cartItemId: cartItemId
-                        });
-
-                        oldRanks[$(this).attr('data-id')] = $(this).attr('data-rank');
-
-                        $(this).attr('data-rank', i);
-
-                        promises.push($.Deferred().resolve());
-                        i++;
-                    });
-
-                    $.when.apply($, promises).then(function () {
-                        app.ws.updateRanks(ranks).then(function () {
-                            $.each(app.core.session.cart.items, function (i) {
-                                var item = app.core.session.cart.items[i];
-                                if (isDefined(item) && item !== null) {
-                                    $.each(ranks, function (j, r) {
-                                        if (item.id === r.cartItemId) {
-                                            app.core.session.cart.items[i].rank = r.rank;
-                                        }
-                                    });
-                                }
-                            });
-                            app.cart.applyCart();
-                        }, function () {
-                            events.each(function () {
-                                $(this).attr('data-rank', oldRanks[$(this).attr('data-id')]);
-                            });
-                        });
-                    });
+                    app.events.eventsReordered(container);
                 })
 
                 ;
@@ -108,7 +68,7 @@ app.register({
             presenceButton: function (button) {
                 $(button)
                     .prop('attend', true)
-                    .removeClass('forced attend btn btn-flat grey success primary')
+                    .removeClass('forced attend btn btn-flat neutral success primary')
                     .addClass('attend btn-flat primary')
                     .html('')
                     .append('<i class="material-icons">history</i>')
@@ -127,8 +87,8 @@ app.register({
             participateButton: function (button) {
                 $(button)
                     .removeAttr('attend')
-                    .removeClass('forced attend btn btn-flat grey success primary')
-                    .addClass('btn grey')
+                    .removeClass('forced attend btn btn-flat neutral success primary')
+                    .addClass('btn neutral')
                     .html('')
                     .append('<i class="material-icons">add_circle_outline</i>')
                     .append('<span>Participer</span>');
@@ -146,7 +106,7 @@ app.register({
             requiredParticipationButton: function (button) {
                 $(button)
                     .removeAttr('attend')
-                    .removeClass('forced attend btn btn-flat grey success primary')
+                    .removeClass('forced attend btn btn-flat neutral success primary')
                     .addClass('forced btn-flat success')
                     .html('')
                     .append('<i class="material-icons">check_circle</i>')
@@ -162,6 +122,7 @@ app.register({
             // ---------------------------------------------------------------------
 
             sortManifestations: function (sortableGroup, onlyPresents) {
+                var defer = $.Deferred();
                 var triggerCartUpdate = true;
 
                 if (!isDefined(sortableGroup)) {
@@ -191,6 +152,10 @@ app.register({
 
                 if (triggerCartUpdate && app.core.session.cart.checkoutState === "cart")
                     $(document).trigger('events.reordered', [sortableGroup]);
+
+                defer.resolve();
+
+                return defer.promise();
 
                 function sortPresents(group) {
                     return $(group).find('li.event').sort(function (a, b) {
@@ -424,46 +389,59 @@ app.register({
             var selecting = button.hasClass('attend');
             var sortable = button.closest('li.event');
             var sortableGroup = sortable.parent();
+            var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
+            var priceId = app.events.manifestations[manifId].gauges[0].prices[0].id;
+            var cartItemId = app.events.manifestations[manifId].cartItemId;
+            var allTsButtons = sortableGroup.find('.presence-btn');
 
-            sortable.animate({
-                opacity: 0
-            }, 1000, 'swing', function () {
-                app.events.ui.sortManifestations(sortableGroup, true);
+            allTsButtons.addClass('loading');
 
-                app.events.ui.initSortables();
-
-                var declinaisonId = app.events.manifestations[manifId].gauges[0].id;
-                var priceId = app.events.manifestations[manifId].gauges[0].prices[0].id;
-
-                if (selecting) {
-                    // Add to cart
-                    app.ws.addToCart(declinaisonId, priceId).then(function (res) {
-                        // add event dom attr (rank)
-                        if (!$.isArray(app.core.session.cart.items))
-                            app.core.session.cart.items = [];
+            if (selecting) {
+                app.ws.addToCart(declinaisonId, priceId).then(function (res) {
+                    sortable.animate({
+                        opacity: 0.2
+                    }, 500, 'swing', function () {
+                        app.events.ui.sortManifestations(sortableGroup, true);
                         app.core.session.cart.items.push(res);
                         app.events.manifestations[manifId].cartItemId = res.id;
                         sortable.attr('data-rank', res.rank);
-                        $(document).trigger('events.reordered', [sortableGroup]);
-                    }, function () {
 
+                        sortable.not('.ghost').animate({
+                            opacity: 1
+                        }, 500, function () {
+                            allTsButtons.removeClass('loading');
+                            app.events.ui.initSortables();
+                        });
+
+                        app.events.eventsReordered(sortableGroup);
                     });
-                } else {
-                    var cartItemId = app.events.manifestations[manifId].cartItemId;
-
-                    // removeFromCart
-                    app.ws.removeFromCart(cartItemId).then(function () {
+                }, function () {
+                    allTsButtons.removeClass('loading');
+                    app.events.ui.initSortables();
+                });
+            } else {
+                app.ws.removeFromCart(cartItemId).then(function () {
+                    sortable.animate({
+                        opacity: 0.2
+                    }, 500, 'swing', function () {
                         sortable.removeAttr('data-rank');
-                        $(document).trigger('events.reordered', [sortableGroup]);
-                    }, function () {
+                        app.events.ui.sortManifestations(sortableGroup, true);
 
+                        sortable.not('.ghost').animate({
+                            opacity: 1
+                        }, 500, function () {
+                            allTsButtons.removeClass('loading');
+                            app.events.ui.initSortables();
+                        });
+
+                        app.events.eventsReordered(sortableGroup);
                     });
-                }
+                }, function () {
+                    allTsButtons.removeClass('loading');
+                    app.events.ui.initSortables();
+                });
+            }
 
-                sortable.not('.ghost').animate({
-                    opacity: 1
-                }, 1000);
-            });
         },
 
         disableTimeSlot: function (tsDom) {
@@ -496,8 +474,60 @@ app.register({
         disableCartValidationButton: function () {
             $('#confirm-fab').remove();
             $('.cart-status-message.cart-' + app.core.session.cart.checkoutState).show();
-        }
+        },
 
+        eventsReordered: function (container) {
+            var defer = $.Deferred();
+            var events = container.find('li.event:not(.cantSort)');
+
+            var promises = [];
+
+            var i = 1;
+            var ranks = [];
+            var oldRanks = {};
+            events.each(function () {
+                var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
+
+                if ($(this).attr('data-id') && $(this).attr('data-rank') !== i) {
+
+                    ranks.push({
+                        rank: i,
+                        cartItemId: cartItemId
+                    });
+
+                    oldRanks[$(this).attr('data-id')] = $(this).attr('data-rank');
+
+                    $(this).attr('data-rank', i);
+
+                }
+                promises.push($.Deferred().resolve());
+                i++;
+            });
+
+            $.when.apply($, promises).then(function () {
+                app.ws.updateRanks(ranks).then(function () {
+                    $.each(app.core.session.cart.items, function (i) {
+                        var item = app.core.session.cart.items[i];
+                        if (isDefined(item) && item !== null) {
+                            $.each(ranks, function (j, r) {
+                                if (item.id === r.cartItemId) {
+                                    app.core.session.cart.items[i].rank = r.rank;
+                                }
+                            });
+                        }
+                    });
+                    app.cart.applyCart();
+                    defer.resolve();
+                }, function () {
+                    events.each(function () {
+                        $(this).attr('data-rank', oldRanks[$(this).attr('data-id')]);
+                    });
+                    defer.reject();
+                });
+            });
+
+            return defer.promise();
+        }
     },
     ws: {
 

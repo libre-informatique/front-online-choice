@@ -7487,6 +7487,22 @@ body.themes .themes-section {
 .info-text {
   color: #64B5F6; }
 
+.normal {
+  background-color: #607d8b; }
+  .normal.btn:hover, .normal.btn-large:hover {
+    background-color: #7b96a3; }
+
+.normal-text {
+  color: #607d8b; }
+
+.neutral {
+  background-color: #9e9e9e; }
+  .neutral.btn:hover, .neutral.btn-large:hover {
+    background-color: #b8b8b8; }
+
+.neutral-text {
+  color: #9e9e9e; }
+
 /* fallback */
 @font-face {
   font-family: 'Material Icons';
@@ -7903,6 +7919,60 @@ html {
 
 .btn-fullwidth {
   width: 100%; }
+
+.btn.loading, .loading.btn-large, .btn-flat.loading {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: progress; }
+  .btn.loading::after, .loading.btn-large::after, .btn-flat.loading::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    color: white;
+    will-change: left, right;
+    -webkit-animation: indeterminate-short 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation: indeterminate-short 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 0.15s;
+    animation-delay: 0.15s; }
+  .btn.loading::before, .loading.btn-large::before, .btn-flat.loading::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    color: white; }
+  .btn.loading.primary::before, .loading.primary.btn-large::before, .btn-flat.loading.primary::before {
+    background-color: #648391; }
+  .btn.loading.primary::after, .loading.primary.btn-large::after, .btn-flat.loading.primary::after {
+    background-color: #819ba8; }
+  .btn.loading.accent::before, .loading.accent.btn-large::before, .btn-flat.loading.accent::before {
+    background-color: #ffe79c; }
+  .btn.loading.accent::after, .loading.accent.btn-large::after, .btn-flat.loading.accent::after {
+    background-color: #fff3cf; }
+  .btn.loading.success::before, .loading.success.btn-large::before, .btn-flat.loading.success::before {
+    background-color: #9bd39e; }
+  .btn.loading.success::after, .loading.success.btn-large::after, .btn-flat.loading.success::after {
+    background-color: #bee2c0; }
+  .btn.loading.danger::before, .loading.danger.btn-large::before, .btn-flat.loading.danger::before {
+    background-color: #f1b4b4; }
+  .btn.loading.danger::after, .loading.danger.btn-large::after, .btn-flat.loading.danger::after {
+    background-color: #f9dfdf; }
+  .btn.loading.info::before, .loading.info.btn-large::before, .btn-flat.loading.info::before {
+    background-color: #acd8fa; }
+  .btn.loading.info::after, .loading.info.btn-large::after, .btn-flat.loading.info::after {
+    background-color: #ddeffd; }
+  .btn.loading.normal::before, .loading.normal.btn-large::before, .btn-flat.loading.normal::before {
+    background-color: #8aa2ae; }
+  .btn.loading.normal::after, .loading.normal.btn-large::after, .btn-flat.loading.normal::after {
+    background-color: #a8bac3; }
+  .btn.loading.neutral::before, .loading.neutral.btn-large::before, .btn-flat.loading.neutral::before {
+    background-color: #c4c4c4; }
+  .btn.loading.neutral::after, .loading.neutral.btn-large::after, .btn-flat.loading.neutral::after {
+    background-color: #dedede; }
 
 .btn-floating:focus.primary,
 .btn-large:focus.primary,

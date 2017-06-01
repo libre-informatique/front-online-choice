@@ -3,8 +3,9 @@
 app.register({
     cart: {
         init: function () {
-            app.cart.getCart().then(function () {
-
+            app.cart.getCart().then(function (cart) {
+                if (!$.isArray(cart.items))
+                    cart.items = [];
             }, function () {
                 app.ctrl.login();
             });
@@ -32,6 +33,8 @@ app.register({
             app.ws.getCart().then(function (res) {
                 var cart = res._embedded.items[0];
                 if (isDefined(cart)) {
+                    if (!$.isArray(cart.items))
+                        cart.items = [];
                     $.extend(app.core.session, {cart: cart});
                     app.core.session.save();
                     defer.resolve();
@@ -207,13 +210,22 @@ app.register({
         updateRanks: function (ranks) {
             var defer = jQuery.Deferred();
 
-            app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/reorder', ranks, function (res) {
-                defer.resolve(res);
-            }, function (jqXHR, textStatus, errorThrown) {
-                app.core.ui.toast('Impossible de mettre à jour les priorités', 'error');
-                defer.reject();
+            $.each(ranks, function (i, r) {
+                if (!r.hasOwnProperty('cartItemId')) {
+                    delete ranks[i];
+                }
             });
 
+            if (ranks.length > 1) {
+                app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/reorder', ranks, function (res) {
+                    defer.resolve(res);
+                }, function (jqXHR, textStatus, errorThrown) {
+                    app.core.ui.toast('Impossible de mettre à jour les priorités', 'error');
+                    defer.reject();
+                });
+            } else {
+                defer.resolve();
+            }
             return defer.promise();
         }
     }

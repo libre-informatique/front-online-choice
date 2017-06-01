@@ -69,6 +69,31 @@ $neutral-color: color('grey','base');
 .info-text {
     color: $info-color;
 }
+
+.normal {
+    background-color: $normal-color;
+
+    &.btn:hover {
+        background-color: lighten($normal-color,10%);
+    }
+}
+
+.normal-text {
+    color: $normal-color;
+}
+
+.neutral {
+    background-color: $neutral-color;
+
+    &.btn:hover {
+        background-color: lighten($neutral-color,10%);
+    }
+}
+
+.neutral-text {
+    color: $neutral-color;
+}
+
 // MATERIAL ICONS
 /* fallback */
 @font-face {
@@ -157,7 +182,7 @@ html {
         li {
             a {
                 &:active,
-                &:hover {
+                    &:hover {
                     background-color: color('blue-grey', 'darken-1');
                 }
             }
@@ -245,7 +270,7 @@ html {
                     color: white;
 
                     &:active,
-                    &:hover {
+                        &:hover {
                         color: $accent-color;
                     }
                 }
@@ -694,6 +719,98 @@ html {
 
 .btn-fullwidth {
     width: 100%;
+}
+
+.btn,.btn-flat {
+    &.loading {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: progress;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 5px;
+            color: white;
+
+            will-change: left, right;
+            -webkit-animation: indeterminate-short 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+            animation: indeterminate-short 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+            -webkit-animation-delay: 0.15s;
+            animation-delay: 0.15s;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 5px;
+            color: white;
+        }
+
+        &.primary {
+            &::before {
+                background-color: lighten($primary-color,15%);
+            }
+            &::after {
+                background-color: lighten($primary-color,25%);
+            }
+        }
+        &.accent {
+            &::before {
+                background-color: lighten($accent-color,15%);
+            }
+            &::after {
+                background-color: lighten($accent-color,25%);
+            }
+        }
+        &.success {
+            &::before {
+                background-color: lighten($success-color,15%);
+            }
+            &::after {
+                background-color: lighten($success-color,25%);
+            }
+        }
+        &.danger {
+            &::before {
+                background-color: lighten($danger-color,15%);
+            }
+            &::after {
+                background-color: lighten($danger-color,25%);
+            }
+        }
+        &.info {
+            &::before {
+                background-color: lighten($info-color,15%);
+            }
+            &::after {
+                background-color: lighten($info-color,25%);
+            }
+        }
+        &.normal {
+            &::before {
+                background-color: lighten($normal-color,15%);
+            }
+            &::after {
+                background-color: lighten($normal-color,25%);
+            }
+        }
+        &.neutral {
+            &::before {
+                background-color: lighten($neutral-color,15%);
+            }
+            &::after {
+                background-color: lighten($neutral-color,25%);
+            }
+        }
+
+    }
 }
 
 .btn-floating:focus,
