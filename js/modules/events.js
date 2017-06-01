@@ -225,7 +225,7 @@ app.register({
                             handle: '.priority',
                             scroll: true,
                             disabled: !enabled,
-                            placeholder: 'test',
+                            placeholder: 'sortablePlaceholder',
                             forcePlaceholderSize: true,
                             items: "li:not(.cantSort)",
                             stop: function (evt, ui) {
