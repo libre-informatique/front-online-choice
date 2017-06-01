@@ -29,7 +29,7 @@ app.register({
                             var selectedEventsInTs = $(this).closest('.period').find('.event.selected').length;
 
                             if (app.config.maximumEventsSelectedPerTimeslots !== -1 && selectedEventsInTs >= app.config.maximumEventsSelectedPerTimeslots && !$(this).hasClass('attend')) {
-                                app.core.ui.toast('Vous ne pouvez choisir que ' + app.config.maximumEventsSelectedPerTimeslots + ' éléments maximum par créneau horraire', 'info');
+                                app.core.ui.toast('Vous ne pouvez choisir que ' + app.config.maximumEventsSelectedPerTimeslots + ' éléments maximum par créneau horaire', 'info');
                                 return true;
                             } else if (!$(this).hasClass('attend')) {
                                 app.events.ui.presenceButton($(this));
