@@ -3,9 +3,8 @@
 app.register({
     cart: {
         init: function () {
-            app.cart.getCart().then(function (cart) {
-                if (!$.isArray(cart.items))
-                    cart.items = [];
+            app.cart.getCart().then(function () {
+
             }, function () {
                 app.ctrl.login();
             });
