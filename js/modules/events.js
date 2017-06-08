@@ -9,7 +9,7 @@ app.register({
         // ADD UI EVENTS (PRESENCE BUTTONS)
         // -------------------------------------------------------------------------
 
-        initEvents: function () {
+        initEvents: function() {
 
             $(document)
 
@@ -17,7 +17,7 @@ app.register({
                 // PRESENCE BUTTONS
                 // -----------------------------------------------------------------
 
-                .on('click', '.presence-btn', function (e) {
+                .on('click', '.presence-btn', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     e.stopImmediatePropagation();
@@ -47,15 +47,36 @@ app.register({
                 // EVENTS REORDERED (SORTABLE END)
                 // -----------------------------------------------------------------
 
-                .on('events.reordered', function (e, container) {
+                .on('events.reordered', function(e, container) {
                     app.events.eventsReordered(container);
                 })
 
-                ;
+            ;
+
+            // -----------------------------------------------------------------
+            // CLOSING DATE IS SET
+            // -----------------------------------------------------------------
+
+            Handlebars.registerHelper('issetClosingDate', function(options) {
+                return app.config.closingDate !== null ? options.fn(this) : options.inverse(this);
+            });
+
+            // -----------------------------------------------------------------
+            // RENDER CLOSING DATE
+            // -----------------------------------------------------------------
+
+            Handlebars.registerHelper('renderChoicesClosingDate', function(format) {
+                if (app.config.closingDate !== null) {
+                    var date = moment(app.config.closingDate);
+                    return date.format(format);
+                } else {
+                    return '';
+                }
+            });
         },
 
         ui: {
-            initPlugins: function () {
+            initPlugins: function() {
                 app.events.ui.initTabs();
                 app.events.ui.initSortables();
                 app.events.ui.initPushpin();
@@ -65,7 +86,7 @@ app.register({
             // SWITCH BUTTON TO PRESENCE
             // ---------------------------------------------------------------------
 
-            presenceButton: function (button) {
+            presenceButton: function(button) {
                 $(button)
                     .prop('attend', true)
                     .removeClass('forced attend btn btn-flat neutral success primary')
@@ -76,15 +97,14 @@ app.register({
 
                 $(button).closest('.event')
                     .removeClass('cantSort')
-                    .addClass('selected')
-                    ;
+                    .addClass('selected');
             },
 
             // ---------------------------------------------------------------------
             // SWITCH BUTTON TO PARTICIPATE
             // ---------------------------------------------------------------------
 
-            participateButton: function (button) {
+            participateButton: function(button) {
                 $(button)
                     .removeAttr('attend')
                     .removeClass('forced attend btn btn-flat neutral success primary')
@@ -95,15 +115,14 @@ app.register({
 
                 $(button).closest('.event')
                     .addClass('cantSort')
-                    .removeClass('selected')
-                    ;
+                    .removeClass('selected');
             },
 
             // ---------------------------------------------------------------------
             // SWITCH BUTTON TO PARTICIPATION REQUIRED
             // ---------------------------------------------------------------------
 
-            requiredParticipationButton: function (button) {
+            requiredParticipationButton: function(button) {
                 $(button)
                     .removeAttr('attend')
                     .removeClass('forced attend btn btn-flat neutral success primary')
@@ -113,15 +132,14 @@ app.register({
                     .append('<span>Présent</span>');
 
                 $(button).closest('.event')
-                    .addClass('cantSort selected forced')
-                    ;
+                    .addClass('cantSort selected forced');
             },
 
             // ---------------------------------------------------------------------
             // SORT MANIFESTATIONS ON PRESENCE AND RANK
             // ---------------------------------------------------------------------
 
-            sortManifestations: function (sortableGroup, onlyPresents) {
+            sortManifestations: function(sortableGroup, onlyPresents) {
                 var defer = $.Deferred();
                 var triggerCartUpdate = true;
 
@@ -138,14 +156,14 @@ app.register({
                     triggerCartUpdate = false;
                 }
 
-                sortableGroup.each(function () {
+                sortableGroup.each(function() {
                     sortPresents($(this)).detach().appendTo($(this));
                     if (!onlyPresents)
                         sortRanks($(this)).detach().appendTo($(this));
 
                     $(this).find('li.event .priority .priorityNumber').html('');
 
-                    $(this).find('li.event.selected').each(function (k, item) {
+                    $(this).find('li.event.selected').each(function(k, item) {
                         $(item).find('.priority .priorityNumber').html(k + 1);
                     });
                 });
@@ -158,7 +176,7 @@ app.register({
                 return defer.promise();
 
                 function sortPresents(group) {
-                    return $(group).find('li.event').sort(function (a, b) {
+                    return $(group).find('li.event').sort(function(a, b) {
                         var ap = $(a).find('.presence-btn').hasClass('attend');
                         var bp = $(b).find('.presence-btn').hasClass('attend');
 
@@ -186,7 +204,7 @@ app.register({
                 }
 
                 function sortRanks(group) {
-                    return $(group).find('li.event').sort(function (a, b) {
+                    return $(group).find('li.event').sort(function(a, b) {
                         var ap = parseInt($(a).attr('data-rank'), 10);
                         var bp = parseInt($(b).attr('data-rank'), 10);
 
@@ -201,8 +219,8 @@ app.register({
                 }
             },
 
-            initSortables: function () {
-                $('.period').each(function () {
+            initSortables: function() {
+                $('.period').each(function() {
 
                     var manifs = $(this).find('.manifestations-list');
 
@@ -228,14 +246,14 @@ app.register({
                             placeholder: 'sortablePlaceholder',
                             forcePlaceholderSize: true,
                             items: "li:not(.cantSort)",
-                            stop: function (evt, ui) {
+                            stop: function(evt, ui) {
 
                                 var container = $(ui.item[0].closest('.manifestations-list'));
                                 var previousOrder = manifs.data('startOrder');
                                 var positionChanged = false;
 
                                 var i = 0;
-                                container.find('li:not(.cantSort)').each(function () {
+                                container.find('li:not(.cantSort)').each(function() {
                                     if ($(this).is(ui.item) && previousOrder !== i)
                                         positionChanged = true;
                                     i++;
@@ -247,11 +265,11 @@ app.register({
                                     $(document).trigger('events.reordered', [container]);
                                 }
                             },
-                            start: function (evt, ui) {
+                            start: function(evt, ui) {
                                 var container = $(ui.item[0].closest('.manifestations-list'));
 
                                 var i = 0;
-                                container.find('li:not(.cantSort)').each(function () {
+                                container.find('li:not(.cantSort)').each(function() {
                                     if ($(this).is(ui.item))
                                         manifs.data('startOrder', i);
                                     i++;
@@ -265,8 +283,8 @@ app.register({
                 });
             },
 
-            initPushpin: function () {
-                $('.period-label:visible').each(function () {
+            initPushpin: function() {
+                $('.period-label:visible').each(function() {
                     var $this = $(this);
                     var contentTop = $('nav').outerHeight() + $('.tabs').outerHeight();
                     var $target = $('#' + $this.attr('data-target'));
@@ -284,13 +302,13 @@ app.register({
             // MATERIALIZECSS TABS
             // ---------------------------------------------------------------------
 
-            initTabs: function () {
+            initTabs: function() {
                 $('ul#tabs').tabs();
                 var tabsId = $('div.tab-content:first-of-type').attr('id');
                 $('ul#tabs').tabs({
-                    'onShow': function (tab) {
+                    'onShow': function(tab) {
                         window.scrollTo(0, 0);
-                        setTimeout(function () {
+                        setTimeout(function() {
                             app.events.ui.initPushpin();
                         }, 500);
                     },
@@ -302,7 +320,7 @@ app.register({
         // TRANSFORM API DATA STRUCTURE TO BE USED IN FRONTEND UI STRUCTURE
         // -------------------------------------------------------------------------
 
-        manageApiResult: function (result, minInterval, maxInterval) {
+        manageApiResult: function(result, minInterval, maxInterval) {
 
             var finalFormat = {
                 days: {},
@@ -322,8 +340,8 @@ app.register({
             }
 
             // LOOP OVER API RESULTS
-            $.each(result, function (i, manif) {
-                $.each(manif.timeSlots, function (j, timeslot) {
+            $.each(result, function(i, manif) {
+                $.each(manif.timeSlots, function(j, timeslot) {
                     var tsId = timeslot.id;
                     var ts = null;
 
@@ -352,23 +370,23 @@ app.register({
             });
 
             // MOVE TIMESLOTS INTO TAB DAYS
-            Object.keys(finalFormat.ts).forEach(function (key) {
+            Object.keys(finalFormat.ts).forEach(function(key) {
                 var ts = finalFormat.ts[key];
                 var day = moment(app.core.utils.parseApiDate(ts.startsAt));
                 var dayId = day.format('dddDDMM');
 
                 if (finalFormat.days.hasOwnProperty(dayId)) {
                     finalFormat.days[dayId].ts.push(ts);
-                    finalFormat.days[dayId].ts.sort(function (a, b) {
+                    finalFormat.days[dayId].ts.sort(function(a, b) {
                         return app.core.utils.parseApiDate(a.startsAt) - app.core.utils.parseApiDate(b.startsAt);
                     });
                 }
             });
 
             // COUNT MANIFESTATIONS FOR EACH DAYS
-            $.each(finalFormat.days, function (i, day) {
-                $.each(day.ts, function (j, ts) {
-                    $.each(ts.manifestations, function (k, manif) {
+            $.each(finalFormat.days, function(i, day) {
+                $.each(day.ts, function(j, ts) {
+                    $.each(ts.manifestations, function(k, manif) {
                         day.manifCount++;
                     });
                 });
@@ -383,7 +401,7 @@ app.register({
         // HANDLE MANIFESTATION SELECTION
         // -------------------------------------------------------------------------
 
-        selectManifestation: function (button) {
+        selectManifestation: function(button) {
 
             var manifId = button.closest('.event').attr('data-id');
             var selecting = button.hasClass('attend');
@@ -397,10 +415,10 @@ app.register({
             allTsButtons.addClass('loading');
 
             if (selecting) {
-                app.ws.addToCart(declinaisonId, priceId).then(function (res) {
+                app.ws.addToCart(declinaisonId, priceId).then(function(res) {
                     sortable.animate({
                         opacity: 0.2
-                    }, 500, 'swing', function () {
+                    }, 500, 'swing', function() {
                         app.events.ui.sortManifestations(sortableGroup, true);
                         app.core.session.cart.items.push(res);
                         app.events.manifestations[manifId].cartItemId = res.id;
@@ -408,35 +426,35 @@ app.register({
 
                         sortable.not('.ghost').animate({
                             opacity: 1
-                        }, 500, function () {
+                        }, 500, function() {
                             allTsButtons.removeClass('loading');
                             app.events.ui.initSortables();
                         });
 
                         app.events.eventsReordered(sortableGroup);
                     });
-                }, function () {
+                }, function() {
                     allTsButtons.removeClass('loading');
                     app.events.ui.initSortables();
                 });
             } else {
-                app.ws.removeFromCart(cartItemId).then(function () {
+                app.ws.removeFromCart(cartItemId).then(function() {
                     sortable.animate({
                         opacity: 0.2
-                    }, 500, 'swing', function () {
+                    }, 500, 'swing', function() {
                         sortable.removeAttr('data-rank');
                         app.events.ui.sortManifestations(sortableGroup, true);
 
                         sortable.not('.ghost').animate({
                             opacity: 1
-                        }, 500, function () {
+                        }, 500, function() {
                             allTsButtons.removeClass('loading');
                             app.events.ui.initSortables();
                         });
 
                         app.events.eventsReordered(sortableGroup);
                     });
-                }, function () {
+                }, function() {
                     allTsButtons.removeClass('loading');
                     app.events.ui.initSortables();
                 });
@@ -444,14 +462,14 @@ app.register({
 
         },
 
-        disableTimeSlot: function (tsDom) {
+        disableTimeSlot: function(tsDom) {
             var excludes = '.forced';
             if (!isDefined(tsDom)) {
                 tsDom = $('.period');
                 excludes += ',.selected';
             }
 
-            tsDom.each(function () {
+            tsDom.each(function() {
 
                 var events = $(this).find('li.event');
                 var eventsToDisable = events.not(excludes);
@@ -460,8 +478,7 @@ app.register({
                 // DISABLING EVENTS
                 eventsToDisable
                     .addClass('cantSort disabled')
-                    .find('.btn, .btn-flat').attr('disabled', 'disabled')
-                    ;
+                    .find('.btn, .btn-flat').attr('disabled', 'disabled');
 
                 forcedEvent
                     .addClass('cantSort');
@@ -471,12 +488,12 @@ app.register({
             });
         },
 
-        disableCartValidationButton: function () {
+        disableCartValidationButton: function() {
             $('#confirm-fab').remove();
             $('.cart-status-message.cart-' + app.core.session.cart.checkoutState).show();
         },
 
-        eventsReordered: function (container) {
+        eventsReordered: function(container) {
             var defer = $.Deferred();
             var events = container.find('li.event:not(.cantSort)');
 
@@ -485,7 +502,7 @@ app.register({
             var i = 1;
             var ranks = [];
             var oldRanks = {};
-            events.each(function () {
+            events.each(function() {
                 var cartItemId = app.events.manifestations[$(this).attr('data-id')].cartItemId;
 
                 if ($(this).attr('data-id') && $(this).attr('data-rank') !== i) {
@@ -504,12 +521,12 @@ app.register({
                 i++;
             });
 
-            $.when.apply($, promises).then(function () {
-                app.ws.updateRanks(ranks).then(function () {
-                    $.each(app.core.session.cart.items, function (i) {
+            $.when.apply($, promises).then(function() {
+                app.ws.updateRanks(ranks).then(function() {
+                    $.each(app.core.session.cart.items, function(i) {
                         var item = app.core.session.cart.items[i];
                         if (isDefined(item) && item !== null) {
-                            $.each(ranks, function (j, r) {
+                            $.each(ranks, function(j, r) {
                                 if (item.id === r.cartItemId) {
                                     app.core.session.cart.items[i].rank = r.rank;
                                 }
@@ -518,8 +535,8 @@ app.register({
                     });
                     app.cart.applyCart();
                     defer.resolve();
-                }, function () {
-                    events.each(function () {
+                }, function() {
+                    events.each(function() {
                         $(this).attr('data-rank', oldRanks[$(this).attr('data-id')]);
                     });
                     defer.reject();
@@ -535,7 +552,7 @@ app.register({
         // GET EVENTS DATAS
         // ---------------------------------------------------------------------
 
-        getEvents: function () {
+        getEvents: function() {
 
             var defer = jQuery.Deferred();
 
@@ -543,17 +560,20 @@ app.register({
                 'criteria[metaEvents.id][type]': 'equals',
                 'criteria[metaEvents.id][value]': app.config.metaEventId,
                 'limit': 100
-            }, function (data) {
+            }, function(data) {
 
                 if (data._embedded.items.length === 0) {
                     app.core.ui.toast('Aucunes manifestations visibles', 'warning');
-                    defer.resolve({days: {}, daysCount: 0});
+                    defer.resolve({
+                        days: {},
+                        daysCount: 0
+                    });
                 } else {
 
                     minInterval = null;
                     maxInterval = null;
 
-                    $.each(data._embedded.items, function (i, manif) {
+                    $.each(data._embedded.items, function(i, manif) {
                         if ((app.core.utils.parseApiDate(manif.startsAt) < minInterval || minInterval === null) && manif.startsAt !== null)
                             minInterval = app.core.utils.parseApiDate(manif.startsAt);
                         if ((app.core.utils.parseApiDate(manif.endsAt) > maxInterval || maxInterval === null) && manif.endsAt !== null)
@@ -578,15 +598,15 @@ app.register({
                 title: "Évènements"
             }
         },
-        showEvents: function (force) {
+        showEvents: function(force) {
             if (app.core.history.currentState !== app.ctrl.states.showEvents || force) {
                 app.core.ui.clearContent();
                 $('#contentLoader').show();
                 var events = app.ws.getEvents()
-                    .then(function (events) {
-                        app.core.ctrl.render('mainTabs', events, true).then(function () {
-                            app.cart.getCart().then(function () {
-                                app.cart.applyCart().then(function () {
+                    .then(function(events) {
+                        app.core.ctrl.render('mainTabs', events, true).then(function() {
+                            app.cart.getCart().then(function() {
+                                app.cart.applyCart().then(function() {
                                     app.events.ui.initTabs();
                                     app.events.ui.initSortables();
                                     app.events.ui.initPushpin();
@@ -596,7 +616,7 @@ app.register({
                                 });
                             });
                         });
-                    }, function (error) {});
+                    }, function(error) {});
             }
         }
     },

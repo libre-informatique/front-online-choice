@@ -22,12 +22,14 @@ if (isset($_GET['getParameters'])) {
     <head>
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        
+
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title><?php echo $parameters->applicationName; ?></title>
 
         <meta http-equiv="Access-Control-Allow-Origin" content="*">
         <meta name="theme-color" content="#455a64">
+
+        <link rel="icon" type="image/png" href="img/favicon.png" />
     </head>
     <body>
         <div id="app">
@@ -59,7 +61,7 @@ if (isset($_GET['getParameters'])) {
                                ><span class="button-label hide-on-med-and-down">Mon compte</span>
                                 <i class="material-icons" id="showProfileButton">person_outline</i>
                             </a>
-                            
+
                             <!-- Dropdown Structure -->
                             <ul id='userMenu' class='dropdown-content'>
                                 <li>
@@ -91,7 +93,7 @@ if (isset($_GET['getParameters'])) {
 
                 <!-- CONTENT LOADER -->
 
-                <div id="contentLoader"> 
+                <div id="contentLoader">
                     <div class="preloader-wrapper big active">
                         <div class="spinner-layer spinner-blue">
                             <div class="circle-clipper left">
@@ -235,6 +237,16 @@ if (isset($_GET['getParameters'])) {
         <script id="infos-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/infos.html'); ?></script>
 
         <!-- TEMPLATES LOADED VIA AJAX -->
+
+        <div class="footer">
+            <div class="footerText">
+                Propulsé par <a href="http://www.e-venement.net">e-venement</a>
+            </div>
+            <div class="footerText">
+                Réalisé par <a href="http://www.libre-informatique.fr/">libre-informatique</a>
+            </div>
+            <div class="footerText custom"><?php echo $parameters->footerText; ?></div>
+        </div>
 
     </body>
 </html>

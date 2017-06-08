@@ -15,17 +15,17 @@ app.register({
             }
         },
 
-        showSettings: function () {
+        showSettings: function() {
             app.core.history.currentCallable = app.ctrl.showSettings;
-            app.ws.getUser(app.core.session.user.id).then(function () {
-                app.core.ctrl.go('settings').then(function () {
+            app.ws.getUser(app.core.session.user.id).then(function() {
+                app.core.ctrl.go('settings').then(function() {
                     Materialize.updateTextFields();
                     app.core.history.add(app.ctrl.states.settings);
                 });
             });
         },
 
-        updateSettings: function (form) {
+        updateSettings: function(form) {
             var formData = app.core.utils.formToObject(form.serializeArray());
 
             if (formData.clearAllInfosMessages === true) {

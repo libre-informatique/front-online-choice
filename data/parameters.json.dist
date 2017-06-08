@@ -13,5 +13,8 @@
     "clientSessionName": "frontOnlineChoiceSession",
     "metaEventId": 1,
     "lang": "fr",
-    "maximumEventsSelectedPerTimeslots": -1
+    "maximumEventsSelectedPerTimeslots": -1,
+    "closingDate": null,
+    "footerText": null,
+    "loginSuccessAction": "events"
 }

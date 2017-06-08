@@ -2,52 +2,54 @@
 
 app.register({
     cart: {
-        init: function () {
-            app.cart.getCart().then(function () {
+        init: function() {
+            app.cart.getCart().then(function() {
 
-            }, function () {
+            }, function() {
                 app.ctrl.login();
             });
         },
 
-        initEvents: function () {
+        initEvents: function() {
             $(document)
 
                 // -----------------------------------------------------------------
                 // EVENTS SAVE CART
                 // -----------------------------------------------------------------
 
-                .on('click', '#save-btn', function (e) {
-                    app.cart.validateCart().then(function () {
+                .on('click', '#save-btn', function(e) {
+                    app.cart.validateCart().then(function() {
                         app.core.ui.modal.modal('close');
                         app.ctrl.showEvents(true);
                     });
                 })
 
-                ;
+            ;
         },
 
-        getCart: function () {
+        getCart: function() {
             var defer = jQuery.Deferred();
-            app.ws.getCart().then(function (res) {
+            app.ws.getCart().then(function(res) {
                 var cart = res._embedded.items[0];
                 if (isDefined(cart)) {
                     if (!$.isArray(cart.items))
                         cart.items = [];
-                    $.extend(app.core.session, {cart: cart});
+                    $.extend(app.core.session, {
+                        cart: cart
+                    });
                     app.core.session.save();
                     defer.resolve();
                 } else {
                     app.core.session.destroy();
                     defer.reject();
                 }
-            }, function () {
+            }, function() {
                 defer.reject();
             });
             return defer.promise();
         },
 
-        applyCart: function () {
+        applyCart: function() {
             var defer = jQuery.Deferred();
 
             var items = app.core.session.cart.items;
@@ -55,7 +57,7 @@ app.register({
             var promises = [];
 
             // LOOP OVER CART ITEMS
-            $.each(items, function (i, item) {
+            $.each(items, function(i, item) {
                 if (isDefined(item) && item !== null) {
                     var declinaisonId = item.declination.id;
                     var manif = app.cart.private.findManifestationWithDeclinaison(declinaisonId);
@@ -83,35 +85,38 @@ app.register({
 
             app.events.ui.sortManifestations();
 
-            $.when.apply($, promises).always(function () {
-                if (app.core.session.cart.checkoutState !== "cart") {
+            $.when.apply($, promises).always(function() {
+                if (app.core.session.cart.checkoutState !== "cart" || moment(app.config.closingDate).isBefore(moment())) {
                     app.events.disableTimeSlot();
                     app.events.disableCartValidationButton();
                     app.events.ui.initSortables();
                     if (app.core.session.cart.checkoutState === "fulfilled") {
                         $('.event.disabled').remove();
-                        $('.period').each(function () {
+                        $('.period').each(function() {
                             var items = $(this).find('.event');
                             if (items.length === 0) {
                                 $(this).remove();
                             }
                         });
+                    } else if (moment(app.config.closingDate).isBefore(moment())) {
+                        app.core.session.cart.checkoutState = "outdated";
+                        app.events.disableCartValidationButton();
                     }
                 }
 
                 defer.resolve();
-            }, function (e) {
+            }, function(e) {
                 defer.reject();
             });
 
             return defer.promise();
         },
 
-        validateCart: function () {
+        validateCart: function() {
 
             var defer = jQuery.Deferred();
 
-            app.core.ws.call('POST', '/checkouts/complete/' + app.core.session.cart.id, {}, function (res) {
+            app.core.ws.call('POST', '/checkouts/complete/' + app.core.session.cart.id, {}, function(res) {
                 defer.resolve(res);
             });
 
@@ -119,9 +124,9 @@ app.register({
         },
 
         private: {
-            findManifestationWithDeclinaison: function (declinaisonId) {
+            findManifestationWithDeclinaison: function(declinaisonId) {
                 var manifestation = null;
-                Object.keys(app.events.manifestations).forEach(function (key) {
+                Object.keys(app.events.manifestations).forEach(function(key) {
                     var manif = app.events.manifestations[key];
                     if (manif.gauges[0].id == declinaisonId)
                         manifestation = manif;
@@ -136,12 +141,12 @@ app.register({
         // RETREIVE CART
         // ---------------------------------------------------------------------
 
-        getCart: function () {
+        getCart: function() {
             var defer = jQuery.Deferred();
 
-            app.core.ws.call('GET', '/carts', {}, function (res) {
+            app.core.ws.call('GET', '/carts', {}, function(res) {
                 defer.resolve(res);
-            }, function (jqXHR, textStatus, errorThrown) {
+            }, function(jqXHR, textStatus, errorThrown) {
                 app.core.ui.toast('Impossible de récupérer le panier', 'error');
                 defer.reject();
             });
@@ -153,7 +158,7 @@ app.register({
         // ADD CART ITEM
         // ---------------------------------------------------------------------
 
-        addToCart: function (itemId, priceId) {
+        addToCart: function(itemId, priceId) {
             var defer = jQuery.Deferred();
 
             app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items', {
@@ -161,9 +166,9 @@ app.register({
                 "declinationId": itemId,
                 "quantity": 1,
                 "priceId": priceId
-            }, function (res) {
+            }, function(res) {
                 defer.resolve(res);
-            }, function (jqXHR, textStatus, errorThrown) {
+            }, function(jqXHR, textStatus, errorThrown) {
                 app.core.ui.toast('Impossible d\'ajouter un élément au panier', 'error');
                 defer.reject();
             });
@@ -175,17 +180,17 @@ app.register({
         // REMOVE CART ITEM
         // ---------------------------------------------------------------------
 
-        removeFromCart: function (cartItemId) {
+        removeFromCart: function(cartItemId) {
             var defer = jQuery.Deferred();
 
-            app.core.ws.call('DELETE', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, null, function (res) {
-                $.each(app.core.session.cart.items, function (i, item) {
+            app.core.ws.call('DELETE', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, null, function(res) {
+                $.each(app.core.session.cart.items, function(i, item) {
                     if (isDefined(item) && item !== null && item.id === cartItemId) {
                         delete app.core.session.cart.items[i];
                     }
                 });
                 defer.resolve(res);
-            }, function (jqXHR, textStatus, errorThrown) {
+            }, function(jqXHR, textStatus, errorThrown) {
                 app.core.ui.toast('Impossible de supprimer un élément du panier', 'error');
                 defer.reject();
             });
@@ -193,12 +198,12 @@ app.register({
             return defer.promise();
         },
 
-        updateCartItem: function (cartItemId, data) {
+        updateCartItem: function(cartItemId, data) {
             var defer = jQuery.Deferred();
 
-            app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, data, function (res) {
+            app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/' + cartItemId, data, function(res) {
                 defer.resolve(res);
-            }, function (jqXHR, textStatus, errorThrown) {
+            }, function(jqXHR, textStatus, errorThrown) {
                 app.core.ui.toast('Impossible de mettre à jour un élément du panier', 'error');
                 defer.reject();
             });
@@ -206,19 +211,19 @@ app.register({
             return defer.promise();
         },
 
-        updateRanks: function (ranks) {
+        updateRanks: function(ranks) {
             var defer = jQuery.Deferred();
 
-            $.each(ranks, function (i, r) {
+            $.each(ranks, function(i, r) {
                 if (!r.hasOwnProperty('cartItemId')) {
                     delete ranks[i];
                 }
             });
 
             if (ranks.length > 1) {
-                app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/reorder', ranks, function (res) {
+                app.core.ws.call('POST', '/carts/' + app.core.session.cart.id + '/items/reorder', ranks, function(res) {
                     defer.resolve(res);
-                }, function (jqXHR, textStatus, errorThrown) {
+                }, function(jqXHR, textStatus, errorThrown) {
                     app.core.ui.toast('Impossible de mettre à jour les priorités', 'error');
                     defer.reject();
                 });

@@ -23,6 +23,14 @@
     <div class="cart-status-message cart-cancelled">
         Votre liste de choix est annulée. Vous ne pouvez plus modifier votre liste
     </div>
+    <div class="cart-status-message cart-outdated">
+        La date limite de choix est dépassée. Vous ne pouvez plus modifier votre liste
+    </div>
+    {{#issetClosingDate }}
+        <div class="closingDateMessage">
+            Clôture des choix le {{{renderChoicesClosingDate '[<b>]dddd DD MMMM YYYY[</b>]' }}}
+        </div>
+    {{/issetClosingDate }}
     <div id="periods">
         <ul id="period-list">
 

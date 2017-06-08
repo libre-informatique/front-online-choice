@@ -11,7 +11,7 @@ app.register({
             modal: null,
 
             // HANDLE APPLICATION MODALE
-            init: function () {
+            init: function() {
                 $(document).trigger('ui.init');
             },
 
@@ -19,8 +19,8 @@ app.register({
             // UI GLOBAL EVENTS
             // -------------------------------------------------------------------------
 
-            initEvents: function () {
-                
+            initEvents: function() {
+
             },
 
             // -------------------------------------------------------------------------
@@ -28,37 +28,37 @@ app.register({
             // -------------------------------------------------------------------------
 
             plugins: {
-                init: function () {
+                init: function() {
                     app.core.ui.plugins.initTooltips();
                     app.core.ui.plugins.initDropDown();
                     app.core.ui.plugins.initModal();
                     app.core.ui.plugins.registerComponentPlugins(app);
                 },
-                
+
                 // ---------------------------------------------------------------------
                 // MATERIALIZECSS TOOLTIPS
                 // ---------------------------------------------------------------------
-                
-                initTooltips: function () {
+
+                initTooltips: function() {
                     $('.material-tooltip').remove();
                     $('*[data-tooltip]').tooltip({
                         delay: 50
                     });
                 },
-                
+
                 // ---------------------------------------------------------------------
                 // MATERIALIZECSS DROPDOWN
                 // ---------------------------------------------------------------------
-                
-                initDropDown: function () {
+
+                initDropDown: function() {
                     $('.dropdown-button').dropdown();
                 },
-                
+
                 // ---------------------------------------------------------------------
                 // MATERIALIZECSS MODAL
                 // ---------------------------------------------------------------------
-                
-                initModal: function () {
+
+                initModal: function() {
                     app.core.ui.modal = $('#confirm-modal');
                     app.core.ui.modal.modal();
                 },
@@ -67,7 +67,7 @@ app.register({
                 // INITIALIZE COMPONENTS PLUGINS
                 // ---------------------------------------------------------------------
 
-                registerComponentPlugins: function (component, deep) {
+                registerComponentPlugins: function(component, deep) {
                     if (!isDefined(deep))
                         deep = 0;
 
@@ -75,27 +75,29 @@ app.register({
                         return;
 
                     // RECURSION OVER APPLICATION COMPONENTS
-                    Object.keys(component).forEach(function (key) {
+                    Object.keys(component).forEach(function(key) {
                         var c = component[key];
-                        if (c.hasOwnProperty('initPlugins')) {
-                            c.initPlugins();
-                        } else if (typeof c === "object") {
-                            app.core.ui.plugins.registerComponentPlugins(c, ++deep);
+                        if (isDefined(c) && c !== null) {
+                            if (c.hasOwnProperty('initPlugins')) {
+                                c.initPlugins();
+                            } else if (typeof c === "object") {
+                                app.core.ui.plugins.registerComponentPlugins(c, deep + 1);
+                            }
                         }
                     });
                 }
             },
-            
+
             // -------------------------------------------------------------------------
             // LOOP LOADING HANDLEBARS TEMPLATES
             // -------------------------------------------------------------------------
-            
-            initTemplates: function () {
+
+            initTemplates: function() {
                 var promises = [];
 
                 // FETCH REMOTE TEMPLATES
 
-                $('script[type="text/x-handlebars-template"]').each(function () {
+                $('script[type="text/x-handlebars-template"]').each(function() {
                     var tpl = $(this);
                     var id = tpl.attr('id').replace('-template', '');
                     var src = tpl.attr('src');
@@ -105,7 +107,7 @@ app.register({
                         $.ajax({
                             async: true,
                             url: src,
-                            success: function (data) {
+                            success: function(data) {
 
                                 // REGISTER TEMPLATE
 
@@ -138,35 +140,35 @@ app.register({
                     }
                 });
 
-                $.when.apply($, promises).then(function () {
+                $.when.apply($, promises).then(function() {
                     $(document).trigger('templates.registered');
-                }, function (e) {
+                }, function(e) {
                     $(document).trigger('app.failed');
                 });
             },
-            
+
             // -------------------------------------------------------------------------
             // APPLY COMPILED TEMPLATE
             // -------------------------------------------------------------------------
-            
-            applyTemplate: function (name, tpl) {
+
+            applyTemplate: function(name, tpl) {
                 $('handlebar-placeholder[template="' + name + '"]').html(tpl);
                 $(document).trigger('template.applyed', [name]);
             },
-            
+
             // -------------------------------------------------------------------------
             // CLEAR .CONTENT PLACEHOLDERS
             // -------------------------------------------------------------------------
-            
-            clearContent: function () {
+
+            clearContent: function() {
                 $('#app div.content handlebar-placeholder').html('');
             },
-            
+
             // -------------------------------------------------------------------------
             // SHOW LOADER IN TOP OF NAVBAR
             // -------------------------------------------------------------------------
-            
-            displayLoading: function (show) {
+
+            displayLoading: function(show) {
                 if (!isDefined(show))
                     show = true;
                 var loader = $('#mainLoader');
@@ -176,12 +178,12 @@ app.register({
                 else
                     loader.addClass('hidden');
             },
-            
+
             // -------------------------------------------------------------------------
             // SHOW BIG LOADER IN CONTENT
             // -------------------------------------------------------------------------
-            
-            displayContentLoading: function (show) {
+
+            displayContentLoading: function(show) {
                 if (!isDefined(show))
                     show = true;
                 var loader = $('#contentLoader');
@@ -191,12 +193,12 @@ app.register({
                 else
                     loader.hide();
             },
-            
+
             // -------------------------------------------------------------------------
             // SHOW TOAST (FLASH MESSAGE)
             // -------------------------------------------------------------------------
-            
-            toast: function (message, type, delay) {
+
+            toast: function(message, type, delay) {
                 if (!isDefined(delay))
                     delay = 5000;
                 if (!isDefined(type))

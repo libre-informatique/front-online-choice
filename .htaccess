@@ -6,7 +6,7 @@
     RewriteRule ^(data/|actions\.php|README\.md|package\.json|gulpfile\.js|\.gitignore) - [F,L,NC]
 
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_URI} !^/views
+    RewriteCond %{REQUEST_URI} !^views
     RewriteRule ^(.*)$ index.php [QSA,L]
 
     RewriteCond %{REQUEST_URI} !^views(.*)

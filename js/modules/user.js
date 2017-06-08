@@ -2,13 +2,14 @@
 
 app.register({
     user: {
-        initEvents: function () {
+        initEvents: function() {
             $(document)
-                .on('app.ready', function () {
+                .on('app.ready', function() {
                     if (app.core.session.user) {
                         $('#app').addClass('loggedIn');
                         app.user.ui.updateProfileName();
-                        app.ctrl.showEvents();
+
+                        app.user.dispatchAfterLogin();
                     } else {
                         app.ctrl.login();
                         $('#app').removeClass('loggedIn');
@@ -19,7 +20,7 @@ app.register({
                 // LOGIN
                 // -----------------------------------------------------------------
 
-                .on('submit', '#loginForm', function (e) {
+                .on('submit', '#loginForm', function(e) {
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     e.preventDefault();
@@ -40,25 +41,44 @@ app.register({
                     }
                 })
 
-                .on('user.logged.in', function () {
+                .on('user.logged.in', function() {
                     $('#app').addClass('loggedIn');
+                    app.user.ui.updateProfileName();
                     app.cart.init();
                 })
 
-                .on('user.logged.out', function () {
+                .on('user.logged.out', function() {
                     $('#app').removeClass('loggedIn');
+                    app.user.ui.updateProfileName();
                 })
 
-                ;
+            ;
         },
-        ui: {
-            updateProfileName: function () {
-                if (app.core.session.user.shortName === null || app.core.session.user.shortName === "") {
-                    app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
-                }
 
-                $('nav a[data-activates="userMenu"] span.button-label')
-                    .html(app.core.session.user.shortName);
+        dispatchAfterLogin: function() {
+            if (app.config.loginSuccessAction === "profile") {
+                app.ctrl.showUserProfile();
+            } else if (app.config.loginSuccessAction === "profile_first_time" && localStorage.getItem(app.config.clientSessionName + '_alreadyLoggedIn') === null) {
+                localStorage.setItem(app.config.clientSessionName + '_alreadyLoggedIn', true);
+                app.ctrl.showUserProfile();
+            } else { // events
+                app.ctrl.showEvents();
+            }
+        },
+
+        ui: {
+            updateProfileName: function() {
+                if (app.core.session.user !== null) {
+                    if (app.core.session.user.shortName === null || app.core.session.user.shortName === "") {
+                        app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
+                    }
+
+                    $('nav a[data-activates="userMenu"] span.button-label')
+                        .html(app.core.session.user.shortName);
+                } else {
+                    $('nav a[data-activates="userMenu"] span.button-label')
+                        .html('Mon compte');
+                }
             }
         }
     },
@@ -67,11 +87,11 @@ app.register({
         // PERFORM USER LOGIN
         // ---------------------------------------------------------------------
 
-        userLogin: function (username, password, rememberMe, form) {
+        userLogin: function(username, password, rememberMe, form) {
             return app.core.ws.call('POST', '/login', {
                 'email': username,
                 'password': password
-            }, function (res) {
+            }, function(res) {
                 var user = res.success.customer;
                 app.core.session.user = user;
 
@@ -85,9 +105,8 @@ app.register({
                 $(document).trigger('user.logged.in');
                 app.core.history.disableBack = false;
 
-                // GO TO EVENTS LIST
-                app.ctrl.showEvents();
-            }, function (res) {
+                app.user.dispatchAfterLogin();
+            }, function(res) {
                 form.find('input').addClass('invalid');
                 app.core.ui.toast('Email et/ou mot de passe invalide', 'error');
             });
@@ -97,8 +116,8 @@ app.register({
         // PERFORM USER (CUSTOMER) LOGOUT
         // ---------------------------------------------------------------------
 
-        userLogout: function () {
-            return app.core.ws.call('POST', '/logout', {}).always(function () {
+        userLogout: function() {
+            return app.core.ws.call('POST', '/logout', {}).always(function() {
                 app.core.session.rememberMe = false;
                 app.core.session.user = null;
                 app.core.session.save();
@@ -110,14 +129,15 @@ app.register({
         // REFRESH USER INFORMATIONS
         // ---------------------------------------------------------------------
 
-        getUser: function (userId) {
+        getUser: function(userId) {
             var defer = $.Deferred();
 
-            app.core.ws.call('GET', '/customers/' + userId, {}, function (res) {
+            app.core.ws.call('GET', '/customers/' + userId, {}, function(res) {
                 if (typeof res.id !== 'undefined') {
                     app.core.session.user = res;
                     app.core.session.userId = res.id;
                     app.core.session.save();
+                    app.user.ui.updateProfileName();
                     defer.resolve(res);
                 } else {
                     defer.reject(res);
@@ -132,7 +152,7 @@ app.register({
         // UPDATE USER INFORMATIONS
         // ---------------------------------------------------------------------
 
-        updateUser: function (form) {
+        updateUser: function(form) {
             var formData =
                 $.extend(app.core.session.user, app.core.utils.formToObject(form.serializeArray()));
 
@@ -143,8 +163,10 @@ app.register({
             }
 
             return app.core.ws.call('POST', '/customers/' + app.core.session.user.id, formData)
-                .then(function () {
+                .then(function() {
+                    app.user.ui.updateProfileName();
                     app.ctrl.showUserProfile();
+
                     if (formData.hasOwnProperty('password')) {
                         app.core.ui.toast('Votre mot de passe à été mis à jour', 'success');
                     } else {
@@ -184,30 +206,31 @@ app.register({
         // ACTIONS
         // ---------------------------------------------------------------------
 
-        login: function () {
+        login: function() {
             app.core.history.currentCallable = app.ctrl.login;
-            app.core.ctrl.go('login', {}).then(function () {
+            app.core.ctrl.go('login', {}).then(function() {
+                app.user.ui.updateProfileName();
                 app.core.history.add(app.ctrl.states.login);
             });
         },
 
-        logout: function () {
+        logout: function() {
             app.core.history.currentCallable = app.ctrl.logout;
             $('#app').removeClass('loggedIn');
 
-            app.ws.userLogout().always(function () {
+            app.ws.userLogout().always(function() {
                 $(document).trigger('user.logged.out');
                 app.ctrl.login();
             });
         },
 
-        showUserProfile: function () {
+        showUserProfile: function() {
             if (app.core.session.user) {
                 app.core.history.currentCallable = app.ctrl.showUserProfile;
-                app.ws.getUser(app.core.session.user.id).then(function () {
+                app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('userProfile', {
                         user: app.core.session.user
-                    }).then(function () {
+                    }).then(function() {
                         app.core.history.add(app.ctrl.states.showUserProfile);
                         app.featureDiscovery.showFeatureDiscovery('info-eventButton');
                         app.featureDiscovery.showFeatureDiscovery('info-profileActionsButton');
@@ -218,13 +241,14 @@ app.register({
             }
         },
 
-        editUserProfile: function () {
+        editUserProfile: function() {
             if (app.core.session.user) {
                 app.core.history.currentCallable = app.ctrl.editUserProfile;
-                app.ws.getUser(app.core.session.user.id).then(function () {
+                app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('editUserProfile', {
                         user: app.core.session.user
-                    }).then(function () {
+                    }).then(function() {
+                        app.user.ui.updateProfileName();
                         app.core.history.add(app.ctrl.states.editUserProfile);
                         Materialize.updateTextFields();
                     });
@@ -234,13 +258,13 @@ app.register({
             }
         },
 
-        editUserPassword: function () {
+        editUserPassword: function() {
             if (app.core.session.user) {
                 app.core.history.currentCallable = app.ctrl.editUserPassword;
-                app.ws.getUser(app.core.session.user.id).then(function () {
+                app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('editUserPassword', {
                         user: app.core.session.user
-                    }).then(function () {
+                    }).then(function() {
                         Materialize.updateTextFields();
                         app.core.history.add(app.ctrl.states.editUserPassword);
                     });
@@ -250,7 +274,7 @@ app.register({
             }
         },
 
-        updatePassword: function (form) {
+        updatePassword: function(form) {
             if (app.core.session.user) {
                 var formData = app.core.utils.formToObject(form.serializeArray());
 
@@ -268,11 +292,11 @@ app.register({
         // OVERRIDES
         // ---------------------------------------------------------------------
 
-        showSettings: function () {
+        showSettings: function() {
             if (app.core.session.user) {
                 app.core.history.currentCallable = app.ctrl.showSettings;
-                app.ws.getUser(app.core.session.user.id).then(function () {
-                    app.core.ctrl.go('settings').then(function () {
+                app.ws.getUser(app.core.session.user.id).then(function() {
+                    app.core.ctrl.go('settings').then(function() {
                         Materialize.updateTextFields();
                         app.core.history.add(app.ctrl.states.settings);
                     });
@@ -282,11 +306,12 @@ app.register({
             }
         },
 
-        updateSettings: function (form) {
+        updateSettings: function(form) {
             if (app.core.session.user) {
                 var formData = app.core.utils.formToObject(form.serializeArray());
 
                 if (formData.clearAllInfosMessages === true) {
+                    localStorage.removeItem(app.config.clientSessionName + '_alreadyLoggedIn');
                     app.featureDiscovery.__resetInfosStorage();
                 }
                 app.ctrl.showEvents();
