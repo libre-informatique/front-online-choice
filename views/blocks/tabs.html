@@ -63,10 +63,14 @@
                                      style="background-image:url({{config 'webservice.protocol'}}://{{config 'webservice.hostname'}}{{manif.event.imageURL}});background-size:cover;"
                                      {{/ifCond}}>
                                 </div>
-                                <div class="label col s5 valign-wrapper selectable">
-                                    <p class="event-label">
+                                <div class="label col s5 selectable">
+                                    <div class="event-label">
                                         {{manif.event.name}}
-                                    </p>
+                                    </div>
+
+                                    <div class="event-desc">
+                                        {{manif.event.description}}
+                                    </div>
                                 </div>
                                 <div class="presence valign-wrapper col s3">
                                     <a class="presence-btn btn neutral waves-effect waves-light flow-text">

@@ -50,7 +50,6 @@ app.register({
                 .on('events.reordered', function(e, container) {
                     app.events.eventsReordered(container);
                 })
-
             ;
 
             // -----------------------------------------------------------------
@@ -364,6 +363,7 @@ app.register({
                     m = ts.manifestations[mId];
 
                     m.event.name = m.event.translations[app.config.lang].name;
+                    m.event.description = m.event.translations[app.config.lang].description;
 
                     app.events.manifestations[m.id] = m;
                 });
