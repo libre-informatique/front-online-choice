@@ -5,6 +5,8 @@ app.register({
         initEvents: function() {
             $(document)
                 .on('app.ready', function() {
+                    alert('user ok');
+                    console.info(app.session);
                     if (app.core.session.user) {
                         $('#app').addClass('loggedIn');
                         app.user.ui.updateProfileName();
@@ -68,7 +70,7 @@ app.register({
 
         ui: {
             updateProfileName: function() {
-                if (app.core.session.user !== null) {
+                if (isDefined(app.core.session.user) && app.core.session.user !== null) {
                     if (app.core.session.user.shortName === null || app.core.session.user.shortName === "") {
                         app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
                     }

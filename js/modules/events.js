@@ -49,8 +49,7 @@ app.register({
 
                 .on('events.reordered', function(e, container) {
                     app.events.eventsReordered(container);
-                })
-            ;
+                });
 
             // -----------------------------------------------------------------
             // CLOSING DATE IS SET
@@ -621,6 +620,7 @@ app.register({
                 title: "Évènements"
             }
         },
+        homeAction: function() {},
         showEvents: function(force) {
             if (app.core.history.currentState !== app.ctrl.states.showEvents || force) {
                 app.core.ui.clearContent();
@@ -657,4 +657,11 @@ app.register({
             }
         }
     },
+    core: {
+        utils: {
+            parseApiDate: function(string) {
+                return moment(string).toDate();
+            },
+        }
+    }
 });

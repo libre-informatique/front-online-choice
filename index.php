@@ -8,8 +8,8 @@ $app = new App();
 
 $parameters = $app->getParameters();
 
-if (isset($_GET['currentToken'])) {
-    $app->getApiTokenAction($_GET['currentToken'], @$_GET['refreshToken']);
+if (isset($_POST['currentToken'])) {
+    $app->getApiTokenAction($_POST['currentToken'], @$_POST['refreshToken']);
 }
 
 if (isset($_GET['getParameters'])) {
@@ -36,9 +36,9 @@ if (isset($_GET['getParameters'])) {
 
             <!-- NAVBAR -->
 
-            <div id="mainLoader" class="progress">
+            <!-- <div id="mainLoader" class="progress">
                 <div class="indeterminate"></div>
-            </div>
+            </div> -->
 
             <nav>
                 <div class="nav-wrapper primary">
@@ -140,27 +140,28 @@ if (isset($_GET['getParameters'])) {
 
                 <!-- LOGIN -->
 
-                <handlebar-placeholder template="login"></handlebar-placeholder>
+                <handlebars-template name="login" src="./views/login.html"></handlebars-template>
 
                 <!-- EVENTS TABS -->
 
                 <div id="main" class="row">
                     <div class="col s12 showIfLoggedIn">
-                        <handlebar-placeholder template="mainTabs"></handlebar-placeholder>
+                        <handlebars-template name="mainTabs" src="./views/blocks/tabs.html"></handlebars-template>
                     </div>
                 </div>
 
                 <!-- PROFILE -->
 
-                <handlebar-placeholder template="userProfile"></handlebar-placeholder>
-                <handlebar-placeholder template="editUserProfile"></handlebar-placeholder>
-                <handlebar-placeholder template="editUserPassword"></handlebar-placeholder>
-                <handlebar-placeholder template="settings"></handlebar-placeholder>
+                <handlebars-template name="userProfile" src="./views/user/profile.html"></handlebars-template>
+                <handlebars-template name="editUserProfile" src="./views/user/editProfile.html"></handlebars-template>
+                <handlebars-template name="editUserPassword" src="./views/user/editPassword.html"></handlebars-template>
+                <handlebars-template name="settings" src="./views/user/settings.html"></handlebars-template>
 
             </div>
 
-            <handlebar-placeholder template="infos"></handlebar-placeholder>
-            <handlebar-placeholder template="introduction"></handlebar-placeholder>
+            <handlebars-template name="introduction" src="./views/blocks/introduction.html"></handlebars-template>
+            <handlebars-template name="infos" src="views/blocks/infos.html"></handlebars-template>
+
 
             <!-- CONFIRM MODAL -->
 
@@ -188,12 +189,12 @@ if (isset($_GET['getParameters'])) {
 
         <!-- LIBS -->
 
-        <script src="js/libs/jquery-3.2.1.min.js"></script>
-        <script src="js/libs/jquery-ui.min.js"></script>
-        <script src="js/libs/jquery.ui.touch-punch.min.js"></script>
-        <script src="js/libs/handlebars-v4.0.5.js"></script>
-        <script src="js/libs/materialize.min.js"></script>
-        <script src="js/libs/moment-with-locales.min.js"></script>
+        <script src="LiftJS/dist/libs/jquery-3.2.1.min.js"></script>
+        <script src="LiftJS/dist/libs/jquery-ui.min.js"></script>
+        <script src="LiftJS/dist/libs/jquery.ui.touch-punch.min.js"></script>
+        <script src="LiftJS/dist/libs/handlebars.min.js"></script>
+        <script src="LiftJS/dist/libs/materialize.min.js"></script>
+        <script src="LiftJS/dist/libs/moment-with-locales.min.js"></script>
         <!-- UNCOMMENT IF YOU WANT TO SUPPORT LEGACY BROWSER -->
         <!--<script src="js/libs/jquery.history.js"></script>-->
 
@@ -203,42 +204,40 @@ if (isset($_GET['getParameters'])) {
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
 
-        <script type="text/javascript" src="js/app.js"></script>
-        <script type="text/javascript" src="js/core/utils.js"></script>
-        <script type="text/javascript" src="js/core/ui.js"></script>
-        <script type="text/javascript" src="js/core/controller.js"></script>
-        <script type="text/javascript" src="js/core/events.js"></script>
-        <script type="text/javascript" src="js/core/session.js"></script>
-        <script type="text/javascript" src="js/core/webservice.js"></script>
-        <script type="text/javascript" src="js/core/history.js"></script>
-        <script type="text/javascript" src="js/core/settings.js"></script>
+        <script type="text/javascript" src="LiftJS/js/app.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/utils.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/ui.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/controller.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/events.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/session.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/history.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/modal.js"></script>
+        <script type="text/javascript" src="LiftJS/js/core/settings.js"></script>
+        <!-- <script type="text/javascript" src="LiftJS/dist/liftJs.min.js"></script> -->
+
+        <script type="text/javascript" src="LiftJS/js/modules/baseUi/baseUi.js"></script>
+        <script type="text/javascript" src="LiftJS/js/modules/webservice/webservice.js"></script>
+        <script type="text/javascript" src="LiftJS/js/modules/featureDiscovery/featureDiscovery.js"></script>
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="js/modules/featureDiscovery.js"></script>
-        <script type="text/javascript" src="js/modules/user.js"></script>
+        <script type="text/javascript" src="LiftJS/js/modules/user/user.js"></script>
+        <script type="text/javascript" src="js/modules/webservice.js"></script>
         <script type="text/javascript" src="js/modules/events.js"></script>
         <script type="text/javascript" src="js/modules/cart.js"></script>
 
         <!-- APP STARTER -->
 
         <script type="text/javascript">
+            // Set your custom host if needed (without trailing slash)
+            app.config.host = "<?php echo $parameters->appHostname; ?>";
+            // Set your custom parameters.json path
+            app.config.parametersPath = "/?getParameters=1";
+
+            app.core.ui.displayContentLoading();
             // START APP
             $(document).ready(app.init());
         </script>
-
-        <!-- TEMPLATES LOADED DIRECTLY -->
-
-        <script id="login-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/login.html'); ?></script>
-        <script id="mainTabs-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/tabs.html'); ?></script>
-        <script id="userProfile-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/profile.html'); ?></script>
-        <script id="editUserProfile-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editProfile.html'); ?></script>
-        <script id="editUserPassword-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editPassword.html'); ?></script>
-        <script id="settings-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/settings.html'); ?></script>
-        <script id="infos-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/infos.html'); ?></script>
-        <script id="introduction-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/introduction.html'); ?></script>
-
-        <!-- TEMPLATES LOADED VIA AJAX -->
 
         <div class="footer">
             <div class="footerText">
