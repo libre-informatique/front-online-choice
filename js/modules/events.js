@@ -50,7 +50,6 @@ app.register({
                 .on('events.reordered', function(e, container) {
                     app.events.eventsReordered(container);
                 })
-
             ;
 
             // -----------------------------------------------------------------
@@ -364,6 +363,7 @@ app.register({
                     m = ts.manifestations[mId];
 
                     m.event.name = m.event.translations[app.config.lang].name;
+                    m.event.description = m.event.translations[app.config.lang].description;
 
                     app.events.manifestations[m.id] = m;
                 });
@@ -589,6 +589,29 @@ app.register({
             });
 
             return defer.promise();
+        },
+
+        getMetaEvent: function() {
+            var defer = jQuery.Deferred();
+
+            app.core.ws.call('GET', '/manifestations', {
+                'criteria[metaEvents.id][type]': 'equals',
+                'criteria[metaEvents.id][value]': app.config.metaEventId,
+                'limit': 1
+            }, function(data) {
+                var event = data._embedded.items.length != 0 ? data._embedded.items[0].event : null;
+
+                if (event) {
+                    var metaevent = event.metaEvent;
+                    var texts = metaevent.translations[app.config.lang];
+                    texts.description = texts.description.replace(/\n/g, "<br>");
+                    defer.resolve(texts);
+                } else {
+                    defer.reject();
+                }
+            });
+
+            return defer.promise();
         }
     },
     ctrl: {
@@ -605,6 +628,20 @@ app.register({
                 var events = app.ws.getEvents()
                     .then(function(events) {
                         app.core.ctrl.render('mainTabs', events, true).then(function() {
+
+                            if (!localStorage.getItem(app.config.clientSessionName + '_introduction')) {
+                                app.ws.getMetaEvent().then(function(metaEventTexts) {
+                                    if (metaEventTexts.description != '') {
+                                        app.core.ctrl.render('introduction', { texts: metaEventTexts }, false).then(function() {
+                                            $('#introductionModal')
+                                                .modal()
+                                                .modal('open');
+                                            localStorage.setItem(app.config.clientSessionName + '_introduction', true);
+                                        });
+                                    }
+                                });
+                            }
+
                             app.cart.getCart().then(function() {
                                 app.cart.applyCart().then(function() {
                                     app.events.ui.initTabs();

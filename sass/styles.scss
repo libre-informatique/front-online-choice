@@ -467,10 +467,14 @@ html {
                             }
 
                             .label {
-                                margin-right: 20px;
+                                margin-right   : 20px;
+
+                                display        : flex;
+                                align-items    : start;
+                                flex-direction : column;
+                                justify-content: center;
 
                                 .event-label {
-                                    padding-left: 1em;
                                     // Hack for long manifestation titles
                                     @media only screen and (min-width: 400px) and (max-width: 600px) {
                                         & {
@@ -482,6 +486,44 @@ html {
                                             font-size: 3vw;
                                         }
                                     }
+                                }
+
+                                .event-desc {
+                                    font-size    : 0.8em;
+                                    overflow     : hidden;
+                                    position     : relative;
+                                    color        : rgba(0,0,0,0.6);
+                                    padding-right: 1em;
+
+                                    &:after {
+                                        content   : '';
+
+                                        position  : absolute;
+                                        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+50,ffffff+86&0+50,1+86 */
+                                        background: -moz-linear-gradient(top, rgba(255,255,255,0) 50%, rgba(255,255,255,1) 86%);
+                                        /* FF3.6-15 */
+                                        background: -webkit-linear-gradient(top, rgba(255,255,255,0) 50%,rgba(255,255,255,1) 86%);
+                                        /* Chrome10-25,Safari5.1-6 */
+                                        background: linear-gradient(to bottom, rgba(255,255,255,0) 50%,rgba(255,255,255,1) 86%);
+                                        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                                        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=  '#00ffffff', endColorstr='#ffffff',GradientType=0 );
+                                        /* IE6-9 */
+
+                                        height    : 100%;
+                                        width     : 100%;
+                                        display   : block;
+                                        top       : 0;
+
+                                    }
+
+                                    @media #{$small-and-down} {
+                                        display:none;
+                                    }
+                                }
+
+                                .event-desc,
+                                .event-label {
+                                    padding-left: 1em;
                                 }
                             }
 
@@ -584,6 +626,32 @@ html {
                                     }
                                 }
                             }
+
+                            &:hover {
+
+                                .label {
+                                    .event-label {
+                                        background-color: white;
+                                        border-radius   : 1em 1em 0 0 ;
+                                    }
+                                    .event-desc {
+                                        z-index         : 9999;
+                                        position        : relative;
+                                        height          : auto;
+                                        overflow        : visible;
+                                        // padding-bottom  : 1em;
+                                        background-color: white;
+                                        box-shadow      : 0 8px 4px -6px rgba(0,0,0,0.4);
+                                        border-radius   : 0 0 1em 1em;
+                                        width:100%;
+
+                                        &:after {
+                                            display: none;
+                                        }
+
+                                    }
+                                }
+                            }
                         }
 
                         .event-time {
@@ -660,7 +728,7 @@ html {
     }
 
     .tap-target-wrapper {
-        z-index:999;
+        z-index: 999;
     }
 
     #confirm-fab,
@@ -991,7 +1059,6 @@ html {
     background-color: $info-color;
     color           : white;
 }
-
 @media #{$small-and-down} {
     form {
         .btn {
