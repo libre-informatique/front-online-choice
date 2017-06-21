@@ -30,6 +30,8 @@ gulp.task('watch', function () {
   gulp.watch('./**/*', ['livereload']);
 });
 
+gulp.task('css', ['sass', 'watch']);
+
 gulp.task('default', ['connect', 'sass', 'watch']);
 
 gulp.task('prod', ['sass']);
