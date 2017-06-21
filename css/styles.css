@@ -7861,19 +7861,17 @@ html {
             height: 80%;
             background: black;
             opacity: 0.05; }
-        #app .content #main .events .manifestations-list .event .event-card:hover {
-          z-index: 9999; }
-          #app .content #main .events .manifestations-list .event .event-card:hover .label .event-desc {
-            z-index: 9999;
-            position: relative;
-            height: auto;
-            overflow: visible;
-            padding-bottom: 1em;
-            background-color: white;
-            box-shadow: 0 8px 4px -6px rgba(0, 0, 0, 0.4);
-            border-radius: 0 0 1em 1em; }
-            #app .content #main .events .manifestations-list .event .event-card:hover .label .event-desc:after {
-              display: none; }
+        #app .content #main .events .manifestations-list .event .event-card:hover .label .event-desc {
+          z-index: 9999;
+          position: relative;
+          height: auto;
+          overflow: visible;
+          padding-bottom: 1em;
+          background-color: white;
+          box-shadow: 0 8px 4px -6px rgba(0, 0, 0, 0.4);
+          border-radius: 0 0 1em 1em; }
+          #app .content #main .events .manifestations-list .event .event-card:hover .label .event-desc:after {
+            display: none; }
       @media only screen and (min-width: 801px) {
         #app .content #main .events .manifestations-list .event .event-time {
           line-height: 120px; } }
