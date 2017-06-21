@@ -160,6 +160,7 @@ if (isset($_GET['getParameters'])) {
             </div>
 
             <handlebar-placeholder template="infos"></handlebar-placeholder>
+            <handlebar-placeholder template="introduction"></handlebar-placeholder>
 
             <!-- CONFIRM MODAL -->
 
@@ -235,6 +236,7 @@ if (isset($_GET['getParameters'])) {
         <script id="editUserPassword-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/editPassword.html'); ?></script>
         <script id="settings-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/user/settings.html'); ?></script>
         <script id="infos-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/infos.html'); ?></script>
+        <script id="introduction-template" type="text/x-handlebars-template"><?php echo file_get_contents('./views/blocks/introduction.html'); ?></script>
 
         <!-- TEMPLATES LOADED VIA AJAX -->
 
