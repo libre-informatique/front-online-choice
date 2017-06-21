@@ -489,9 +489,11 @@ html {
                                 }
 
                                 .event-desc {
-                                    font-size: 0.8em;
-                                    overflow : hidden;
-                                    position : relative;
+                                    font-size    : 0.8em;
+                                    overflow     : hidden;
+                                    position     : relative;
+                                    color        : rgba(0,0,0,0.6);
+                                    padding-right: 1em;
 
                                     &:after {
                                         content   : '';
@@ -622,18 +624,23 @@ html {
                             }
 
                             &:hover {
+                                z-index: 9999;
+
                                 .label {
                                     .event-desc {
-                                        height:auto;
-                                        overflow:visible;
-                                        & {
-                                            background-color: white;
-                                            box-shadow: 0 8px 4px -6px rgba(0,0,0,0.4);
-                                            border-radius: 0 0 1em 1em;
-                                            &:after {
-                                                display:none;
-                                            }
+                                        z-index         : 9999;
+                                        position        : relative;
+                                        height          : auto;
+                                        overflow        : visible;
+                                        padding-bottom  : 1em;
+                                        background-color: white;
+                                        box-shadow      : 0 8px 4px -6px rgba(0,0,0,0.4);
+                                        border-radius   : 0 0 1em 1em;
+
+                                        &:after {
+                                            display: none;
                                         }
+
                                     }
                                 }
                             }
