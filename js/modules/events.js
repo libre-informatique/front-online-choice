@@ -43,6 +43,10 @@ app.register({
                     }
                 })
 
+                .on('click','#introductionButton',function() {
+                    app.ctrl.showIntroductionModal();
+                })
+
                 // -----------------------------------------------------------------
                 // EVENTS REORDERED (SORTABLE END)
                 // -----------------------------------------------------------------
@@ -621,7 +625,7 @@ app.register({
             }
         },
         homeAction: function() {
-            if(app.core.session.user !== null)
+            if (app.core.session.user !== null)
                 app.ctrl.showEvents();
         },
         showEvents: function(force) {
@@ -633,16 +637,7 @@ app.register({
                         app.core.ctrl.render('mainTabs', events, true).then(function() {
 
                             if (!localStorage.getItem(app.config.clientSessionName + '_introduction')) {
-                                app.ws.getMetaEvent().then(function(metaEventTexts) {
-                                    if (metaEventTexts.description != '') {
-                                        app.core.ctrl.render('introduction', { texts: metaEventTexts }, false).then(function() {
-                                            $('#introductionModal')
-                                                .modal()
-                                                .modal('open');
-                                            localStorage.setItem(app.config.clientSessionName + '_introduction', true);
-                                        });
-                                    }
-                                });
+                                app.ctrl.showIntroductionModal();
                             }
 
                             app.cart.getCart().then(function() {
@@ -658,6 +653,18 @@ app.register({
                         });
                     }, function(error) {});
             }
+        },
+        showIntroductionModal: function() {
+            app.ws.getMetaEvent().then(function(metaEventTexts) {
+                if (metaEventTexts.description != '') {
+                    app.core.ctrl.render('introduction', { texts: metaEventTexts }, false).then(function() {
+                        $('#introductionModal')
+                            .modal()
+                            .modal('open');
+                        localStorage.setItem(app.config.clientSessionName + '_introduction', true);
+                    });
+                }
+            });
         }
     },
     core: {
@@ -666,5 +673,12 @@ app.register({
                 return moment(string).toDate();
             },
         }
+    },
+    baseUi: {
+        initEvents: function() {},
+        registerTemplates: function() {},
+    },
+    featureDiscovery: {
+        registerTemplates: function() {}
     }
 });

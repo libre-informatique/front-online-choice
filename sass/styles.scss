@@ -140,6 +140,10 @@ html {
         z-index: 2;
     }
 
+    #mainLoader {
+        display:none;
+    }
+
     nav {
         background-color: $primary-color;
         position        : fixed;
@@ -165,6 +169,9 @@ html {
                     position     : relative;
                     top          : -0.4em;
                 }
+            }
+            #introductionButton {
+                cursor: pointer;
             }
         }
 

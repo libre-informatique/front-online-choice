@@ -13,13 +13,33 @@ app.register({
         initEvents: function() {
             $(document)
 
+                // -------------------------------------------------------------
+                // CONFIRMATION FAB BUTTON
+                // -------------------------------------------------------------
+
+                .on('click', '#confirm-fab', function(e) {
+                    app.baseUi.openModal('cartConfirm',{});
+                })
+
+                // -------------------------------------------------------------
+                // CONFIRMATION MODAL BUTTONS
+                // -------------------------------------------------------------
+
+                .on('click', '#cancel-btn', function(e) {
+                    app.baseUi.closeModal();
+                })
+
+                .on('click', '#save-btn', function(e) {
+                    app.baseUi.closeModal();
+                })
+
                 // -----------------------------------------------------------------
                 // EVENTS SAVE CART
                 // -----------------------------------------------------------------
 
                 .on('click', '#save-btn', function(e) {
                     app.cart.validateCart().then(function() {
-                        app.core.ui.modal.modal('close');
+                        app.baseUi.closeModal();
                         app.ctrl.showEvents(true);
                     });
                 })

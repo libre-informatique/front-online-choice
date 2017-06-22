@@ -23,13 +23,13 @@ if (isset($_GET['getParameters'])) {
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
-        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
         <title><?php echo $parameters->applicationName; ?></title>
 
         <meta http-equiv="Access-Control-Allow-Origin" content="*">
         <meta name="theme-color" content="#455a64">
 
-        <link rel="icon" type="image/png" href="img/favicon.png" />
+        <link rel="icon" type="image/png" href="/img/favicon.png" />
     </head>
     <body>
         <div id="app">
@@ -52,6 +52,9 @@ if (isset($_GET['getParameters'])) {
                         </li>
                     </ul>
                     <ul id="nav-mobile-right" class="right">
+                        <li class="showIfLoggedIn" id="introductionButton">
+                            <i class="material-icons">info_outline</i>
+                        </li>
                         <li class="showIfLoggedIn">
                             <a class='dropdown-button navbar-user-btn' href="javascript:;"
                                data-activates='userMenu'
@@ -140,61 +143,39 @@ if (isset($_GET['getParameters'])) {
 
                 <!-- LOGIN -->
 
-                <handlebars-template name="login" src="./views/login.html"></handlebars-template>
+                <handlebars-template name="login" src="/views/login.html"></handlebars-template>
 
                 <!-- EVENTS TABS -->
 
                 <div id="main" class="row">
                     <div class="col s12 showIfLoggedIn">
-                        <handlebars-template name="mainTabs" src="./views/blocks/tabs.html"></handlebars-template>
+                        <handlebars-template name="mainTabs" src="/views/blocks/tabs.html"></handlebars-template>
                     </div>
                 </div>
 
                 <!-- PROFILE -->
 
-                <handlebars-template name="userProfile" src="./views/user/profile.html"></handlebars-template>
-                <handlebars-template name="editUserProfile" src="./views/user/editProfile.html"></handlebars-template>
-                <handlebars-template name="editUserPassword" src="./views/user/editPassword.html"></handlebars-template>
-                <handlebars-template name="settings" src="./views/user/settings.html"></handlebars-template>
+                <handlebars-template name="userProfile" src="/views/user/profile.html"></handlebars-template>
+                <handlebars-template name="editUserProfile" src="/views/user/editProfile.html"></handlebars-template>
+                <handlebars-template name="editUserPassword" src="/views/user/editPassword.html"></handlebars-template>
+                <handlebars-template name="settings" src="/views/user/settings.html"></handlebars-template>
 
             </div>
 
-            <handlebars-template name="introduction" src="./views/blocks/introduction.html"></handlebars-template>
-            <handlebars-template name="infos" src="./views/blocks/infos.html" override="true"></handlebars-template>
-
-
-            <!-- CONFIRM MODAL -->
-
-            <div id="confirm-modal" class="modal bottom-sheet">
-                <div class="modal-content center">
-                    <h4>Valider vos choix pour la semaine ?</h4>
-                    <div class="btn-toolbar row">
-                        <div class="col s6">
-                            <a id="save-btn" class="waves-effect waves-light btn green lighten-1">
-                                <i class="material-icons left">check_circle</i>
-                                oui
-                            </a>
-                        </div>
-                        <div class="col s6">
-                            <a id="cancel-btn" class="waves-effect waves-light btn primary">
-                                <i class="material-icons right">cancel</i>
-                                non
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <handlebars-template name="introduction" src="/views/blocks/introduction.html"></handlebars-template>
+            <handlebars-template name="infos" src="/views/blocks/infos.html" override="true"></handlebars-template>
+            <handlebars-template name="cartConfirm" src="/views/blocks/cartConfirm.html"></handlebars-template>
 
         </div>
 
         <!-- LIBS -->
 
-        <script src="LiftJS/dist/libs/jquery-3.2.1.min.js"></script>
-        <script src="LiftJS/dist/libs/jquery-ui.min.js"></script>
-        <script src="LiftJS/dist/libs/jquery.ui.touch-punch.min.js"></script>
-        <script src="LiftJS/dist/libs/handlebars.min.js"></script>
-        <script src="LiftJS/dist/libs/materialize.min.js"></script>
-        <script src="LiftJS/dist/libs/moment-with-locales.min.js"></script>
+        <script src="/LiftJS/dist/libs/jquery-3.2.1.min.js"></script>
+        <script src="/LiftJS/dist/libs/jquery-ui.min.js"></script>
+        <script src="/LiftJS/dist/libs/jquery.ui.touch-punch.min.js"></script>
+        <script src="/LiftJS/dist/libs/handlebars.min.js"></script>
+        <script src="/LiftJS/dist/libs/materialize.js"></script>
+        <script src="/LiftJS/dist/libs/moment-with-locales.min.js"></script>
         <!-- UNCOMMENT IF YOU WANT TO SUPPORT LEGACY BROWSER -->
         <!--<script src="js/libs/jquery.history.js"></script>-->
 
@@ -204,27 +185,26 @@ if (isset($_GET['getParameters'])) {
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
 
-        <script type="text/javascript" src="LiftJS/js/app.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/utils.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/ui.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/controller.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/events.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/session.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/history.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/modal.js"></script>
-        <script type="text/javascript" src="LiftJS/js/core/settings.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/app.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/utils.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/ui.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/controller.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/events.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/session.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/history.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/core/settings.js"></script>
         <!-- <script type="text/javascript" src="LiftJS/dist/liftJs.min.js"></script> -->
 
-        <script type="text/javascript" src="LiftJS/js/modules/baseUi/baseUi.js"></script>
-        <script type="text/javascript" src="LiftJS/js/modules/webservice/webservice.js"></script>
-        <script type="text/javascript" src="LiftJS/js/modules/featureDiscovery/featureDiscovery.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/modules/baseUi/baseUi.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/modules/webservice/webservice.js"></script>
+        <script type="text/javascript" src="/LiftJS/js/modules/featureDiscovery/featureDiscovery.js"></script>
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="LiftJS/js/modules/user/user.js"></script>
-        <script type="text/javascript" src="js/modules/webservice.js"></script>
-        <script type="text/javascript" src="js/modules/events.js"></script>
-        <script type="text/javascript" src="js/modules/cart.js"></script>
+        <script type="text/javascript" src="/js/modules/user.js"></script>
+        <script type="text/javascript" src="/js/modules/webservice.js"></script>
+        <script type="text/javascript" src="/js/modules/events.js"></script>
+        <script type="text/javascript" src="/js/modules/cart.js"></script>
 
         <!-- APP STARTER -->
 

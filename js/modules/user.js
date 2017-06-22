@@ -61,7 +61,7 @@ app.register({
                 localStorage.setItem(app.config.clientSessionName + '_alreadyLoggedIn', true);
                 app.ctrl.showUserProfile();
             } else { // events
-                app.ctrl.showEvents();
+                app.ctrl.homeAction();
             }
         },
 
@@ -153,7 +153,7 @@ app.register({
 
         updateUser: function(form) {
             var formData =
-                $.extend(app.core.session.user, app.core.utils.formToObject(form.serializeArray()));
+                $.extend(app.core.session.user, app.core.utils.formToObject(form));
 
             if (formData.hasOwnProperty('password_1')) {
                 formData.password = formData.password_1;
@@ -273,9 +273,8 @@ app.register({
             }
         },
 
-        updatePassword: function(form) {
+        updatePassword: function(formData,form) {
             if (app.core.session.user) {
-                var formData = app.core.utils.formToObject(form.serializeArray());
 
                 if (formData.password_1 == formData.password_2) {
                     app.ws.updateUser(form);
@@ -305,9 +304,8 @@ app.register({
             }
         },
 
-        updateSettings: function(form) {
+        updateSettings: function(formData) {
             if (app.core.session.user) {
-                var formData = app.core.utils.formToObject(form.serializeArray());
 
                 if (formData.clearAllInfosMessages === true) {
                     localStorage.removeItem(app.config.clientSessionName + '_alreadyLoggedIn');

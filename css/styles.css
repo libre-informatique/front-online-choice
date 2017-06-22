@@ -7541,6 +7541,8 @@ html {
   #app,
   #app * {
     z-index: 2; }
+  #app #mainLoader {
+    display: none; }
   #app nav {
     background-color: #455a64;
     position: fixed;
@@ -7561,6 +7563,8 @@ html {
           margin-bottom: 0.5em;
           position: relative;
           top: -0.4em; } }
+      #app nav .nav-wrapper #introductionButton {
+        cursor: pointer; }
     #app nav .brand-logo {
       padding-left: 0.5em;
       left: 50%;
