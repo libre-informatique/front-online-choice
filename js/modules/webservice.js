@@ -1,9 +1,23 @@
 app.register({
     webservice: {
         initEvents: function() {
-            $(document).on('session.started', function() {
-                app.core.ws.apiAuth();
-            });
+            $(document)
+                .on('session.started', function() {
+                    app.core.ws.apiAuth();
+                })
+                // -------------------------------------------------------------
+                // AJAX SPINNER
+                // -------------------------------------------------------------
+
+                .ajaxStart(function() {
+                    if (app.isReady)
+                        app.core.ui.displayAjaxLoading();
+                })
+
+                .ajaxStop(function() {
+                    if (app.isReady)
+                        app.core.ui.displayAjaxLoading(false);
+                });
         }
     },
     core: {
@@ -82,15 +96,31 @@ app.register({
 
             user: null,
 
-            enableRememberMe: function () {
+            enableRememberMe: function() {
                 app.core.sessionStorage.engine = localStorage;
                 sessionStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = true;
             },
-            disableRememberMe: function () {
+            disableRememberMe: function() {
                 app.core.sessionStorage.engine = sessionStorage;
                 localStorage.removeItem(app.config.clientSessionName);
                 app.core.session.rememberMe = false;
+            },
+        },
+        ui: {
+            // -------------------------------------------------------------------------
+            // SHOW BIG LOADER IN CONTENT
+            // -------------------------------------------------------------------------
+
+            displayAjaxLoading: function(show) {
+                if (!isDefined(show))
+                    show = true;
+                var loader = $('#mainLoader');
+
+                if (show === true)
+                    loader.show();
+                else
+                    loader.hide();
             },
         }
     }

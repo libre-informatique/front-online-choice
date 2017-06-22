@@ -5,12 +5,9 @@ app.register({
         initEvents: function() {
             $(document)
                 .on('app.ready', function() {
-                    alert('user ok');
-                    console.info(app.session);
                     if (app.core.session.user) {
                         $('#app').addClass('loggedIn');
                         app.user.ui.updateProfileName();
-
                         app.user.dispatchAfterLogin();
                     } else {
                         app.ctrl.login();

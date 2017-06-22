@@ -36,9 +36,9 @@ if (isset($_GET['getParameters'])) {
 
             <!-- NAVBAR -->
 
-            <!-- <div id="mainLoader" class="progress">
+            <div id="mainLoader" class="progress">
                 <div class="indeterminate"></div>
-            </div> -->
+            </div>
 
             <nav>
                 <div class="nav-wrapper primary">
@@ -160,7 +160,7 @@ if (isset($_GET['getParameters'])) {
             </div>
 
             <handlebars-template name="introduction" src="./views/blocks/introduction.html"></handlebars-template>
-            <handlebars-template name="infos" src="views/blocks/infos.html"></handlebars-template>
+            <handlebars-template name="infos" src="./views/blocks/infos.html" override="true"></handlebars-template>
 
 
             <!-- CONFIRM MODAL -->

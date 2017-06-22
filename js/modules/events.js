@@ -620,7 +620,10 @@ app.register({
                 title: "Évènements"
             }
         },
-        homeAction: function() {},
+        homeAction: function() {
+            if(app.core.session.user !== null)
+                app.ctrl.showEvents();
+        },
         showEvents: function(force) {
             if (app.core.history.currentState !== app.ctrl.states.showEvents || force) {
                 app.core.ui.clearContent();
