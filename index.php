@@ -142,11 +142,6 @@ if (isset($_GET['getParameters'])) {
                     </div>
                 </div>
 
-
-                <!-- LOGIN -->
-
-                <handlebars-template name="login" src="/js/modules/user/views/login.html"></handlebars-template>
-
                 <!-- EVENTS TABS -->
 
                 <div id="main" class="row">
@@ -155,17 +150,8 @@ if (isset($_GET['getParameters'])) {
                     </div>
                 </div>
 
-                <!-- PROFILE -->
-
-                <handlebars-template name="userProfile" src="/js/modules/user/views/profile.html"></handlebars-template>
-                <handlebars-template name="editUserProfile" src="/js/modules/user/views/editProfile.html"></handlebars-template>
-                <handlebars-template name="editUserPassword" src="/js/modules/user/views/editPassword.html"></handlebars-template>
-                <handlebars-template name="settings" src="/js/modules/user/views/settings.html"></handlebars-template>
-
             </div>
 
-            <handlebars-template name="introduction" src="/js/modules/events/views/introduction.html"></handlebars-template>
-            <handlebars-template name="infos" src="/js/modules/events/views/infos.html" override="true"></handlebars-template>
             <handlebars-template name="cartConfirm" src="/js/modules/cart/views/cartConfirm.html"></handlebars-template>
 
         </div>

@@ -7596,7 +7596,11 @@ html {
     max-width: 500px; }
     @media only screen and (min-width: 801px) {
       #app .loginForm {
-        margin-top: 25vh; } }
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 500px; } }
   #app .content {
     padding: 4.1em 0 1em; }
     #app .content #main .col {

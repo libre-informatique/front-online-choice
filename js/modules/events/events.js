@@ -5,6 +5,12 @@ app.register({
         // HOLDS MANIFESTATIONS IN FLAT OBJECT
         manifestations: {},
 
+
+        registerTemplates: function() {
+            app.core.ui.addTemplate('app', 'introduction', '/js/modules/events/views/introduction.html');
+            app.core.ui.addTemplate('app', 'infos', '/js/modules/events/views/infos.html');
+        },
+
         // -------------------------------------------------------------------------
         // ADD UI EVENTS (PRESENCE BUTTONS)
         // -------------------------------------------------------------------------

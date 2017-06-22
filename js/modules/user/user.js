@@ -2,6 +2,13 @@
 
 app.register({
     user: {
+        registerTemplates: function() {
+            app.core.ui.addTemplate('content', 'userProfile', '/js/modules/user/views/profile.html');
+            app.core.ui.addTemplate('content', 'editUserProfile', '/js/modules/user/views/editProfile.html');
+            app.core.ui.addTemplate('content', 'editUserPassword', '/js/modules/user/views/editPassword.html');
+            app.core.ui.addTemplate('content', 'settings', '/js/modules/user/views/settings.html');
+            app.core.ui.addTemplate('content', 'login', '/js/modules/user/views/login.html');
+        },
         initEvents: function() {
             $(document)
                 .on('app.ready', function() {
