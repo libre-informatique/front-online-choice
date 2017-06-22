@@ -145,28 +145,28 @@ if (isset($_GET['getParameters'])) {
 
                 <!-- LOGIN -->
 
-                <handlebars-template name="login" src="/views/login.html"></handlebars-template>
+                <handlebars-template name="login" src="/js/modules/user/views/login.html"></handlebars-template>
 
                 <!-- EVENTS TABS -->
 
                 <div id="main" class="row">
                     <div class="col s12 showIfLoggedIn">
-                        <handlebars-template name="mainTabs" src="/views/blocks/tabs.html"></handlebars-template>
+                        <handlebars-template name="mainTabs" src="/js/modules/events/views/tabs.html"></handlebars-template>
                     </div>
                 </div>
 
                 <!-- PROFILE -->
 
-                <handlebars-template name="userProfile" src="/views/user/profile.html"></handlebars-template>
-                <handlebars-template name="editUserProfile" src="/views/user/editProfile.html"></handlebars-template>
-                <handlebars-template name="editUserPassword" src="/views/user/editPassword.html"></handlebars-template>
-                <handlebars-template name="settings" src="/views/user/settings.html"></handlebars-template>
+                <handlebars-template name="userProfile" src="/js/modules/user/views/profile.html"></handlebars-template>
+                <handlebars-template name="editUserProfile" src="/js/modules/user/views/editProfile.html"></handlebars-template>
+                <handlebars-template name="editUserPassword" src="/js/modules/user/views/editPassword.html"></handlebars-template>
+                <handlebars-template name="settings" src="/js/modules/user/views/settings.html"></handlebars-template>
 
             </div>
 
-            <handlebars-template name="introduction" src="/views/blocks/introduction.html"></handlebars-template>
-            <handlebars-template name="infos" src="/views/blocks/infos.html" override="true"></handlebars-template>
-            <handlebars-template name="cartConfirm" src="/views/blocks/cartConfirm.html"></handlebars-template>
+            <handlebars-template name="introduction" src="/js/modules/events/views/introduction.html"></handlebars-template>
+            <handlebars-template name="infos" src="/js/modules/events/views/infos.html" override="true"></handlebars-template>
+            <handlebars-template name="cartConfirm" src="/js/modules/cart/views/cartConfirm.html"></handlebars-template>
 
         </div>
 
@@ -176,7 +176,7 @@ if (isset($_GET['getParameters'])) {
         <script src="/LiftJS/dist/libs/jquery-ui.min.js"></script>
         <script src="/LiftJS/dist/libs/jquery.ui.touch-punch.min.js"></script>
         <script src="/LiftJS/dist/libs/handlebars.min.js"></script>
-        <script src="/LiftJS/dist/libs/materialize.js"></script>
+        <script src="/LiftJS/dist/libs/materialize.min.js"></script>
         <script src="/LiftJS/dist/libs/moment-with-locales.min.js"></script>
         <!-- UNCOMMENT IF YOU WANT TO SUPPORT LEGACY BROWSER -->
         <!--<script src="js/libs/jquery.history.js"></script>-->
@@ -203,10 +203,29 @@ if (isset($_GET['getParameters'])) {
 
         <!-- BUSINESS COMPONENTS -->
 
-        <script type="text/javascript" src="/js/modules/user.js"></script>
-        <script type="text/javascript" src="/js/modules/webservice.js"></script>
-        <script type="text/javascript" src="/js/modules/events.js"></script>
-        <script type="text/javascript" src="/js/modules/cart.js"></script>
+        <script type="text/javascript" src="/js/modules/user/user.js"></script>
+        <script type="text/javascript" src="/js/modules/user/ctrl.js"></script>
+        <script type="text/javascript" src="/js/modules/user/ws.js"></script>
+
+        <!-- WEBSERVICE -->
+
+        <script type="text/javascript" src="/js/modules/webservice/webservice.js"></script>
+
+        <!-- EVENTS -->
+
+        <script type="text/javascript" src="/js/modules/events/events.js"></script>
+        <script type="text/javascript" src="/js/modules/events/ctrl.js"></script>
+        <script type="text/javascript" src="/js/modules/events/ws.js"></script>
+        <script type="text/javascript" src="/js/modules/events/ui.js"></script>
+
+        <!-- CART -->
+
+        <script type="text/javascript" src="/js/modules/cart/cart.js"></script>
+        <script type="text/javascript" src="/js/modules/cart/ws.js"></script>
+
+        <!-- OVERRIDE -->
+
+        <script type="text/javascript" src="/js/modules/override/override.js"></script>
 
         <!-- APP STARTER -->
 

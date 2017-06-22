@@ -1,0 +1,84 @@
+/* global app */
+
+app.register({
+    user: {
+        initEvents: function() {
+            $(document)
+                .on('app.ready', function() {
+                    if (app.core.session.user) {
+                        $('#app').addClass('loggedIn');
+                        app.user.ui.updateProfileName();
+                        app.user.dispatchAfterLogin();
+                    } else {
+                        app.ctrl.login();
+                        $('#app').removeClass('loggedIn');
+                    }
+                })
+
+                // -----------------------------------------------------------------
+                // LOGIN
+                // -----------------------------------------------------------------
+
+                .on('submit', '#loginForm', function(e) {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var form = $(this);
+
+                    var formData = app.core.utils.formToObject(form.serializeArray());
+
+                    if (formData.username !== "" && formData.password !== "") {
+                        app.ws.userLogin(formData.username, formData.password, formData.rememberMe, form);
+                    } else {
+                        if (formData.username === "") {
+                            form.find('input[name="username"]').addClass('invalid');
+                        }
+                        if (formData.password === "") {
+                            form.find('input[name="password"]').addClass('invalid');
+                        }
+                    }
+                })
+
+                .on('user.logged.in', function() {
+                    $('#app').addClass('loggedIn');
+                    app.user.ui.updateProfileName();
+                    app.cart.init();
+                })
+
+                .on('user.logged.out', function() {
+                    $('#app').removeClass('loggedIn');
+                    app.user.ui.updateProfileName();
+                })
+
+            ;
+        },
+
+        dispatchAfterLogin: function() {
+            if (app.config.loginSuccessAction === "profile") {
+                app.ctrl.showUserProfile();
+            } else if (app.config.loginSuccessAction === "profile_first_time" && localStorage.getItem(app.config.clientSessionName + '_alreadyLoggedIn') === null) {
+                localStorage.setItem(app.config.clientSessionName + '_alreadyLoggedIn', true);
+                app.ctrl.showUserProfile();
+            } else { // events
+                app.ctrl.homeAction();
+            }
+        },
+
+        ui: {
+            updateProfileName: function() {
+                if (isDefined(app.core.session.user) && app.core.session.user !== null) {
+                    if (app.core.session.user.shortName === null || app.core.session.user.shortName === "") {
+                        app.core.session.user.shortName = app.core.session.user.firstName.charAt(0) + ". " + app.core.session.user.lastName;
+                    }
+
+                    $('nav a[data-activates="userMenu"] span.button-label')
+                        .html(app.core.session.user.shortName);
+                } else {
+                    $('nav a[data-activates="userMenu"] span.button-label')
+                        .html('Mon compte');
+                }
+            }
+        }
+    },
+})
