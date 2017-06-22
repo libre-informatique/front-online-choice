@@ -42,6 +42,10 @@ app.register({
                         return true;
                     }
                 })
+            
+                .on('click','#introductionButton',function() {
+                    app.ctrl.showIntroductionModal();
+                })
 
                 .on('click','#introductionButton',function() {
                     app.ctrl.showIntroductionModal();
