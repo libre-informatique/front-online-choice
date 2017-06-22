@@ -42,10 +42,6 @@ app.register({
                         return true;
                     }
                 })
-            
-                .on('click','#introductionButton',function() {
-                    app.ctrl.showIntroductionModal();
-                })
 
                 .on('click','#introductionButton',function() {
                     app.ctrl.showIntroductionModal();
@@ -661,12 +657,8 @@ app.register({
         showIntroductionModal: function() {
             app.ws.getMetaEvent().then(function(metaEventTexts) {
                 if (metaEventTexts.description != '') {
-                    app.core.ctrl.render('introduction', { texts: metaEventTexts }, false).then(function() {
-                        $('#introductionModal')
-                            .modal()
-                            .modal('open');
-                        localStorage.setItem(app.config.clientSessionName + '_introduction', true);
-                    });
+                    app.baseUi.openModal('introduction',{ texts: metaEventTexts });
+                    localStorage.setItem(app.config.clientSessionName + '_introduction', true);
                 }
             });
         }

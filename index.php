@@ -53,7 +53,9 @@ if (isset($_GET['getParameters'])) {
                     </ul>
                     <ul id="nav-mobile-right" class="right">
                         <li class="showIfLoggedIn" id="introductionButton">
-                            <i class="material-icons">info_outline</i>
+                            <a href="javascript:;" data-tooltip="Voir l'introduction">
+                                <i class="material-icons">info_outline</i>
+                            </a>
                         </li>
                         <li class="showIfLoggedIn">
                             <a class='dropdown-button navbar-user-btn' href="javascript:;"
