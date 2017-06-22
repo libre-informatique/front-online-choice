@@ -39,7 +39,7 @@ app.register({
         showIntroductionModal: function() {
             app.ws.getMetaEvent().then(function(metaEventTexts) {
                 if (metaEventTexts.description != '') {
-                    app.baseUi.openModal('introduction', { texts: metaEventTexts });
+                    app.baseUi.openModal('#introductionModal','introduction', { texts: metaEventTexts });
                     localStorage.setItem(app.config.clientSessionName + '_introduction', true);
                 }
             });

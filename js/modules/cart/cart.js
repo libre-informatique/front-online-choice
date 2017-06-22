@@ -18,7 +18,7 @@ app.register({
                 // -------------------------------------------------------------
 
                 .on('click', '#confirm-fab', function(e) {
-                    app.baseUi.openModal('cartConfirm',{});
+                    app.baseUi.openModal('#confirm-modal','cartConfirm',{});
                 })
 
                 // -------------------------------------------------------------
