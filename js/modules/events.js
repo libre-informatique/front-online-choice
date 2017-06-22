@@ -42,6 +42,10 @@ app.register({
                         return true;
                     }
                 })
+            
+                .on('click','#introductionButton',function() {
+                    app.ctrl.showIntroductionModal();
+                })
 
                 // -----------------------------------------------------------------
                 // EVENTS REORDERED (SORTABLE END)
@@ -630,16 +634,7 @@ app.register({
                         app.core.ctrl.render('mainTabs', events, true).then(function() {
 
                             if (!localStorage.getItem(app.config.clientSessionName + '_introduction')) {
-                                app.ws.getMetaEvent().then(function(metaEventTexts) {
-                                    if (metaEventTexts.description != '') {
-                                        app.core.ctrl.render('introduction', { texts: metaEventTexts }, false).then(function() {
-                                            $('#introductionModal')
-                                                .modal()
-                                                .modal('open');
-                                            localStorage.setItem(app.config.clientSessionName + '_introduction', true);
-                                        });
-                                    }
-                                });
+                                app.ctrl.showIntroductionModal();
                             }
 
                             app.cart.getCart().then(function() {
@@ -655,6 +650,18 @@ app.register({
                         });
                     }, function(error) {});
             }
+        },
+        showIntroductionModal: function() {
+            app.ws.getMetaEvent().then(function(metaEventTexts) {
+                if (metaEventTexts.description != '') {
+                    app.core.ctrl.render('introduction', { texts: metaEventTexts }, false).then(function() {
+                        $('#introductionModal')
+                            .modal()
+                            .modal('open');
+                        localStorage.setItem(app.config.clientSessionName + '_introduction', true);
+                    });
+                }
+            });
         }
     },
 });
