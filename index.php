@@ -173,19 +173,11 @@ if (isset($_GET['getParameters'])) {
             var appHostname = "<?php echo $parameters->appHostname; ?>";
         </script>
 
-        <script type="text/javascript" src="/LiftJS/js/app.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/utils.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/ui.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/controller.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/events.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/session.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/history.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/core/settings.js"></script>
-        <!-- <script type="text/javascript" src="LiftJS/dist/liftJs.min.js"></script> -->
+        <script type="text/javascript" src="/LiftJS/dist/liftJs.min.js"></script>
 
-        <script type="text/javascript" src="/LiftJS/js/modules/baseUi/baseUi.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/modules/webservice/webservice.js"></script>
-        <script type="text/javascript" src="/LiftJS/js/modules/featureDiscovery/featureDiscovery.js"></script>
+        <script type="text/javascript" src="/LiftJS/dist/modules/baseUi/baseUi.min.js"></script>
+        <script type="text/javascript" src="/LiftJS/dist/modules/webservice/webservice.min.js"></script>
+        <script type="text/javascript" src="/LiftJS/dist/modules/featureDiscovery/featureDiscovery.min.js"></script>
 
         <!-- BUSINESS COMPONENTS -->
 

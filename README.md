@@ -8,6 +8,8 @@ At this time (01/06/2017), the LiftJS project is now decoupled form this project
 
 ## Install DEV env
 
+-   mkdir LiftJS && cd LiftJS
+-   git clone https://github.com/libre-informatique/LiftJS.git .
 -   cp data/parameters.json.dist data/parameters.json
 -   edit data/parameters.json with your environments configuration
 -   npm install
@@ -17,6 +19,8 @@ At this time (01/06/2017), the LiftJS project is now decoupled form this project
 
 ## Install PROD env
 
+-   mkdir LiftJS && cd LiftJS
+-   git clone https://github.com/libre-informatique/LiftJS.git .
 -   cp data/parameters.json.dist data/parameters.json
 -   edit data/parameters.json with your environments configuration
 
@@ -41,7 +45,8 @@ At this time (01/06/2017), the LiftJS project is now decoupled form this project
     "maximumEventsSelectedPerTimeslots": 3,
     "closingDate":null,
     "footerText": null,
-    "loginSuccessAction": "events"
+    "loginSuccessAction": "events",
+    "liftJsPath": "/LiftJS/"
 }
 ```
 - **debug**: true, should be false for prod / demo env
