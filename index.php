@@ -52,6 +52,9 @@ if (isset($_GET['getParameters'])) {
                         </li>
                     </ul>
                     <ul id="nav-mobile-right" class="right">
+                        <li class="showIfLoggedIn" id="introductionButton">
+                            <i class="material-icons">info_outline</i>
+                        </li>
                         <li class="showIfLoggedIn">
                             <a class='dropdown-button navbar-user-btn' href="javascript:;"
                                data-activates='userMenu'
