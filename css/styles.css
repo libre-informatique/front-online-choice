@@ -7557,8 +7557,6 @@ html {
           #app nav .nav-wrapper > #nav-mobile-left > li > a > i.material-icons,
           #app nav .nav-wrapper > #nav-mobile-right > li > a > i.material-icons {
             display: inline-block; } }
-        #introductionButton {
-          cursor: pointer; }
       @media only screen and (min-width: 801px) {
         #app nav .nav-wrapper > #nav-mobile-right > li > a > span {
           margin-right: 0.5em;
@@ -8158,8 +8156,12 @@ html {
   width: 150px;
   height: 150px;
   /*display:block;*/
-  margin: 25% auto 0;
-  background: transparent url("../img/logo-evenement-small.png") no-repeat scroll center center; }
+  margin: 0 auto;
+  background: transparent url("../img/logo-evenement-small.png") no-repeat scroll center center;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%); }
   #contentLoader .preloader-wrapper {
     width: 150px;
     height: 150px; }

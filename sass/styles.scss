@@ -141,7 +141,7 @@ html {
     }
 
     #mainLoader {
-        display:none;
+        display: none;
     }
 
     nav {
@@ -170,6 +170,7 @@ html {
                     top          : -0.4em;
                 }
             }
+
             #introductionButton {
                 cursor: pointer;
             }
@@ -522,9 +523,8 @@ html {
                                         top       : 0;
 
                                     }
-
                                     @media #{$small-and-down} {
-                                        display:none;
+                                        display: none;
                                     }
                                 }
 
@@ -635,12 +635,12 @@ html {
                             }
 
                             &:hover {
-
                                 .label {
                                     .event-label {
                                         background-color: white;
-                                        border-radius   : 1em 1em 0 0 ;
+                                        border-radius   : 1em 1em 0 0;
                                     }
+
                                     .event-desc {
                                         z-index         : 9999;
                                         position        : relative;
@@ -650,7 +650,7 @@ html {
                                         background-color: white;
                                         box-shadow      : 0 8px 4px -6px rgba(0,0,0,0.4);
                                         border-radius   : 0 0 1em 1em;
-                                        width:100%;
+                                        width           : 100%;
 
                                         &:after {
                                             display: none;
@@ -1041,8 +1041,12 @@ html {
         width : 150px;
         height: 150px;
     }
-    margin    : 25% auto 0;
+    margin    : 0 auto;
     background: transparent url('../img/logo-evenement-small.png') no-repeat scroll center center;
+    top       : 50%;
+    position  : absolute;
+    left      : 50%;
+    transform : translate(-50%,-50%);
 }
 
 .dropdown-content {
