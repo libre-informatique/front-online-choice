@@ -7555,6 +7555,8 @@ html {
           #app nav .nav-wrapper > #nav-mobile-left > li > a > i.material-icons,
           #app nav .nav-wrapper > #nav-mobile-right > li > a > i.material-icons {
             display: inline-block; } }
+        #introductionButton {
+          cursor: pointer; }
       @media only screen and (min-width: 801px) {
         #app nav .nav-wrapper > #nav-mobile-right > li > a > span {
           margin-right: 0.5em;
