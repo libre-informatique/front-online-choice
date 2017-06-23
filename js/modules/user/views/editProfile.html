@@ -6,112 +6,71 @@
         <div class="card-stacked">
             <div class="card-content">
                 <form data-ws="updateUser">
-                    <table class="userProfileTable">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input disabled placeholder="Email" id="email" type="text" class="validate" name="email" value="{{user.email}}">
-                                        <label for="email">Email</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Prénom" id="firstName" type="text" class="validate" name="firstName" value="{{user.firstName}}">
-                                        <label for="firstName">Prénom</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Nom" id="lastName" type="text" class="validate" name="lastName" value="{{user.lastName}}">
-                                        <label for="lastName">Nom</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Pseudo" id="shortName" type="text" class="validate" name="shortName" value="{{user.shortName}}">
-                                        <label for="shortName">Pseudo</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Email du secrétariat" id="otherEmail" type="text" class="validate" value="{{user.otherEmail}}" name="otherEmail">
-                                        <label for="otherEmail">Email du secrétariat</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Adresse" id="address" type="text" class="validate" value="{{user.address}}" name="address">
-                                        <label for="address">Adresse</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Ville" id="city" type="text" class="validate" value="{{user.city}}" name="city">
-                                        <label for="city">Ville</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Code postal" id="zip" type="text" class="validate" value="{{user.zip}}" name="zip">
-                                        <label for="zip">Code postal</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Pays" id="country" type="text" class="validate" value="{{user.country}}" name="country">
-                                        <label for="country">Pays</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-field col s6">
-                                        <input placeholder="Téléphone" id="phoneNumber" type="text" class="validate" value="{{user.phoneNumber}}" name="phoneNumber">
-                                        <label for="phoneNumber">Téléphone</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>
-                                        <input type="hidden" id="subscribedToNewsletterDefault" name="subscribedToNewsletter" value="false"/>
-                                        <input type="checkbox" id="subscribedToNewsletter" name="subscribedToNewsletter" value="true"
-                                               {{#ifCond user.subscribedToNewsletter '==' true}} checked="checked" {{/ifCond}} />
-                                               <label for="subscribedToNewsletter">Lettre d'information ?</label>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="javascript:;" data-go="showUserProfile" class="btn right primary">
-                                        Annuler
-                                        <i class="material-icons right">undo</i>
-                                    </a>
-                                    <button class="btn waves-effect waves-light left success" type="submit" name="action">
-                                        Enregistrer
-                                        <i class="material-icons right">check_circle</i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="input-field col s12">
+                        <input disabled placeholder="Email" id="email" type="text" class="validate" name="email" value="{{user.email}}">
+                        <label for="email">Email</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Prénom" id="firstName" type="text" class="validate" name="firstName" value="{{user.firstName}}">
+                        <label for="firstName">Prénom</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Nom" id="lastName" type="text" class="validate" name="lastName" value="{{user.lastName}}">
+                        <label for="lastName">Nom</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Pseudo" id="shortName" type="text" class="validate" name="shortName" value="{{user.shortName}}">
+                        <label for="shortName">Pseudo</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Email du secrétariat" id="otherEmail" type="text" class="validate" value="{{user.otherEmail}}" name="otherEmail">
+                        <label for="otherEmail">Email du secrétariat</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Adresse" id="address" type="text" class="validate" value="{{user.address}}" name="address">
+                        <label for="address">Adresse</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Ville" id="city" type="text" class="validate" value="{{user.city}}" name="city">
+                        <label for="city">Ville</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Code postal" id="zip" type="text" class="validate" value="{{user.zip}}" name="zip">
+                        <label for="zip">Code postal</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Pays" id="country" type="text" class="validate" value="{{user.country}}" name="country">
+                        <label for="country">Pays</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input placeholder="Téléphone" id="phoneNumber" type="text" class="validate" value="{{user.phoneNumber}}" name="phoneNumber">
+                        <label for="phoneNumber">Téléphone</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input type="hidden" id="subscribedToNewsletterDefault" name="subscribedToNewsletter" value="false"/>
+                        <input type="checkbox" id="subscribedToNewsletter" name="subscribedToNewsletter" value="true" {{#ifCond user.subscribedToNewsletter '==' true}} checked="checked" {{/ifCond}}/>
+                        <label for="subscribedToNewsletter">Lettre d'information ?</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <a href="javascript:;" data-go="showUserProfile" class="btn right primary">
+                            Annuler
+                            <i class="material-icons right">undo</i>
+                        </a>
+                        <button class="btn waves-effect waves-light left success" type="submit" name="action">
+                            Enregistrer
+                            <i class="material-icons right">check_circle</i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

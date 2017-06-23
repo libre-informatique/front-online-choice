@@ -45,7 +45,7 @@ if (isset($_GET['getParameters'])) {
                     <a href="/" class="brand-logo"><?php echo $parameters->applicationName; ?></a>
                     <ul id="nav-mobile-left" class="left">
                         <li class="showIfLoggedIn">
-                            <a href='#' data-go="showEvents">
+                            <a href='#' data-go="showEvents" class="mainMenu-eventsButton">
                                 <i class="material-icons left" id="showEventsButton">event_note</i>
                                 <span class="button-label hide-on-med-and-down">Évènements</span>
                             </a>
@@ -58,26 +58,27 @@ if (isset($_GET['getParameters'])) {
                             </a>
                         </li>
                         <li class="showIfLoggedIn">
-                            <a class='dropdown-button navbar-user-btn' href="javascript:;"
+                            <a class='dropdown-button navbar-user-btn userMenu-dropdownButton' href="javascript:;"
                                data-activates='userMenu'
                                data-alignment="right"
                                data-constrainWidth="false"
                                data-belowOrigin="true"
-                               ><span class="button-label hide-on-med-and-down">Mon compte</span>
+                               >
+                                <span class="button-label hide-on-med-and-down">Mon compte</span>
                                 <i class="material-icons" id="showProfileButton">person_outline</i>
                             </a>
 
                             <!-- Dropdown Structure -->
                             <ul id='userMenu' class='dropdown-content'>
                                 <li>
-                                    <a href="javascript:;" data-go="showUserProfile">
+                                    <a href="javascript:;" data-go="showUserProfile" class="userMenu-profileButton">
                                         <i class="material-icons">featured_play_list</i>
                                         Voir mon profil
                                     </a>
                                 </li>
                                 <li class="divider"></li>
                                 <li id="btn-logout">
-                                    <a href="javascript:;" data-go="logout">
+                                    <a href="javascript:;" data-go="logout" class="userMenu-logoutButton">
                                         <i class="material-icons">exit_to_app</i>
                                         Se déconnecter
                                     </a>
@@ -85,7 +86,7 @@ if (isset($_GET['getParameters'])) {
                             </ul>
                         </li>
                         <li class="hideIfLoggedIn">
-                            <a href="javascript:;" data-go="login" data-tooltip="Se connecter">
+                            <a href="javascript:;" data-go="login" data-tooltip="Se connecter"  class="userMenu-loginButton">
                                 <i class="material-icons">fingerprint</i>
                             </a>
                         </li>
