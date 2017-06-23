@@ -7,19 +7,23 @@ app.register({
 
         states: {
             login: {
-                path: "login",
+                path: "/login",
                 title: "Connexion"
             },
+            logout: {
+                path: "/logout",
+                title: "Déconnexion"
+            },
             showUserProfile: {
-                path: "profile",
+                path: "/profile",
                 title: "Profil"
             },
             editUserProfile: {
-                path: "profile/edit",
+                path: "/profile/edit",
                 title: "Modifier mon profil"
             },
             editUserPassword: {
-                path: "password/edit",
+                path: "/password/edit",
                 title: "Modifier mon mot de passe"
             }
         },
@@ -28,27 +32,27 @@ app.register({
         // ACTIONS
         // ---------------------------------------------------------------------
 
-        login: function() {
-            app.core.history.currentCallable = app.ctrl.login;
+        loginAction: function() {
+            app.core.history.currentCallable = app.ctrl.loginAction;
             app.core.ctrl.go('login', {}).then(function() {
                 app.user.ui.updateProfileName();
                 app.core.history.add(app.ctrl.states.login);
             });
         },
 
-        logout: function() {
-            app.core.history.currentCallable = app.ctrl.logout;
+        logoutAction: function() {
+            app.core.history.currentCallable = app.ctrl.logoutAction;
             $('#app').removeClass('loggedIn');
 
             app.ws.userLogout().always(function() {
                 $(document).trigger('user.logged.out');
-                app.ctrl.login();
+                app.ctrl.loginAction();
             });
         },
 
-        showUserProfile: function() {
+        showUserProfileAction: function() {
             if (app.core.session.user) {
-                app.core.history.currentCallable = app.ctrl.showUserProfile;
+                app.core.history.currentCallable = app.ctrl.showUserProfileAction;
                 app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('userProfile', {
                         user: app.core.session.user
@@ -59,13 +63,13 @@ app.register({
                     });
                 });
             } else {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             }
         },
 
-        editUserProfile: function() {
+        editUserProfileAction: function() {
             if (app.core.session.user) {
-                app.core.history.currentCallable = app.ctrl.editUserProfile;
+                app.core.history.currentCallable = app.ctrl.editUserProfileAction;
                 app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('editUserProfile', {
                         user: app.core.session.user
@@ -76,13 +80,13 @@ app.register({
                     });
                 });
             } else {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             }
         },
 
-        editUserPassword: function() {
+        editUserPasswordAction: function() {
             if (app.core.session.user) {
-                app.core.history.currentCallable = app.ctrl.editUserPassword;
+                app.core.history.currentCallable = app.ctrl.editUserPasswordAction;
                 app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('editUserPassword', {
                         user: app.core.session.user
@@ -92,20 +96,20 @@ app.register({
                     });
                 });
             } else {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             }
         },
 
-        updatePassword: function(formData, form) {
+        updatePasswordAction: function(formData, form) {
             if (app.core.session.user) {
 
                 if (formData.password_1 == formData.password_2) {
-                    app.ws.updateUser(form);
+                    app.ws.updateUser(formData,form);
                 } else {
                     form.find('input[type="password"]').addClass('invalid');
                 }
             } else {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             }
         },
 
@@ -113,9 +117,9 @@ app.register({
         // OVERRIDES
         // ---------------------------------------------------------------------
 
-        showSettings: function() {
+        settingsAction: function() {
             if (app.core.session.user) {
-                app.core.history.currentCallable = app.ctrl.showSettings;
+                app.core.history.currentCallable = app.ctrl.settingsAction;
                 app.ws.getUser(app.core.session.user.id).then(function() {
                     app.core.ctrl.go('settings').then(function() {
                         Materialize.updateTextFields();
@@ -123,21 +127,21 @@ app.register({
                     });
                 });
             } else {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             }
         },
 
-        updateSettings: function(formData) {
+        updateSettingsAction: function(formData) {
             if (app.core.session.user) {
 
                 if (formData.clearAllInfosMessages === true) {
                     localStorage.removeItem(app.config.clientSessionName + '_alreadyLoggedIn');
                     app.featureDiscovery.__resetInfosStorage();
                 }
-                app.ctrl.showEvents();
+                app.ctrl.showEventsAction();
                 app.core.ui.toast("Paramètres enregistrés", "success");
             } else {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             }
         }
     },

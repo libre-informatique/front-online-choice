@@ -58,7 +58,7 @@ app.register({
                     defer.resolve(res);
                 } else {
                     defer.reject(res);
-                    app.ctrl.logout();
+                    app.ctrl.logoutAction();
                 }
             });
 
@@ -69,9 +69,8 @@ app.register({
         // UPDATE USER INFORMATIONS
         // ---------------------------------------------------------------------
 
-        updateUser: function(form) {
-            var formData =
-                $.extend(app.core.session.user, app.core.utils.formToObject(form));
+        updateUser: function(formData, form) {
+            formData = $.extend(app.core.session.user, formData);
 
             if (formData.hasOwnProperty('password_1')) {
                 formData.password = formData.password_1;
@@ -82,7 +81,7 @@ app.register({
             return app.core.ws.call('POST', '/customers/' + app.core.session.user.id, formData)
                 .then(function() {
                     app.user.ui.updateProfileName();
-                    app.ctrl.showUserProfile();
+                    app.ctrl.showUserProfileAction();
 
                     if (formData.hasOwnProperty('password')) {
                         app.core.ui.toast('Votre mot de passe à été mis à jour', 'success');

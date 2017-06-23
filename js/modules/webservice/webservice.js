@@ -58,7 +58,7 @@ app.register({
                                 app.core.session.user = null;
                                 app.core.session.rememberMe = false;
 
-                                app.core.history.currentCallable = app.ctrl.login();
+                                app.core.history.currentCallable = app.ctrl.loginAction();
                             }
 
                             $.extend(app.core.session, data);

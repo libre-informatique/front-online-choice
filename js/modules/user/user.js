@@ -17,7 +17,7 @@ app.register({
                         app.user.ui.updateProfileName();
                         app.user.dispatchAfterLogin();
                     } else {
-                        app.ctrl.login();
+                        app.ctrl.loginAction();
                         $('#app').removeClass('loggedIn');
                     }
                 })
@@ -62,13 +62,15 @@ app.register({
         },
 
         dispatchAfterLogin: function() {
-            if (app.config.loginSuccessAction === "profile") {
-                app.ctrl.showUserProfile();
-            } else if (app.config.loginSuccessAction === "profile_first_time" && localStorage.getItem(app.config.clientSessionName + '_alreadyLoggedIn') === null) {
-                localStorage.setItem(app.config.clientSessionName + '_alreadyLoggedIn', true);
-                app.ctrl.showUserProfile();
-            } else { // events
-                app.ctrl.homeAction();
+            if (app.core.routing.getCurrentUri() === app.ctrl.states.home.path) {
+                if (app.config.loginSuccessAction === "profile") {
+                    app.ctrl.showUserProfileAction();
+                } else if (app.config.loginSuccessAction === "profile_first_time" && localStorage.getItem(app.config.clientSessionName + '_alreadyLoggedIn') === null) {
+                    localStorage.setItem(app.config.clientSessionName + '_alreadyLoggedIn', true);
+                    app.ctrl.showUserProfileAction();
+                } else { // events
+                    app.ctrl.homeAction();
+                }
             }
         },
 

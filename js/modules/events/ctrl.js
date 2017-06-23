@@ -2,15 +2,15 @@ app.register({
     ctrl: {
         states: {
             showEvents: {
-                path: "events",
+                path: "/events",
                 title: "Évènements"
             }
         },
         homeAction: function() {
             if (app.core.session.user !== null)
-                app.ctrl.showEvents();
+                app.ctrl.showEventsAction();
         },
-        showEvents: function(force) {
+        showEventsAction: function(force) {
             if (app.core.history.currentState !== app.ctrl.states.showEvents || force) {
                 app.core.ui.clearContent();
                 $('#contentLoader').show();

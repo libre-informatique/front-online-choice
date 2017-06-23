@@ -6,7 +6,7 @@ app.register({
             app.cart.getCart().then(function() {
 
             }, function() {
-                app.ctrl.login();
+                app.ctrl.loginAction();
             });
         },
 
@@ -40,7 +40,7 @@ app.register({
                 .on('click', '#save-btn', function(e) {
                     app.cart.validateCart().then(function() {
                         app.baseUi.closeModal();
-                        app.ctrl.showEvents(true);
+                        app.ctrl.showEventsAction(true);
                     });
                 })
 
