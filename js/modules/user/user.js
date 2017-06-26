@@ -62,7 +62,11 @@ app.register({
         },
 
         dispatchAfterLogin: function() {
-            if (app.core.routing.getCurrentUri() === app.ctrl.states.home.path || app.core.routing.getCurrentUri() === app.ctrl.states.login.path) {
+            var currentUri = app.core.routing.getCurrentUri();
+            console.info('BEFORE dispatchAfterLogin');
+            console.info(currentUri,app.ctrl.states.home.path,app.ctrl.states.login.path);
+            if (app.core.routing.getCurrentUri() === app.config.appUriPrefix+app.ctrl.states.home.path || app.core.routing.getCurrentUri() === app.config.appUriPrefix+app.ctrl.states.login.path) {
+
                 if (app.config.loginSuccessAction === "profile") {
                     app.ctrl.showUserProfileAction();
                 } else if (app.config.loginSuccessAction === "profile_first_time" && localStorage.getItem(app.config.clientSessionName + '_alreadyLoggedIn') === null) {

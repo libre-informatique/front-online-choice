@@ -226,7 +226,7 @@ if (isset($_GET['getParameters'])) {
             <div class="footerText">
                 Réalisé par <a href="http://www.libre-informatique.fr/">libre-informatique</a>
             </div>
-            <div class="footerText custom"><?php echo $parameters->footerText; ?></div>
+            <div class="footerText custom"><?php echo nl2br($parameters->footerText); ?></div>
         </div>
 
     </body>
