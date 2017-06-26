@@ -24,6 +24,13 @@ At this time (01/06/2017), the LiftJS project is now decoupled form this project
 -   cp data/parameters.json.dist data/parameters.json
 -   edit data/parameters.json with your environments configuration
 
+
+## Upgrade existing installation
+
+-   git pull
+-   cd ./LiftJS
+-   git pull
+
 ## Parameters example
 
 ```json
