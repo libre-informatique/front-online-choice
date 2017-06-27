@@ -96,12 +96,6 @@ if (isset($_GET['getParameters'])) {
 
 
             <div class="content">
-                <a class="waves-effect waves-light btn teal">button</a>
-                <a class="waves-effect waves-light btn red">button</a>
-                <a class="waves-effect waves-light btn pink">button</a>
-                <a class="waves-effect waves-light btn indigo">button</a>
-                <a class="waves-effect waves-light btn blue">button</a>
-                <a class="waves-effect waves-light btn green">button</a>
                 <!-- CONTENT LOADER -->
 
                 <div id="contentLoader">
