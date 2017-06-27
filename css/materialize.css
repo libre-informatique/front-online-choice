@@ -2353,7 +2353,7 @@ ul.staggered-list li {
 /*********************
   Media Query Classes
 **********************/
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 600px) {
   .hide-on-small-only, .hide-on-small-and-down {
     display: none !important; } }
 
@@ -2361,11 +2361,11 @@ ul.staggered-list li {
   .hide-on-med-and-down {
     display: none !important; } }
 
-@media only screen and (min-width: 801px) {
+@media only screen and (min-width: 601px) {
   .hide-on-med-and-up {
     display: none !important; } }
 
-@media only screen and (min-width: 800px) and (max-width: 992px) {
+@media only screen and (min-width: 600px) and (max-width: 992px) {
   .hide-on-med-only {
     display: none !important; } }
 
@@ -2377,15 +2377,15 @@ ul.staggered-list li {
   .show-on-large {
     display: block !important; } }
 
-@media only screen and (min-width: 800px) and (max-width: 992px) {
+@media only screen and (min-width: 600px) and (max-width: 992px) {
   .show-on-medium {
     display: block !important; } }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 600px) {
   .show-on-small {
     display: block !important; } }
 
-@media only screen and (min-width: 801px) {
+@media only screen and (min-width: 601px) {
   .show-on-medium-and-up {
     display: block !important; } }
 
@@ -2393,7 +2393,7 @@ ul.staggered-list li {
   .show-on-medium-and-down {
     display: block !important; } }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 600px) {
   .center-on-small-only {
     text-align: center; } }
 
@@ -2732,7 +2732,7 @@ nav ul a span.badge {
   max-width: 1280px;
   width: 90%; }
 
-@media only screen and (min-width: 801px) {
+@media only screen and (min-width: 601px) {
   .container {
     width: 85%; } }
 
@@ -2901,7 +2901,7 @@ nav ul a span.badge {
       right: 100%; }
     .row .col.push-s12 {
       left: 100%; }
-    @media only screen and (min-width: 801px) {
+    @media only screen and (min-width: 601px) {
       .row .col.m1 {
         width: 8.33333%;
         margin-left: auto;
@@ -3428,7 +3428,7 @@ nav {
   .navbar-fixed nav {
     position: fixed; }
 
-@media only screen and (min-width: 801px) {
+@media only screen and (min-width: 601px) {
   nav.nav-extended .nav-wrapper {
     min-height: 64px; }
   nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
@@ -3537,64 +3537,64 @@ small {
   @media only screen and (min-width: 360px) {
     .flow-text {
       font-size: 1.2rem; } }
-  @media only screen and (min-width: 380px) {
+  @media only screen and (min-width: 390px) {
     .flow-text {
       font-size: 1.224rem; } }
-  @media only screen and (min-width: 400px) {
-    .flow-text {
-      font-size: 1.248rem; } }
   @media only screen and (min-width: 420px) {
     .flow-text {
+      font-size: 1.248rem; } }
+  @media only screen and (min-width: 450px) {
+    .flow-text {
       font-size: 1.272rem; } }
-  @media only screen and (min-width: 440px) {
-    .flow-text {
-      font-size: 1.296rem; } }
-  @media only screen and (min-width: 460px) {
-    .flow-text {
-      font-size: 1.32rem; } }
   @media only screen and (min-width: 480px) {
     .flow-text {
-      font-size: 1.344rem; } }
-  @media only screen and (min-width: 500px) {
+      font-size: 1.296rem; } }
+  @media only screen and (min-width: 510px) {
     .flow-text {
-      font-size: 1.368rem; } }
-  @media only screen and (min-width: 520px) {
-    .flow-text {
-      font-size: 1.392rem; } }
+      font-size: 1.32rem; } }
   @media only screen and (min-width: 540px) {
     .flow-text {
-      font-size: 1.416rem; } }
-  @media only screen and (min-width: 560px) {
+      font-size: 1.344rem; } }
+  @media only screen and (min-width: 570px) {
     .flow-text {
-      font-size: 1.44rem; } }
-  @media only screen and (min-width: 580px) {
-    .flow-text {
-      font-size: 1.464rem; } }
+      font-size: 1.368rem; } }
   @media only screen and (min-width: 600px) {
     .flow-text {
-      font-size: 1.488rem; } }
-  @media only screen and (min-width: 620px) {
+      font-size: 1.392rem; } }
+  @media only screen and (min-width: 630px) {
     .flow-text {
-      font-size: 1.512rem; } }
-  @media only screen and (min-width: 640px) {
-    .flow-text {
-      font-size: 1.536rem; } }
+      font-size: 1.416rem; } }
   @media only screen and (min-width: 660px) {
     .flow-text {
-      font-size: 1.56rem; } }
-  @media only screen and (min-width: 680px) {
+      font-size: 1.44rem; } }
+  @media only screen and (min-width: 690px) {
     .flow-text {
-      font-size: 1.584rem; } }
-  @media only screen and (min-width: 700px) {
-    .flow-text {
-      font-size: 1.608rem; } }
+      font-size: 1.464rem; } }
   @media only screen and (min-width: 720px) {
     .flow-text {
+      font-size: 1.488rem; } }
+  @media only screen and (min-width: 750px) {
+    .flow-text {
+      font-size: 1.512rem; } }
+  @media only screen and (min-width: 780px) {
+    .flow-text {
+      font-size: 1.536rem; } }
+  @media only screen and (min-width: 810px) {
+    .flow-text {
+      font-size: 1.56rem; } }
+  @media only screen and (min-width: 840px) {
+    .flow-text {
+      font-size: 1.584rem; } }
+  @media only screen and (min-width: 870px) {
+    .flow-text {
+      font-size: 1.608rem; } }
+  @media only screen and (min-width: 900px) {
+    .flow-text {
       font-size: 1.632rem; } }
-  @media only screen and (min-width: 740px) {
+  @media only screen and (min-width: 930px) {
     .flow-text {
       font-size: 1.656rem; } }
-  @media only screen and (min-width: 760px) {
+  @media only screen and (min-width: 960px) {
     .flow-text {
       font-size: 1.68rem; } }
   @media only screen and (max-width: 360px) {
@@ -3737,11 +3737,11 @@ small {
   display: block;
   position: fixed;
   z-index: 10000; }
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 600px) {
     #toast-container {
       min-width: 100%;
       bottom: 0%; } }
-  @media only screen and (min-width: 801px) and (max-width: 992px) {
+  @media only screen and (min-width: 601px) and (max-width: 992px) {
     #toast-container {
       left: 5%;
       bottom: 7%;
@@ -3777,11 +3777,11 @@ small {
     margin-left: 3rem; }
   .toast.rounded {
     border-radius: 24px; }
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 600px) {
     .toast {
       width: 100%;
       border-radius: 0; } }
-  @media only screen and (min-width: 801px) and (max-width: 992px) {
+  @media only screen and (min-width: 601px) and (max-width: 992px) {
     .toast {
       float: left; } }
   @media only screen and (min-width: 993px) {
@@ -4818,7 +4818,7 @@ textarea.materialize-textarea {
     .input-field .prefix ~ input {
       width: 86%;
       width: calc(100% - 3rem); } }
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 600px) {
     .input-field .prefix ~ input {
       width: 80%;
       width: calc(100% - 3rem); } }
@@ -7070,764 +7070,4 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/ }
 
-.primary {
-  background-color: #455a64; }
-  .primary.btn:hover, .primary.btn-large:hover {
-    background-color: #5a7582; }
-
-.primary-text {
-  color: #455a64; }
-
-.accent {
-  background-color: #ffd54f; }
-  .accent.btn:hover, .accent.btn-large:hover {
-    background-color: #ffe182; }
-
-.accent-text {
-  color: #ffd54f; }
-
-.success {
-  background-color: #66BB6A; }
-  .success.btn:hover, .success.btn-large:hover {
-    background-color: #89cb8c; }
-
-.success-text {
-  color: #66BB6A; }
-
-.danger {
-  background-color: #E57373; }
-  .danger.btn:hover, .danger.btn-large:hover {
-    background-color: #ed9e9e; }
-
-.danger-text {
-  color: #E57373; }
-
-.info {
-  background-color: #64B5F6; }
-  .info.btn:hover, .info.btn-large:hover {
-    background-color: #94ccf9; }
-
-.info-text {
-  color: #64B5F6; }
-
-.normal {
-  background-color: #607d8b; }
-  .normal.btn:hover, .normal.btn-large:hover {
-    background-color: #7b96a3; }
-
-.normal-text {
-  color: #607d8b; }
-
-.neutral {
-  background-color: #9e9e9e; }
-  .neutral.btn:hover, .neutral.btn-large:hover {
-    background-color: #b8b8b8; }
-
-.neutral-text {
-  color: #9e9e9e; }
-
-/* fallback */
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url("../fonts/MaterialIcons-Regular.woff2") format("woff2"); }
-
-.material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -moz-font-feature-settings: 'liga';
-  -moz-osx-font-smoothing: grayscale; }
-
-#app,
-body,
-html {
-  min-height: 100%;
-  height: 100%; }
-
-body,
-html {
-  background: #eceff1; }
-
-#app {
-  margin-bottom: -4em;
-  background: #eceff1; }
-  #app,
-  #app * {
-    z-index: 2; }
-  #app #mainLoader {
-    display: none; }
-  #app nav {
-    background-color: #455a64;
-    position: fixed;
-    z-index: 998;
-    height: 4.1em; }
-    #app nav .nav-wrapper {
-      z-index: 998; }
-      #app nav .nav-wrapper > #nav-mobile-left > li > a,
-      #app nav .nav-wrapper > #nav-mobile-right > li > a {
-        height: 4.15em; }
-        @media only screen and (min-width: 801px) {
-          #app nav .nav-wrapper > #nav-mobile-left > li > a > i.material-icons,
-          #app nav .nav-wrapper > #nav-mobile-right > li > a > i.material-icons {
-            display: inline-block; } }
-      @media only screen and (min-width: 801px) {
-        #app nav .nav-wrapper > #nav-mobile-right > li > a > span {
-          margin-right: 0.5em;
-          margin-bottom: 0.5em;
-          position: relative;
-          top: -0.4em; } }
-      #app nav .nav-wrapper #introductionButton {
-        cursor: pointer; }
-    #app nav .brand-logo {
-      padding-left: 0.5em;
-      left: 50%;
-      -webkit-transform: translateX(-50%);
-      transform: translateX(-50%); }
-      @media only screen and (max-width: 800px) {
-        #app nav .brand-logo {
-          font-size: 3.5vw; } }
-    #app nav #userMenu {
-      z-index: 999;
-      overflow: visible;
-      right: 0;
-      left: auto !important; }
-      #app nav #userMenu li {
-        z-index: 999; }
-    #app nav li a:active, #app nav li a:hover {
-      background-color: #546e7a; }
-  #app.loggedIn .showIfLoggedIn {
-    display: block; }
-  #app.loggedIn .hideIfLoggedIn {
-    display: none; }
-  #app:not(.loggedIn) .showIfLoggedIn {
-    display: none; }
-  #app:not(.loggedIn) .hideIfLoggedIn {
-    display: block; }
-  #app.loggedIn handlebar-placeholder, #app:not(.loggedIn) handlebar-placeholder {
-    display: block; }
-  #app .loginForm {
-    max-width: 500px; }
-    @media only screen and (min-width: 801px) {
-      #app .loginForm {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        min-width: 500px; } }
-  #app .content {
-    padding: 4.1em 0 1em; }
-    #app .content #main .col {
-      padding: 0; }
-    #app .content #main #tabs {
-      height: 2.8em;
-      display: flex;
-      flex-direction: row;
-      position: fixed;
-      z-index: 990; }
-      @media only screen and (min-width: 801px) {
-        #app .content #main #tabs {
-          overflow: hidden; } }
-      #app .content #main #tabs .tab {
-        background-color: #3b4c55;
-        height: 100%;
-        width: auto;
-        flex-grow: 1; }
-        #app .content #main #tabs .tab .badge {
-          color: #455a64;
-          background-color: white;
-          border-radius: 0.2em;
-          width: 1.5em;
-          height: 1.5em;
-          min-width: auto;
-          float: none;
-          font-weight: bold; }
-          #app .content #main #tabs .tab .badge.empty {
-            opacity: 0.4; }
-      #app .content #main #tabs .indicator {
-        height: 3px;
-        background-color: #ffd54f; }
-      #app .content #main #tabs a {
-        color: white; }
-        #app .content #main #tabs a:active, #app .content #main #tabs a:hover {
-          color: #ffd54f; }
-    #app .content #main .tab-content {
-      display: none;
-      padding-top: 2.8em; }
-      #app .content #main .tab-content .cart-status-message {
-        display: none;
-        text-align: center;
-        font-weight: bold;
-        padding: 0.8em;
-        color: white;
-        background-color: #F44336;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1050; }
-        #app .content #main .tab-content .cart-status-message.cart-fulfilled {
-          background-color: #66BB6A; }
-      #app .content #main .tab-content .closingDateMessage {
-        height: 2em;
-        font-size: 2em;
-        color: #3b4c55;
-        background-color: #b1bec6;
-        text-align: center;
-        line-height: 2em;
-        text-shadow: 1px 1px 0 #999, -1px -1px 0 #DDD; }
-        #app .content #main .tab-content .closingDateMessage::after {
-          content: '';
-          position: relative;
-          bottom: 0.25em;
-          height: 0.25em;
-          /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,3b4c55+100&0+0,0.65+100 */
-          background: -moz-linear-gradient(top, transparent 0%, rgba(59, 76, 85, 0.65) 100%);
-          /* FF3.6-15 */
-          background: -webkit-linear-gradient(top, transparent 0%, rgba(59, 76, 85, 0.65) 100%);
-          /* Chrome10-25,Safari5.1-6 */
-          background: linear-gradient(to bottom, transparent 0%, rgba(59, 76, 85, 0.65) 100%);
-          /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=  '#00000000', endColorstr='#a63b4c55',GradientType=0 );
-          /* IE6-9 */
-          width: 100%;
-          left: 0;
-          display: block; }
-    #app .content #main #headers {
-      margin-top: 20px; }
-    #app .content #main #periods .period {
-      padding-bottom: 2em; }
-      #app .content #main #periods .period:not(:first-of-type) {
-        border-top: 6px dotted #dde3e6; }
-      #app .content #main #periods .period .period-label-container {
-        min-height: 108px;
-        padding-top: 2em; }
-        #app .content #main #periods .period .period-label-container .period-label {
-          color: #455a64;
-          font-weight: bold;
-          font-size: 1.6em;
-          text-transform: uppercase; }
-          @media only screen and (max-width: 800px) {
-            #app .content #main #periods .period .period-label-container .period-label {
-              font-size: 1.2em; } }
-          #app .content #main #periods .period .period-label-container .period-label .lock {
-            display: none; }
-          #app .content #main #periods .period .period-label-container .period-label.pinned {
-            /*margin-top: 4.5em;*/
-            width: 100%;
-            text-align: center;
-            background-color: rgba(236, 239, 241, 0.9);
-            z-index: 990;
-            margin-top: 0; }
-            #app .content #main #periods .period .period-label-container .period-label.pinned::after {
-              content: '';
-              width: 100%;
-              height: 10px;
-              position: absolute;
-              left: 0;
-              bottom: -10px;
-              /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.14+0,0+100 */
-              background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.14) 0%, transparent 100%);
-              /* FF3.6-15 */
-              background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.14) 0%, transparent 100%);
-              /* Chrome10-25,Safari5.1-6 */
-              background: linear-gradient(to bottom, rgba(0, 0, 0, 0.14) 0%, transparent 100%);
-              /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=  '#24000000', endColorstr='#00000000',GradientType=0 );
-              /* IE6-9 */ }
-      #app .content #main #periods .period.timeSlotLocked .period-label-container .period-label .lock {
-        display: inline-block; }
-      #app .content #main #periods .period.timeSlotLocked .event .event-card .priority {
-        opacity: 0.1;
-        cursor: default; }
-    #app .content #main #periods .noEvents {
-      margin-top: 3em; }
-    #app .content #main .events .manifestations-list .event {
-      /*                        height      : 100px;*/
-      /*min-height  : 100px;*/ }
-      @media only screen and (min-width: 801px) {
-        #app .content #main .events .manifestations-list .event {
-          margin-right: 10%; } }
-      #app .content #main .events .manifestations-list .event .event-card {
-        height: 100px;
-        min-height: 100px; }
-        @media only screen and (max-width: 800px) {
-          #app .content #main .events .manifestations-list .event .event-card {
-            margin-left: 1em; } }
-        #app .content #main .events .manifestations-list .event .event-card .event-image {
-          background-repeat: no-repeat;
-          background-position: 50% 50%;
-          background-size: contain;
-          /*background-color:$primary-color;*/
-          background-image: url("../img/default-manifestation.png");
-          position: relative; }
-          #app .content #main .events .manifestations-list .event .event-card .event-image::after {
-            content: '';
-            width: 0.5em;
-            position: absolute;
-            right: 0;
-            height: 100%;
-            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,4b626d+100&0+0,0.65+100 */
-            background: -moz-linear-gradient(left, transparent 0%, rgba(75, 98, 109, 0.65) 100%);
-            /* FF3.6-15 */
-            background: -webkit-linear-gradient(left, transparent 0%, rgba(75, 98, 109, 0.65) 100%);
-            /* Chrome10-25,Safari5.1-6 */
-            background: linear-gradient(to right, transparent 0%, rgba(75, 98, 109, 0.65) 100%);
-            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=  '#00000000', endColorstr='#a64b626d',GradientType=1 );
-            /* IE6-9 */ }
-        #app .content #main .events .manifestations-list .event .event-card .label {
-          margin-right: 20px;
-          display: flex;
-          align-items: start;
-          flex-direction: column;
-          justify-content: center; }
-          @media only screen and (min-width: 400px) and (max-width: 600px) {
-            #app .content #main .events .manifestations-list .event .event-card .label .event-label {
-              font-size: 2.5vw; } }
-          @media only screen and (max-width: 399px) {
-            #app .content #main .events .manifestations-list .event .event-card .label .event-label {
-              font-size: 3vw; } }
-          #app .content #main .events .manifestations-list .event .event-card .label .event-desc {
-            font-size: 0.8em;
-            overflow: hidden;
-            position: relative;
-            color: rgba(0, 0, 0, 0.6);
-            padding-right: 1em; }
-            #app .content #main .events .manifestations-list .event .event-card .label .event-desc:after {
-              content: '';
-              position: absolute;
-              /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+50,ffffff+86&0+50,1+86 */
-              background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 50%, white 86%);
-              /* FF3.6-15 */
-              background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 50%, white 86%);
-              /* Chrome10-25,Safari5.1-6 */
-              background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, white 86%);
-              /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=  '#00ffffff', endColorstr='#ffffff',GradientType=0 );
-              /* IE6-9 */
-              height: 100%;
-              width: 100%;
-              display: block;
-              top: 0; }
-            @media only screen and (max-width: 800px) {
-              #app .content #main .events .manifestations-list .event .event-card .label .event-desc {
-                display: none; } }
-          #app .content #main .events .manifestations-list .event .event-card .label .event-desc,
-          #app .content #main .events .manifestations-list .event .event-card .label .event-label {
-            padding-left: 1em; }
-        #app .content #main .events .manifestations-list .event .event-card .presence {
-          justify-content: center; }
-          #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large,
-          #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {
-            color: white;
-            padding: 0 0.4em; }
-            #app .content #main .events .manifestations-list .event .event-card .presence .btn span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large span,
-            #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat span {
-              font-size: 0.9vw;
-              font-weight: bold; }
-              @media only screen and (max-width: 800px) {
-                #app .content #main .events .manifestations-list .event .event-card .presence .btn span, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large span,
-                #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat span {
-                  display: none; } }
-            #app .content #main .events .manifestations-list .event .event-card .presence .btn i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large i,
-            #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat i {
-              float: left;
-              margin-right: 0.2em; }
-            @media only screen and (max-width: 800px) {
-              #app .content #main .events .manifestations-list .event .event-card .presence .btn, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large,
-              #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat {
-                padding: 0.75em 1.5em;
-                height: 4em; }
-                #app .content #main .events .manifestations-list .event .event-card .presence .btn i, #app .content #main .events .manifestations-list .event .event-card .presence .btn-large i,
-                #app .content #main .events .manifestations-list .event .event-card .presence .btn-flat i {
-                  font-size: 2em;
-                  margin-right: 0; } }
-        #app .content #main .events .manifestations-list .event .event-card .priority {
-          /*margin: auto;*/
-          cursor: default;
-          opacity: 0.1;
-          position: relative; }
-          #app .content #main .events .manifestations-list .event .event-card .priority .priorityNumber {
-            color: rgba(158, 158, 158, 0.3);
-            position: absolute;
-            display: block;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            font-size: 11rem;
-            font-weight: bold;
-            overflow: hidden;
-            line-height: 7.5rem;
-            text-align: right;
-            text-indent: 4vw; }
-            @media only screen and (max-width: 800px) {
-              #app .content #main .events .manifestations-list .event .event-card .priority .priorityNumber {
-                text-indent: 2vw; } }
-          #app .content #main .events .manifestations-list .event .event-card .priority i {
-            display: block; }
-            #app .content #main .events .manifestations-list .event .event-card .priority i.handle {
-              /*margin   : -20px 0;*/
-              /*margin   : 0;*/
-              margin: 0 auto;
-              font-size: 2.2em;
-              opacity: 0.4; }
-            #app .content #main .events .manifestations-list .event .event-card .priority i.priority-down, #app .content #main .events .manifestations-list .event .event-card .priority i.priority-up {
-              font-size: 2.9em; }
-          #app .content #main .events .manifestations-list .event .event-card .priority.disabled {
-            cursor: default;
-            opacity: 0; }
-            #app .content #main .events .manifestations-list .event .event-card .priority.disabled i {
-              display: none; }
-          #app .content #main .events .manifestations-list .event .event-card .priority:not(.disabled)::before {
-            content: '';
-            width: 2px;
-            height: 80%;
-            background: black;
-            opacity: 0.05; }
-        #app .content #main .events .manifestations-list .event .event-card:hover .label .event-label {
-          background-color: white;
-          border-radius: 1em 1em 0 0; }
-        #app .content #main .events .manifestations-list .event .event-card:hover .label .event-desc {
-          z-index: 9999;
-          position: relative;
-          height: auto;
-          overflow: visible;
-          background-color: white;
-          box-shadow: 0 8px 4px -6px rgba(0, 0, 0, 0.4);
-          border-radius: 0 0 1em 1em;
-          width: 100%; }
-          #app .content #main .events .manifestations-list .event .event-card:hover .label .event-desc:after {
-            display: none; }
-      @media only screen and (min-width: 801px) {
-        #app .content #main .events .manifestations-list .event .event-time {
-          line-height: 120px; } }
-      #app .content #main .events .manifestations-list .event .event-time span {
-        font-size: 1.1em;
-        color: #778c9a; }
-        @media only screen and (min-width: 801px) {
-          #app .content #main .events .manifestations-list .event .event-time span {
-            font-size: 1.4em; } }
-      #app .content #main .events .manifestations-list .event.selected .event-card .label .event-label {
-        font-weight: bold; }
-      #app .content #main .events .manifestations-list .event.disabled {
-        opacity: 0.5; }
-    #app .content #main .events .manifestations-list.active .event:not(.cantSort) .event-card .priority {
-      opacity: 1;
-      cursor: move; }
-    #app .content #main #confirm-fab {
-      position: fixed;
-      bottom: 50px;
-      right: 40px;
-      width: 56px; }
-    #app .content .userProfileTable tr td:first-of-type {
-      text-align: right;
-      font-weight: bold; }
-    #app .content .userProfileTable tr td .badge {
-      float: left; }
-    #app .content .userProfileTable .fixed-action-btn {
-      position: fixed;
-      bottom: 50px;
-      right: 40px;
-      width: 56px; }
-  #app .tap-target-wrapper {
-    z-index: 999; }
-  #app #confirm-fab,
-  #app .fixed-action-btn {
-    z-index: 1001; }
-
-#toast-container {
-  left: 0;
-  height: 0;
-  padding-top: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: row;
-  top: 100%;
-  justify-content: start;
-  flex-wrap: wrap-reverse;
-  max-width: 400px; }
-  #toast-container .toast {
-    margin: 0.2em auto;
-    float: none;
-    text-align: center;
-    font-weight: normal;
-    border-bottom-width: 3px;
-    border-bottom-style: solid;
-    width: 100%;
-    opacity: 0.8 !important;
-    font-size: 0.8em;
-    padding: 0.2em 0.5em;
-    min-height: 32px; }
-    @media only screen and (min-width: 801px) {
-      #toast-container .toast {
-        max-width: 400px; } }
-    #toast-container .toast.info {
-      background: white;
-      color: #64B5F6;
-      border-bottom-color: #64B5F6; }
-    #toast-container .toast.warning {
-      background: white;
-      color: #ffd54f;
-      border-bottom-color: #ffd54f; }
-    #toast-container .toast.error {
-      background: white;
-      color: #E57373;
-      border-bottom-color: #E57373; }
-    #toast-container .toast.success {
-      background: white;
-      color: #66BB6A;
-      border-bottom-color: #66BB6A; }
-    #toast-container .toast.default {
-      background: white;
-      color: #607d8b;
-      border-bottom-color: #607d8b; }
-
-:focus {
-  outline: none; }
-
-::-moz-focus-inner {
-  border: 0; }
-
-::selection {
-  background: #ffd54f;
-  /* WebKit/Blink Browsers */ }
-
-::-moz-selection {
-  background: #ffd54f;
-  /* Gecko Browsers */ }
-
-.notselectable {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-
-.selectable {
-  -webkit-touch-callout: text;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text; }
-
-.ghost {
-  opacity: 0 !important; }
-
-.badge.red {
-  color: white; }
-
-.btn-fullwidth {
-  width: 100%; }
-
-.btn.loading, .loading.btn-large,
-.btn-flat.loading {
-  opacity: 0.5;
-  pointer-events: none;
-  cursor: progress; }
-  .btn.loading::after, .loading.btn-large::after,
-  .btn-flat.loading::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 5px;
-    color: white;
-    will-change: left, right;
-    -webkit-animation: indeterminate-short 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-    animation: indeterminate-short 1.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-    -webkit-animation-delay: 0.15s;
-    animation-delay: 0.15s; }
-  .btn.loading::before, .loading.btn-large::before,
-  .btn-flat.loading::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 5px;
-    color: white; }
-  .btn.loading.primary::before, .loading.primary.btn-large::before,
-  .btn-flat.loading.primary::before {
-    background-color: #648391; }
-  .btn.loading.primary::after, .loading.primary.btn-large::after,
-  .btn-flat.loading.primary::after {
-    background-color: #819ba8; }
-  .btn.loading.accent::before, .loading.accent.btn-large::before,
-  .btn-flat.loading.accent::before {
-    background-color: #ffe79c; }
-  .btn.loading.accent::after, .loading.accent.btn-large::after,
-  .btn-flat.loading.accent::after {
-    background-color: #fff3cf; }
-  .btn.loading.success::before, .loading.success.btn-large::before,
-  .btn-flat.loading.success::before {
-    background-color: #9bd39e; }
-  .btn.loading.success::after, .loading.success.btn-large::after,
-  .btn-flat.loading.success::after {
-    background-color: #bee2c0; }
-  .btn.loading.danger::before, .loading.danger.btn-large::before,
-  .btn-flat.loading.danger::before {
-    background-color: #f1b4b4; }
-  .btn.loading.danger::after, .loading.danger.btn-large::after,
-  .btn-flat.loading.danger::after {
-    background-color: #f9dfdf; }
-  .btn.loading.info::before, .loading.info.btn-large::before,
-  .btn-flat.loading.info::before {
-    background-color: #acd8fa; }
-  .btn.loading.info::after, .loading.info.btn-large::after,
-  .btn-flat.loading.info::after {
-    background-color: #ddeffd; }
-  .btn.loading.normal::before, .loading.normal.btn-large::before,
-  .btn-flat.loading.normal::before {
-    background-color: #8aa2ae; }
-  .btn.loading.normal::after, .loading.normal.btn-large::after,
-  .btn-flat.loading.normal::after {
-    background-color: #a8bac3; }
-  .btn.loading.neutral::before, .loading.neutral.btn-large::before,
-  .btn-flat.loading.neutral::before {
-    background-color: #c4c4c4; }
-  .btn.loading.neutral::after, .loading.neutral.btn-large::after,
-  .btn-flat.loading.neutral::after {
-    background-color: #dedede; }
-
-.btn-floating:focus.primary,
-.btn-large:focus.primary,
-.btn:focus.primary,
-.btn-large:focus.primary {
-  background-color: #648391; }
-
-.btn-floating:focus.accent,
-.btn-large:focus.accent,
-.btn:focus.accent,
-.btn-large:focus.accent {
-  background-color: #ffe79c; }
-
-.btn-floating:focus.success,
-.btn-large:focus.success,
-.btn:focus.success,
-.btn-large:focus.success {
-  background-color: #9bd39e; }
-
-.btn-floating:focus.danger,
-.btn-large:focus.danger,
-.btn:focus.danger,
-.btn-large:focus.danger {
-  background-color: #f1b4b4; }
-
-.btn-floating:focus.info,
-.btn-large:focus.info,
-.btn:focus.info,
-.btn-large:focus.info {
-  background-color: #acd8fa; }
-
-.btn-floating:focus.normal,
-.btn-large:focus.normal,
-.btn:focus.normal,
-.btn-large:focus.normal {
-  background-color: #8aa2ae; }
-
-/* label color */
-.input-field label {
-  color: #455a64; }
-
-/* label focus color */
-.input-field input[type=text]:focus + label {
-  color: #455a64; }
-
-/* label underline focus color */
-.input-field input[type=text]:focus {
-  border-bottom: 1px solid #455a64;
-  box-shadow: 0 1px 0 0 #455a64; }
-
-/* valid color */
-.input-field input[type=text].valid {
-  border-bottom: 1px solid #66BB6A;
-  box-shadow: 0 1px 0 0 #66BB6A; }
-
-/* invalid color */
-.input-field input[type=text].invalid {
-  border-bottom: 1px solid #E57373;
-  box-shadow: 0 1px 0 0 #E57373; }
-
-/* icon prefix focus color */
-.input-field .prefix.active {
-  color: #455a64; }
-
-#mainLoader {
-  z-index: 999;
-  opacity: 1;
-  position: fixed;
-  top: 0;
-  margin: 0;
-  background-color: #ffd54f; }
-  #mainLoader.hidden {
-    opacity: 0; }
-  #mainLoader.progress .indeterminate {
-    background-color: #3b4c55; }
-
-#contentLoader {
-  display: none;
-  width: 150px;
-  height: 150px;
-  /*display:block;*/
-  margin: 0 auto;
-  background: transparent url("../img/logo-evenement-small.png") no-repeat scroll center center;
-  top: 50%;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%); }
-  #contentLoader .preloader-wrapper {
-    width: 150px;
-    height: 150px; }
-
-.dropdown-content li > a {
-  color: #455a64; }
-  .dropdown-content li > a:hover {
-    color: white; }
-
-[type="checkbox"]:checked + label::before {
-  border-right: 2px solid #66BB6A;
-  border-bottom: 2px solid #66BB6A; }
-
-.tap-target {
-  background-color: #64B5F6;
-  color: white; }
-
-@media only screen and (max-width: 800px) {
-  form .btn, form .btn-large {
-    width: 100%;
-    margin: 1em 0; } }
-
-.sortablePlaceholder {
-  border: 4px dashed #dde3e6; }
-
-.footer {
-  position: relative;
-  bottom: 1em;
-  left: 50%;
-  transform: translate(-50%, 0); }
-  .footer.fixed {
-    position: fixed;
-    z-index: 1; }
-  .footer .footerText {
-    text-shadow: 1px 1px 1px #F9F9F9, -1px -1px 1px #CCC;
-    font-size: 0.8em;
-    text-align: center;
-    color: #cfd6db; }
-    .footer .footerText a {
-      color: #b1bec6; }
-
-/*# sourceMappingURL=styles.css.map */
+/*# sourceMappingURL=materialize.css.map */

@@ -1,6 +1,11 @@
+@charset "UTF-8";
+
 $small-screen-up: 801px !default;
+
 $small-screen: 800px !default;
-@import "materializecss/ghpages-materialize";
+
+@import "materialize";
+
 $primary-color: color('blue-grey','darken-2'); //Teal
 $accent-color: color('amber', 'lighten-2'); // Orange
 $success-color: color('green', 'lighten-1'); // green
