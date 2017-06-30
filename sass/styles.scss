@@ -1104,13 +1104,12 @@ html {
     }
 
     .footerText {
-        text-shadow: 1px 1px 1px #F9F9F9, -1px -1px 1px #CCC;
         font-size  : 0.8em;
         text-align : center;
-        color      : darken($body-bg,10%);
+        color      : darken($body-bg,20%);
 
         a {
-            color: darken($body-bg,20%);
+            color: darken($body-bg,35%);
         }
 
         &.custom {}

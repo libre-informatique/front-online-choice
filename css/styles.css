@@ -7823,11 +7823,10 @@ html {
     position: fixed;
     z-index: 1; }
   .footer .footerText {
-    text-shadow: 1px 1px 1px #F9F9F9, -1px -1px 1px #CCC;
     font-size: 0.8em;
     text-align: center;
-    color: #cfd6db; }
+    color: #b1bec6; }
     .footer .footerText a {
-      color: #b1bec6; }
+      color: #8598a5; }
 
 /*# sourceMappingURL=styles.css.map */
