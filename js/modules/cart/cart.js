@@ -26,11 +26,11 @@ app.register({
                 // -------------------------------------------------------------
 
                 .on('click', '#cancel-btn', function(e) {
-                    app.baseUi.closeModal();
+                    app.baseUi.closeModal('#confirm-modal');
                 })
 
                 .on('click', '#save-btn', function(e) {
-                    app.baseUi.closeModal();
+                    app.baseUi.closeModal('#confirm-modal');
                 })
 
                 // -----------------------------------------------------------------
@@ -39,7 +39,7 @@ app.register({
 
                 .on('click', '#save-btn', function(e) {
                     app.cart.validateCart().then(function() {
-                        app.baseUi.closeModal();
+                        app.baseUi.closeModal('#confirm-modal');
                         app.ctrl.showEventsAction(true);
                     });
                 })
