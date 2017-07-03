@@ -65,16 +65,21 @@ app.register({
             var currentUri = app.core.routing.getCurrentUri();
             console.info('BEFORE dispatchAfterLogin');
             console.info(currentUri,app.ctrl.states.home.path,app.ctrl.states.login.path);
-            if (app.core.routing.getCurrentUri() === app.config.appUriPrefix+app.ctrl.states.home.path || app.core.routing.getCurrentUri() === app.config.appUriPrefix+app.ctrl.states.login.path) {
-
+            if (currentUri === app.config.appUriPrefix+app.ctrl.states.home.path || currentUri === app.config.appUriPrefix+app.ctrl.states.login.path) {
+                console.info('IN dispatchAfterLogin');
                 if (app.config.loginSuccessAction === "profile") {
+                    console.info('PROFILE dispatchAfterLogin');
                     app.ctrl.showUserProfileAction();
                 } else if (app.config.loginSuccessAction === "profile_first_time" && localStorage.getItem(app.config.clientSessionName + '_alreadyLoggedIn') === null) {
+                    console.info('PROFILE FIRST TIME dispatchAfterLogin');
                     localStorage.setItem(app.config.clientSessionName + '_alreadyLoggedIn', true);
                     app.ctrl.showUserProfileAction();
                 } else { // events
+                    console.info('DEFAULT dispatchAfterLogin');
                     app.ctrl.homeAction();
                 }
+
+                console.info('AFTER dispatchAfterLogin');
             }
         },
 

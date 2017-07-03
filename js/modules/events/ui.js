@@ -54,7 +54,7 @@ app.register({
                     .addClass('forced btn-flat success')
                     .html('')
                     .append('<i class="material-icons">check_circle</i>')
-                    .append('<span>Présent</span>');
+                    .append('<span>Inscrit</span>');
 
                 $(button).closest('.event')
                     .addClass('cantSort selected forced');

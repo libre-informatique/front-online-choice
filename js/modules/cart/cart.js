@@ -60,6 +60,7 @@ app.register({
                     app.core.session.save();
                     defer.resolve();
                 } else {
+                    app.core.ui.toast('Impossible de récupérer le panier','error');
                     app.core.session.destroy();
                     defer.reject();
                 }
