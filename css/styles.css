@@ -7535,11 +7535,21 @@ html {
       font-weight: bold; }
     #app .content .userProfileTable tr td .badge {
       float: left; }
+    #app .content .userProfileTable tr td.userProfileTableTitle {
+      text-align: center;
+      font-size: 1.5em;
+      color: #455a64;
+      border-bottom: 1px solid rgba(69, 90, 100, 0.2); }
     #app .content .userProfileTable .fixed-action-btn {
       position: fixed;
       bottom: 50px;
       right: 40px;
       width: 56px; }
+    #app .content .userEditProfileTable .input-field.col h2 {
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #455a64; }
   #app .tap-target-wrapper {
     z-index: 999; }
   #app #confirm-fab,

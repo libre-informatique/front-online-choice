@@ -30,6 +30,12 @@ gulp.task('watch', function () {
   gulp.watch('./**/*', ['livereload']);
 });
 
+gulp.task('styles', function() {
+    gulp.src('sass/**/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./css/'))
+});
+
 gulp.task('css', ['sass', 'watch']);
 
 gulp.task('default', ['connect', 'sass', 'watch']);

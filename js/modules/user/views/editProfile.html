@@ -4,8 +4,12 @@
     </h2>
     <div class="card horizontal">
         <div class="card-stacked">
-            <div class="card-content">
+            <div class="card-content userEditProfileTable">
                 <form data-ws="updateUser">
+                    <div class="input-field col s12">
+                        <h2>Vous</h2>
+                    </div>
+
                     <div class="input-field col s12">
                         <input disabled placeholder="Email" id="email" type="text" class="validate" name="email" value="{{user.email}}">
                         <label for="email">Email</label>
@@ -24,6 +28,10 @@
                     <div class="input-field col s12">
                         <input placeholder="Identifiant" id="shortName" type="text" class="validate" name="shortName" value="{{user.shortName}}">
                         <label for="shortName">Identifiant</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <h2>Votre organisme</h2>
                     </div>
 
                     <div class="input-field col s12">
