@@ -7,6 +7,11 @@ app.register({
                         "zIndex":1010
                     });
                 });
+
+                Handlebars.registerHelper('formatDate', function(dateStr, format) {
+                    var date = moment.utc(dateStr);
+                    return date.format(format);
+                });
         }
     },
     baseUi: {
