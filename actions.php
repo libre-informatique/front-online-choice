@@ -49,7 +49,8 @@ class App
 
         $json = json_decode($res);
         if (!$json) {
-            http_response_code(500);die('Erreur de connexion à l\'API de jetons');
+            http_response_code(500);
+            die('Erreur de connexion à l\'API de jetons');
         }
 
         if (!isset($json->lifecycle) && $refreshToken) {
@@ -64,7 +65,7 @@ class App
     public function getParameters()
     {
         $params = json_decode(file_get_contents('./data/parameters.json'));
-        $params->appHostname = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'];
+        $params->appHostname = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME'];
         return $params;
     }
 
