@@ -74,9 +74,12 @@ app.register({
             // -----------------------------------------------------------------
 
             Handlebars.registerHelper('renderChoicesClosingDate', function(format) {
-                if (app.config.closingDate !== null) {
+                if (app.config.closingDateDisplayed !== null) {
+                    var date = moment(app.config.closingDateDisplayed);
+                    return date.utc().format(format);
+                } else if (app.config.closingDate !== null) {
                     var date = moment(app.config.closingDate);
-                    return date.format(format);
+                    return date.utc().format(format);
                 } else {
                     return '';
                 }

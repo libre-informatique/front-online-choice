@@ -107,7 +107,7 @@ app.register({
             app.events.ui.sortManifestations();
 
             $.when.apply($, promises).always(function() {
-                if (app.core.session.cart.checkoutState !== "cart" || moment(app.config.closingDate).isBefore(moment())) {
+                if (app.core.session.cart.checkoutState !== "cart" || moment(app.config.closingDate).utc().isBefore(moment().utc())) {
                     app.events.disableTimeSlot();
                     app.events.disableCartValidationButton();
                     app.events.ui.initSortables();
@@ -119,7 +119,7 @@ app.register({
                                 $(this).remove();
                             }
                         });
-                    } else if (moment(app.config.closingDate).isBefore(moment())) {
+                    } else if (moment(app.config.closingDate).utc().isBefore(moment().utc())) {
                         app.core.session.cart.checkoutState = "outdated";
                         app.events.disableCartValidationButton();
                     }

@@ -211,7 +211,7 @@ if (isset($_GET['getParameters'])) {
             // Set your custom host if needed (without trailing slash)
             app.config.host = "<?php echo $parameters->appHostname; ?>";
             // Set your custom parameters.json path
-            app.config.parametersPath = "/?getParameters=1";
+            app.config.parametersPath = "/?getParameters=1&<?php echo date('YmdH') ?>";
 
             app.core.ui.displayContentLoading();
             // START APP
