@@ -15,6 +15,7 @@
     "lang": "fr",
     "maximumEventsSelectedPerTimeslots": -1,
     "closingDate": null,
+    "closingDateDisplayed": "2017-07-20T23:59:59Z",
     "footerText": null,
     "loginSuccessAction": "events"
 }
